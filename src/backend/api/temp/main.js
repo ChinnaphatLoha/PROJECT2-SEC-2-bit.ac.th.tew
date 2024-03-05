@@ -24,3 +24,25 @@ export const getEqualData = async (endpoint, query) => {
   const response = await fetch(`${BASE_URL}/${endpoint}?${queryString}`)
   return response.json()
 }
+
+export const getIdByEqualData = async (endpoint, query) => {
+  const queryArray = Object.entries(query).map(([key, value]) => `${key}=${value}`)
+  const queryString = queryArray.join('&')
+  const response = await fetch(`${BASE_URL}/${endpoint}?${queryString}`)
+  const data = await response.json()
+  return data[0].id
+}
+
+export const updateDataByQuery = async (endpoint, query, data) => {
+  const id = await getIdByEqualData(endpoint, query)
+  const response = await fetch(`${BASE_URL}/${endpoint}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  return response.json()
+}
+
+updateDataByQuery('meetings', { id: '$TEST-M-01-01' }, { description: 'Dive into the codebase' })
