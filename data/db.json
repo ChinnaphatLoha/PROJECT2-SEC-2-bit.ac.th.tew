@@ -1,80 +1,79 @@
 {
   "users": [
     {
-      "id": 65130500066,
+      "id": "65130500066",
       "username": "FameNu",
-      "display_name": "FormTH",
       "password": "bitadmin"
     },
     {
-      "id": 65130500083,
+      "id": "65130500083",
       "username": "BomScoob",
-      "display_name": "HisJett",
       "password": "bitadmin"
     },
     {
-      "id": 65130500093,
+      "id": "65130500093",
       "username": "Tonnamkit",
-      "display_name": "KimiHiko",
       "password": "bitadmin"
     },
     {
-      "id": 65130500100,
+      "id": "65130500100",
       "username": "ChinnaphatLoha",
-      "display_name": "SINLAPIN",
       "password": "bitadmin"
     },
     {
-      "id": 65130500106,
+      "id": "65130500106",
       "username": "Tew2945",
-      "display_name": "LateReply",
       "password": "bitadmin"
     }
   ],
   "projects": [
     {
       "id": "$TEST-PJ-01",
-      "project_name": "PROJECT2-SEC-2-bit.ac.th.tew",
+      "name": "PROJECT2-SEC-2-bit.ac.th.tew",
       "description": "How To Die In 5 Weeks",
       "retrospective_type": "Start-Stop-Continue",
-      "passkey": "Yml0dGV3"
-    }
-  ],
-  "meetings": [
-    {
-      "id": "$TEST-M-01-01",
-      "start_date": "2024-02-05T18:30:00",
-      "end_date": "2024-02-05T19:00:00",
-      "description": "Dive into the code (Hell o World)",
-      "projectId": "$TEST-PJ-01",
-      "feedback": []
+      "passkey": "Yml0dGV3",
+      "meetings": [
+        {
+          "id": "$TEST-M-01-01",
+          "start_date": "2024-02-05T18:30:00",
+          "end_date": "2024-02-05T19:00:00",
+          "description": "Dive into the code (Hell o World)",
+          "feedback": []
+        }
+      ]
     }
   ],
   "userProjects": [
     {
-      "userId": 65130500066,
+      "id": "fca6",
+      "userId": "65130500066",
       "projectId": "$TEST-PJ-01",
       "authority": "owner"
     },
     {
-      "userId": 65130500083,
+      "id": "a005",
+      "userId": "65130500083",
       "projectId": "$TEST-PJ-01",
       "authority": "member"
     },
     {
-      "userId": 65130500093,
+      "id": "ae6c",
+      "userId": "65130500093",
       "projectId": "$TEST-PJ-01",
       "authority": "member"
     },
     {
-      "userId": 65130500100,
+      "id": "1a30",
+      "userId": "65130500100",
       "projectId": "$TEST-PJ-01",
       "authority": "member"
     },
     {
-      "userId": 65130500106,
+      "userId": "65130500106",
       "projectId": "$TEST-PJ-01",
-      "authority": "member"
+      "authority": "member",
+      "id": "8027"
     }
   ]
 }
