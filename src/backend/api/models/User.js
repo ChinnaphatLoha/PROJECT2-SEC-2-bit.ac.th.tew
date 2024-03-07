@@ -1,6 +1,6 @@
 import { BASE_URL } from '../../config/env.js'
 
-export const User = {
+const User = {
   username: {
     type: 'string',
     length: 20,
@@ -18,3 +18,5 @@ export const User = {
     required: true
   }
 }
+
+export default User

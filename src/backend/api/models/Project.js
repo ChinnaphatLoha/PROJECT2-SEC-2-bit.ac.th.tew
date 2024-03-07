@@ -2,7 +2,7 @@ import { RetrospectiveTypes } from '../constants/retrospective-types.js'
 import { Meeting } from './Meeting.js'
 import { User } from './User.js'
 
-export const Project = {
+const Project = {
   name: {
     type: 'string',
     length: 50,
@@ -32,3 +32,5 @@ export const Project = {
     required: true
   }
 }
+
+export default Project

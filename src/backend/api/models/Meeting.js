@@ -1,4 +1,4 @@
-export const Meeting = {
+const Meeting = {
   start_date: {
     type: 'string',
     format: {
@@ -23,3 +23,5 @@ export const Meeting = {
     type: 'array'
   }
 }
+
+export default Meeting
