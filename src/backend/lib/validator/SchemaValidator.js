@@ -1,3 +1,5 @@
+import SchemaError from './errors/index.js'
+
 /**
  * @param {string} type - The type to validate against
  */
@@ -37,7 +39,7 @@ export const validateLength = (value, length) => {
 
 /**
  * @param {string | number} value - The value to validate
- * @param {number[]} range - The range to validate against
+ * @param {[number, number]} range - The range to validate against
  */
 export const validateRange = (value, [min, max]) => {
   const length = typeof value === 'string' ? value.length : value
@@ -86,41 +88,56 @@ export const validateModel = (model, data) => {
     }
     if (value.items && value.type === 'array') {
       if (!Array.isArray(data[key])) {
-        throw new Error(`Expected array for field: ${key}`)
+        throw new SchemaError.TYPE_MISMATCH(key, 'array', data[key])
       } else if (data[key].length === 0 && value.required) {
-        throw new Error(`Required field: ${key} cannot be empty`)
+        throw new SchemaError.EMPTY_ARRAY_FIELD(key)
       }
       for (const item of data[key]) {
         validateModel(value.items, item)
       }
     }
     if (value.required && !data[key]) {
-      throw new Error(`Missing required field: ${key}`)
+      throw new SchemaError.MISSING_FIELD(key)
     }
     if (value.type && !validateType(data[key], value.type)) {
-      throw new Error(
-        `Type of ${typeof data[key]} does not match expected type: ${value.type} for field: ${key}`
-      )
+      throw new SchemaError.TYPE_MISMATCH(key, value.type, data[key])
     }
     if (value.enum && !validateEnum(data[key], value.enum)) {
-      throw new Error(
-        `${data[key]} is not in the enum ${JSON.stringify(value.enum)} for field: ${key}`
-      )
+      throw new SchemaError.ENUM_VALUE(data[key], key, value.enum)
     }
     if (value.length && !validateLength(data[key], value.length)) {
-      throw new Error(`${data[key]} is too long in length ${value.length} for field: ${key}`)
+      throw new SchemaError.VALUE_TOO_LONG(data[key], key, value.length)
     }
     if (value.range && !validateRange(data[key], value.range)) {
-      throw new Error(`${data[key]} is out of range ${value.range} for field: ${key}`)
+      throw new SchemaError.VALUE_OUT_OF_RANGE(data[key], key, value.range)
     }
     if (value.format && !validateFormat(data[key], value.format.regex)) {
-      throw new Error(
-        `${data[key]} does not match the format ${value.format.simplified} for field: ${key}`
-      )
+      throw new SchemaError.FORMAT_MISMATCH(data[key], key, value.format.simplified)
     }
     if (value.uniqueIn && !validateUnique(data[key], value.uniqueIn)) {
-      throw new Error(`${data[key]} is already in use for field: ${key}`)
+      throw new SchemaError.DUPLICATE_VALUE(data[key], key)
     }
   }
   return true
 }
+
+class SchemaValidator {
+  /**
+   * @param {Object<string, Object<string, string | number | boolean | Array<T>>>} model
+   */
+  constructor(model) {
+    /**
+     * @type {Object<string, Object<string, string | number | boolean | Array<T>>>}
+     */
+    this.model = model
+  }
+
+  /**
+   * @param {Object<string, string | number | boolean | Array<T>>} data
+   */
+  validate(data) {
+    return validateModel(this.model, data)
+  }
+}
+
+export default SchemaValidator
