@@ -19,9 +19,9 @@ As a member of an agile development team, I need a tool to facilitate retrospect
 ### Project Creation
 
 - Users have the option to create new projects for hosting retrospective meetings.
-They provide basic information such as the project name, description, and the type of retrospective.
+  They provide basic information such as the project name, description, and the type of retrospective.
 - Each project is assigned a unique passkey for others to join.
-The user who creates the project is designated as the owner, while others are added as participants.
+  The user who creates the project is designated as the owner, while others are added as participants.
 
 ### Meeting Scheduling
 
@@ -58,7 +58,9 @@ The user who creates the project is designated as the owner, while others are ad
 | -------- | ------------------------------------------------------------------------------------ |
 | 1        | Enable facilitators to create and manage multiple retrospective sessions.            |
 | 1        | Allow users to input and view feedback anonymously during the retrospective meeting. |
+| 1        | Include an icebreaker activity at the start of the retrospective session.            |
 | 2        | Support multiple retrospective meeting formats.                                      |
+| 2        | Limit the time allocated for providing feedback during each step.                    |
 | 3        | Export meeting summaries and action items as PDF or CSV files.                       |
 
 ## 5. Non-Functional Requirements
