@@ -1,6 +1,13 @@
 import { BASE_URL } from '../../config/env.js'
 
 const User = {
+  id: {
+    type: 'string',
+    required: true,
+    uniqueIn: await fetch(`${BASE_URL}/users`)
+      .then((res) => res.json())
+      .then((data) => data.map((user) => user.id))
+  },
   username: {
     type: 'string',
     length: 20,
