@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup>
+import TestApi from './components/TestApi.vue';
+</script>
 
 <template>
-  <div></div>
+  <div>
+    <TestApi />
+  </div>
 </template>

@@ -1,0 +1,31 @@
+name: Format and Deployment
+on: 
+  push:
+    branches: 
+      -expeimental/github-action 
+jobs:
+  eslint:
+    name: Run Eslint
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v1
+        - uses: stefanoeb/eslint-action@1.0.2
+          with:
+            files: src/
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Production
+    needs: eslint
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - name: Run json-server
+      run: json-server --watch data/db.json --port 3000 &
+    - name: Build and deploy Vue pages
+      id: Build-Vue
+      uses: xRealNeon/VuePagesAction@1.0.1
+      with:
+       username: 'Tonnamkit'
+       reponame: 'PROJECT1-SEC-2-bit.ac.th.tew'
+       token: ${{ secrets.TOKEN }}
