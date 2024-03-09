@@ -8,23 +8,37 @@ const userLogin = reactive({
   username: '',
   password: ''
 })
-console.log(userLogin.username)
-console.log(userLogin.password)
 
-const isUsernameExists = (username) => {}
+const isUsernameExists = () => {
+  return false
+}
 
-const isFormSubmit = () => {}
+const getUsername = (value) => {
+  if (isUsernameExists(value)) {
+    alert('username already exists.')
+  } else {
+    userLogin.username = value.trim()
+    console.log(value)
+  }
+}
+const getPassword = (value) => {
+  userLogin.password = value
+  console.log(value)
+}
+
+//? require function
+// const isFormSubmit = () => {}
 </script>
 
 <template>
   <div>
     <h1>Login</h1>
-    <TextForm :placeholderText="'Enter your username'">
+    <TextForm @update:textValue="getUsername" placeholderText="Enter your username" >
       <template #text-header>Username</template>
     </TextForm>
-    <PasswordForm>
+    <PasswordForm @update:passValue="getPassword">
       <template #text-header>Password</template>
     </PasswordForm>
-    <BaseBtn :buttonText="'Sign-in / Login'" />
+    <BaseBtn buttonText="Sign-in / Login" />
   </div>
 </template>

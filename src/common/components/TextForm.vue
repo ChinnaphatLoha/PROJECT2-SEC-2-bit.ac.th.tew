@@ -1,23 +1,24 @@
 <script setup>
 defineProps({
-  textValue: {
-    type: String,
-    require: true
-  },
   placeholderText: {
     type: String,
     require: false,
     default: 'Placeholder'
   }
 })
-const emit = defineEmits('updateText')
+const emit = defineEmits(['update:textValue'])
 </script>
 
 <template>
   <div>
     <slot name="text-header">Text Header</slot>
-    <input type="text" :placeholder="placeholderText" required class="border border-black m-2"/>
-    <!-- <input type="text" @input="emit(updateText, this.target.value)" /> -->
+    <input
+      type="text"
+      :placeholder="placeholderText"
+      required
+      class="border border-black m-2"
+      @input="emit('update:textValue', $event.target.value)"
+    />
   </div>
 </template>
 

@@ -1,16 +1,12 @@
 <script setup>
 defineProps({
-  textValue: {
-    type: String,
-    require: true
-  },
   placeholderText: {
     type: String,
     require: false,
     default: 'Enter your password'
   }
 })
-const emit = defineEmits('updateText')
+const emit = defineEmits(['update:passValue'])
 </script>
 
 <template>
@@ -21,9 +17,9 @@ const emit = defineEmits('updateText')
       minlength="8"
       required
       :placeholder="placeholderText"
-      class="border border-black m-2"
-    />
-    <!-- <input type="text" @input="emit(updateText, $event.target.value)" /> -->
+      class="border border-black m-2" 
+      @input="emit('update:passValue', $event.target.value)"
+     />
   </div>
 </template>
 
