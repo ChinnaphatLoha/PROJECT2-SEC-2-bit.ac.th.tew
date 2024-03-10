@@ -7,8 +7,8 @@ class Provider {
 }
 
 // Example usage:
-const isUserExist = await Provider.request('/api/account/exists', 'ChinnaphatLoha')
+const isUserAvailable = await Provider.request('/api/account/exists', 'ChinnaphatLoha')
 
-console.log(isUserExist)
+console.log(isUserAvailable)
 
 export default Provider
