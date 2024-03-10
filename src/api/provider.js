@@ -7,9 +7,11 @@ class Provider {
 }
 
 // Example usage:
-// Provider.request('/api/account/exists', {
-//   username: 'ChinnaphatLoha',
-//   password: 'bitadmin'
-// })
+const isUserExist = await Provider.request('/api/account/exists', {
+  username: 'ChinnaphatLoha',
+  password: 'bitadmin'
+})
+
+console.log(isUserExist)
 
 export default Provider
