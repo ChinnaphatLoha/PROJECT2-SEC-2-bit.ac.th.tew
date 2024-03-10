@@ -44,8 +44,4 @@ class LoginService {
   }
 }
 
-const loginService = new LoginService()
-const account = await loginService.getUserFromSessionId('65130500100-1710070576127')
-console.log(account)
-
 export default LoginService
