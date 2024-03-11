@@ -118,7 +118,7 @@ export const validateModel = (model, data) => {
       throw new SchemaError.DUPLICATE_VALUE(data[key], key)
     }
   }
-  return true
+  return data
 }
 
 class SchemaValidator {

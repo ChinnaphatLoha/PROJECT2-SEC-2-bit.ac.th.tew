@@ -7,9 +7,9 @@ class RegistrationService {
     this._userRepository = new JsonServerRepository(BASE_URL, endpoints.user)
   }
 
-  async isUsernameAvailable(username) {
-    const user = await this._userRepository.findFirst({ username })
-    return user === null
+  async isAvailable(queryParams) {
+    const user = await this._userRepository.findFirst(queryParams)
+    return { available: user === null, criteria: queryParams }
   }
 
   async registerUser(user) {

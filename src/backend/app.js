@@ -5,6 +5,8 @@ class App {
   static async call(endpoint, data = null) {
     if (endpoint.startsWith(Controller_Endpoints.ACCOUNT_ACCESS)) {
       return AccountAccessEndpointsCaller.call(endpoint, data)
+    } else {
+      return new Response(null, { status: 404, statusText: 'Endpoint not found' })
     }
   }
 }
