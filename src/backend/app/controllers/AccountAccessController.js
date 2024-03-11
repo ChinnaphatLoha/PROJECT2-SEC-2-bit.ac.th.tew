@@ -2,8 +2,8 @@ import RegistrationService from '../services/RegistrationService.js'
 import LoginService from '../services/LoginService.js'
 import SchemaValidator from '../middlewares/validator/SchemaValidator.js'
 import { User } from '../schema.js'
-import { createErrorResponse } from '../../utils/error-response-utils.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
+import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
 
 class AccountAccessController {
   constructor() {
@@ -12,36 +12,49 @@ class AccountAccessController {
     this._userValidator = new SchemaValidator(User)
   }
 
-  async isUsernameAvailable(username) {
-    return await this._registrationService.isUsernameAvailable(username)
+  async isAvailable(queryString) {
+    const queryParams = extractQueryParams(queryString)
+    const data = await this._registrationService.isAvailable(queryParams)
+    return new Response(JSON.stringify(data), { status: 200 })
   }
 
-  async registerUser(user) {
+  async registerUser(data) {
     try {
-      this._userValidator.validate(user)
-      return await this._registrationService.registerUser(user)
+      const validatedUser = this._userValidator.validate(data)
+      const resData = await this._registrationService.registerUser(validatedUser)
+      return new Response(JSON.stringify(resData), { status: 201 })
     } catch (error) {
-      return createErrorResponse(400, error.message)
+      return new Response(null, { status: 400, statusText: error.message })
     }
   }
 
-  async authenticateUser(user) {
-    const { username, password } = user
-    return await this._loginService.authenticateUser(username, password)
+  async authenticateUser(data) {
+    const { username, password } = data
+    if (!username) return new Response(null, { status: 400, statusText: 'field "username" is required' })
+    if (!password) return new Response(null, { status: 400, statusText: 'field "password" is required' })
+    const dataOrResponse = await this._loginService.authenticateUser(username, password)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
 
-  async getUserFromSessionId(sessionId) {
-    return await this._loginService.getUserFromSessionId(sessionId)
+  async getUserFromSessionId(data) {
+    const { sessionId } = data
+    if (!sessionId) return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
+    const dataOrResponse = await this._loginService.getUserFromSessionId(sessionId)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
 }
 
 class AccountAccessEndpointsCaller {
   static endpoint = Controller_Endpoints.ACCOUNT_ACCESS
-  static call(endpoint, data = null) {
+  static call(uri, init = null) {
     const controller = new AccountAccessController()
+    const { endpoint, query } = extractEndpointToObject(uri)
+    const data = init?.body ? JSON.parse(init.body) : null
     switch (endpoint) {
-      case `${this.endpoint}/exists`:
-        return controller.isUsernameAvailable(data)
+      case `${this.endpoint}/availability`:
+        return controller.isAvailable(query)
       case `${this.endpoint}/register`:
         return controller.registerUser(data)
       case `${this.endpoint}/login`:
@@ -49,7 +62,7 @@ class AccountAccessEndpointsCaller {
       case `${this.endpoint}/session`:
         return controller.getUserFromSessionId(data)
       default:
-        return createErrorResponse(404, 'Endpoint not found')
+        return new Response(null, { status: 404, statusText: 'Endpoint not found' })
     }
   }
 }
