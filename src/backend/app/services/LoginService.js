@@ -26,6 +26,7 @@ class LoginService {
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials'})
     const userProjects = await this._getRelevantProjects(user.id)
     return {
+      // STUB - generateToken
       sessionId: generateSessionId(user.id),
       ...getAccountDTO(user, userProjects)
     }
@@ -37,6 +38,7 @@ class LoginService {
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid session'})
     const userProjects = await this._getRelevantProjects(userId)
     return {
+      // STUB - generateToken
       sessionId: generateSessionId(user.id),
       ...getAccountDTO(user, userProjects)
     }
