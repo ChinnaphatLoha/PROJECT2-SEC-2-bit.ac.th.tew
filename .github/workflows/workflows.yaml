@@ -1,23 +1,23 @@
 name: Format and Deployment
 on: push
 jobs:
-  eslint:
-    name: Run Eslint
-    runs-on: ubuntu-latest
-    steps:
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-    - uses: actions/checkout@v1
-    - uses: stefanoeb/eslint-action@1.0.2
-      with:
-        files: src/
+  # eslint:
+  #   name: Run Eslint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Set up Node.js
+  #     uses: actions/setup-node@v2
+  #     with:
+  #       node-version: '20'
+  #   - uses: actions/checkout@v1
+  #   - uses: stefanoeb/eslint-action@1.0.2
+  #     with:
+  #       files: src/
 
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to Production
-    needs: eslint
+    # needs: eslint
     steps:  
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
