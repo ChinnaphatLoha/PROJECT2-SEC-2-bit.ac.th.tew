@@ -15,9 +15,8 @@ jobs:
         node-version: '14'
     - name: install dependencies
       run: npm install
-    - uses: stefanoeb/eslint-action@1.0.2
-      with:
-        files: src/
+    - name: Run ESLint
+      run: npm run lint
 
   deploy:
     runs-on: ubuntu-latest
