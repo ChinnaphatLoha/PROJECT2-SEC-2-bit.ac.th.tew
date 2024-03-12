@@ -33,47 +33,52 @@
       "description": "How To Die In 5 Weeks",
       "retrospective_type": "Start-Stop-Continue",
       "passkey": "Yml0dGV3",
-      "meetings": [
+      "users": [
         {
-          "id": "$TEST-M-01-01",
-          "start_date": "2024-02-05T18:30:00",
-          "end_date": "2024-02-05T19:00:00",
-          "description": "Dive into the code (Hell o World)",
-          "feedback": []
+          "userId": "65130500066",
+          "authority": "owner"
+        },
+        {
+          "userId": "65130500083",
+          "authority": "member"
+        },
+        {
+          "userId": "65130500093",
+          "authority": "member"
+        },
+        {
+          "userId": "65130500100",
+          "authority": "member"
+        },
+        {
+          "userId": "65130500106",
+          "authority": "member"
         }
       ]
     }
   ],
-  "userProjects": [
+  "meetings": [
     {
-      "id": "fca6",
-      "userId": "65130500066",
-      "projectId": "$TEST-PJ-01",
-      "authority": "owner"
-    },
+      "id": "$TEST-M-01-01",
+      "start_date": "2024-02-05T18:30:00",
+      "end_date": "2024-02-05T19:00:00",
+      "description": "Dive into the code (Hell o World)",
+      "projectId": "$TEST-PJ-01"
+    }
+  ],
+  "feedbacks": [
     {
-      "id": "a005",
-      "userId": "65130500083",
-      "projectId": "$TEST-PJ-01",
-      "authority": "member"
-    },
+      "id": "$TEST-F-01-01",
+      "text": "I'm so happy to be here",
+      "group": "GOOD",
+      "meetingId": "$TEST-M-01-01"
+    }
+  ],
+  "votes": [
     {
-      "id": "ae6c",
-      "userId": "65130500093",
-      "projectId": "$TEST-PJ-01",
-      "authority": "member"
-    },
-    {
-      "id": "1a30",
-      "userId": "65130500100",
-      "projectId": "$TEST-PJ-01",
-      "authority": "member"
-    },
-    {
-      "userId": "65130500106",
-      "projectId": "$TEST-PJ-01",
-      "authority": "member",
-      "id": "8027"
+      "id": "$TEST-V-01-01",
+      "feedbackId": "$TEST-F-01-01",
+      "userId": "65130500066"
     }
   ]
 }
