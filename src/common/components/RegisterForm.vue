@@ -6,6 +6,7 @@ import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import Provider from '@/api/provider'
 import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints'
 import { ref } from 'vue'
+import uuid from '../utils/uuid'
 
 const registerFormUtils = getFormUtils()
 const isAvailableUsername = ref(true)
@@ -29,7 +30,7 @@ const checkUniqueUsername = async () => {
 }
 
 const generatePassword = () => {
-  const generatedPassword = crypto.randomUUID().slice(0, 8)
+  const generatedPassword = uuid()
   newUser.password = generatedPassword
 }
 
