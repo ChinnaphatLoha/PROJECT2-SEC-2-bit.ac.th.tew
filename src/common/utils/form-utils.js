@@ -6,7 +6,7 @@ const getFormUtils = () => {
    * @param {string} key - Attribute or Field name of target object.
    * @param {Event} event - target event object.
    */
-  const getTextValue = (key, event) => {
+  const setTextValue = (key, event) => {
     obj[key] = event.value.trim()
   }
 
@@ -19,7 +19,7 @@ const getFormUtils = () => {
   }
 
   return {
-    getTextValue,
+    setTextValue,
     getObject
   }
 }
