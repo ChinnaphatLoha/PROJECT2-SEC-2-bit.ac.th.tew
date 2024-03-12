@@ -13,11 +13,13 @@ const emit = defineEmits(['update:textValue'])
   <div>
     <slot name="text-header">Text Header</slot>
     <input
+      required
       type="text"
       :placeholder="placeholderText"
-      required
+      minlength="4"
+      maxlength="20"
       class="border border-black m-2"
-      @input="emit('update:textValue', $event.target.value)"
+      @input="emit('update:textValue', $event.target)"
     />
   </div>
 </template>
