@@ -1,8 +1,9 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
+import Provider from '@/api/provider';
 const columns = reactive([
-  { title: 'Good', feedbacks: [{ content: 'Gay', user: 'Tew' }, { content: 'Bit', user: 'Hee' }] },
+  { title: 'Good', feedbacks: [{ content: 'EAE', user: 'Tew' }, { content: 'Bit', user: 'xxxxx' }] },
   { title: 'Bad', feedbacks: [{ content: 'Yed', user: 'Hod' }] },
   { title: 'Bom', feedbacks: [] }
 ]);
@@ -11,7 +12,7 @@ const columns = reactive([
 <template>
   <div class="container mx-auto py-8">
     <h1 class="text-3xl font-bold mb-4">
-      <slot name="title">Retro title</slot>
+      {{ title }}
     </h1>
 
     <div class="flex gap-8">
