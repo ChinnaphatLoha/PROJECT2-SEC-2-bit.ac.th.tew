@@ -1,5 +1,8 @@
 name: Format and Deployment
-on: push
+on: 
+  push:
+    branches: 
+        - experimental/github-action
 jobs:
   # eslint:
   #   name: Run Eslint
@@ -27,11 +30,12 @@ jobs:
       run: npm install
     - name: Run json-server
       run: npm run backend &
-    - name: Build vue app
-      run: npm run build
-    - name: Deploy to GH-page
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+    # - name: Build vue app
+    #   run: npm run build
+    - name: Build and deploy Vue pages
+      id: Build-Vue
+      uses: xRealNeon/VuePagesAction@1.0.1
       with:
-        ACCESS_TOKEN: ${{ secrets.TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: dist
+        username: 'ChinnaphatLoha'
+        reponame: 'PROJECT2-SEC-2-bit.ac.th.tew'
+        token: ${{ secrets.TOKEN }}
