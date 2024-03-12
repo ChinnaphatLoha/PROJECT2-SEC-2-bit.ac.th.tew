@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
     - name: Run json-server
-      run: json-server --watch data/db.json --port 3000 &
+      run: npm run backend &
     - name: Build and deploy Vue pages
       id: Build-Vue
       uses: xRealNeon/VuePagesAction@1.0.1
