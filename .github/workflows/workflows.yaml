@@ -1,8 +1,5 @@
 name: Format and Deployment
-on: 
-  push:
-    branches: 
-      -experimental/github-action
+on: push
 jobs:
   eslint:
     name: Run Eslint
