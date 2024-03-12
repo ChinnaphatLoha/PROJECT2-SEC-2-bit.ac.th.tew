@@ -18,7 +18,7 @@ const emit = defineEmits(['update:passValue'])
       required
       :placeholder="placeholderText"
       class="border border-black m-2" 
-      @input="emit('update:passValue', $event.target.value)"
+      @input="emit('update:passValue', $event.target)"
      />
   </div>
 </template>

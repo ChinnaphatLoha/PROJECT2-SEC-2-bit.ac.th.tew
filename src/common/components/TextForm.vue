@@ -17,7 +17,7 @@ const emit = defineEmits(['update:textValue'])
       :placeholder="placeholderText"
       required
       class="border border-black m-2"
-      @input="emit('update:textValue', $event.target.value)"
+      @input="emit('update:textValue', $event.target)"
     />
   </div>
 </template>
