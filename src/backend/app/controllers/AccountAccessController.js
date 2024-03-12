@@ -1,6 +1,6 @@
 import RegistrationService from '../services/RegistrationService.js'
 import LoginService from '../services/LoginService.js'
-import SchemaValidator from '../middlewares/validator/SchemaValidator.js'
+import SchemaValidator from '../middlewares/persistence_layer/validator/SchemaValidator.js'
 import { User } from '../schema.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
