@@ -13,5 +13,5 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  // base: 'PROJECT2-SEC-2-bit.ac.th.tew'
+  base: 'PROJECT2-SEC-2-bit.ac.th.tew'
 })
