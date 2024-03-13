@@ -2,14 +2,18 @@ import { BASE_URL } from '../config/env.js'
 import RetrospectiveTypes from './constants/retrospective-types.js'
 import AuthorityTypes from './constants/authority-types.js'
 
+const fetchUsername = fetch(`${BASE_URL}/users`)
+  .then((res) => res.json())
+  .then((users) => users.map((user) => user.username))
+
+const ALL_USERNAMES = await fetchUsername
+
 export const User = {
   username: {
     type: 'string',
     length: 20,
     required: true,
-    uniqueIn: await fetch(`${BASE_URL}/users`)
-      .then((res) => res.json())
-      .then((data) => data.map((user) => user.username))
+    uniqueIn: ALL_USERNAMES
   },
   password: {
     type: 'string',

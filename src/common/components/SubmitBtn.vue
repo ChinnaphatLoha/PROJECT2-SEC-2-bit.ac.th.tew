@@ -10,7 +10,7 @@ defineProps({
  
 <template>
 <div>
-    <button>
+    <button type="submit">
         {{ buttonText }}
     </button>
 </div>

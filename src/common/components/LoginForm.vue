@@ -1,39 +1,42 @@
 <script setup>
 import TextForm from './TextForm.vue'
 import PasswordForm from './PasswordForm.vue'
-import BaseBtn from './BaseBtn.vue'
+import SubmitBtn from './SubmitBtn.vue'
+import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints.js'
+import Provider from '@/api/provider'
+import getFormUtils from '../utils/form-utils'
+import { USER_ATTRIBUTE } from '../constants/user-attributes'
 // import { useUserStore } from '@/stores/UserStore.js';
 
 // const userStore = useUserStore;
 
-const user = {
-  username: '',
-  password: '',
-}
+const userFormUtils = getFormUtils()
 
-const getUsername = (user, value) => {
-  user.username = value.trim()
-  console.log(user.username)
-}
-const getPassword = (user, value) => {
-  user.password = value
-  console.log(user.password)
-}
-
-const authenticationUser = () => {
-  console.log('send data....')
+const authenticationUser = async () => {
+  const user = userFormUtils.getObject()
+  const res = await Provider.request(ACCOUNT_ENDPOINTS.login, {
+    body: JSON.stringify(user)
+  })
+  const data = res.ok ? await res.json() : null
+  //? waiting store data to pinia
+  console.log(data)
 }
 </script>
 
 <template>
   <div>
     <h1>Login</h1>
-    <TextForm @update:textValue="getUsername" placeholderText="Enter your username">
-      <template #text-header>Username</template>
-    </TextForm>
-    <PasswordForm @update:passValue="getPassword">
-      <template #text-header>Password</template>
-    </PasswordForm>
-    <BaseBtn buttonText="Sign-in / Login" @click="authenticationUser"/>
+    <form @submit.prevent="authenticationUser">
+      <TextForm
+        @update:textValue="userFormUtils.setTextValue(USER_ATTRIBUTE.username, $event)"
+        placeholderText="Enter your username"
+      >
+        <template #text-header>Username</template>
+      </TextForm>
+      <PasswordForm @update:passValue="userFormUtils.setTextValue(USER_ATTRIBUTE.password, $event)">
+        <template #text-header>Password</template>
+      </PasswordForm>
+      <SubmitBtn buttonText="Sign-in / Login" />
+    </form>
   </div>
 </template>
