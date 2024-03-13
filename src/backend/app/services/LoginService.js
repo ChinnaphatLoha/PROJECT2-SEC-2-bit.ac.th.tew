@@ -1,7 +1,6 @@
 import JsonServerRepository from '../connection/JsonServerRepository.js'
 import { BASE_URL, endpoints } from '../../config/env.js'
 import { getAccountDTO } from '../dto/account-dto.js'
-import { generateSessionId, getSessionUserId } from '../../utils/cookie-session-utils.js'
 
 class LoginService {
   constructor() {
@@ -26,21 +25,23 @@ class LoginService {
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials'})
     const userProjects = await this._getRelevantProjects(user.id)
     return {
-      sessionId: generateSessionId(user.id),
+      // STUB - generateToken
+      // sessionId: generateSessionId(user.id),
       ...getAccountDTO(user, userProjects)
     }
   }
 
-  async getUserFromSessionId(sessionId) {
-    const userId = getSessionUserId(sessionId)
-    const user = await this._userRepository.findById(userId).catch(() => null)
-    if (!user) return new Response(null, { status: 401, statusText: 'Invalid session'})
-    const userProjects = await this._getRelevantProjects(userId)
-    return {
-      sessionId: generateSessionId(user.id),
-      ...getAccountDTO(user, userProjects)
-    }
-  }
+  // async getUserFromSessionId(sessionId) {
+  //   const userId = getSessionUserId(sessionId)
+  //   const user = await this._userRepository.findById(userId).catch(() => null)
+  //   if (!user) return new Response(null, { status: 401, statusText: 'Invalid session'})
+  //   const userProjects = await this._getRelevantProjects(userId)
+  //   return {
+  //     // STUB - generateToken
+  //     // sessionId: generateSessionId(user.id),
+  //     ...getAccountDTO(user, userProjects)
+  //   }
+  // }
 }
 
 export default LoginService
