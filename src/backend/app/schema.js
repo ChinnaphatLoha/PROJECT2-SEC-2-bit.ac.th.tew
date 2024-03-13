@@ -2,18 +2,25 @@ import { BASE_URL } from '../config/env.js'
 import RetrospectiveTypes from './constants/retrospective-types.js'
 import AuthorityTypes from './constants/authority-types.js'
 
-const fetchUsername = fetch(`${BASE_URL}/users`)
-  .then((res) => res.json())
-  .then((users) => users.map((user) => user.username))
+export const getAllUsers = async () => {
+  const users = await fetch(`${BASE_URL}/users`)
+    .then((res) => res.json())
+    // eslint-disable-next-line no-unused-vars
+    .catch((err) => null)
+  return users ? users : []
+}
 
-const ALL_USERNAMES = await fetchUsername
+const getAllUsernames = async () => {
+  const users = await getAllUsers()
+  return users ? users.map((user) => user.username) : []
+}
 
 export const User = {
   username: {
     type: 'string',
     length: 20,
     required: true,
-    uniqueIn: ALL_USERNAMES
+    uniqueIn: getAllUsernames
   },
   password: {
     type: 'string',
@@ -100,6 +107,10 @@ export const Feedback = {
     required: true
   },
   meetingId: {
+    type: 'string',
+    required: true
+  },
+  userId: {
     type: 'string',
     required: true
   }
