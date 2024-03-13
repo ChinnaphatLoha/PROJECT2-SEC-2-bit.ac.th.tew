@@ -4,6 +4,8 @@ import SchemaValidator from '../middlewares/persistence_layer/validator/SchemaVa
 import { User } from '../schema.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
+import { TOKEN_KEY } from '../constants/token.js'
+import { getCookie, setCookie } from '@/backend/utils/cookie-session-utils.js'
 
 class AccountAccessController {
   constructor() {
@@ -30,19 +32,28 @@ class AccountAccessController {
 
   async authenticateUser(data) {
     const { username, password } = data
-    if (!username) return new Response(null, { status: 400, statusText: 'field "username" is required' })
-    if (!password) return new Response(null, { status: 400, statusText: 'field "password" is required' })
+    if (!username)
+      return new Response(null, { status: 400, statusText: 'field "username" is required' })
+    if (!password)
+      return new Response(null, { status: 400, statusText: 'field "password" is required' })
     const dataOrResponse = await this._loginService.authenticateUser(username, password)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
 
-  async getUserFromSessionId(data) {
-    const { sessionId } = data
-    if (!sessionId) return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
-    const dataOrResponse = await this._loginService.getUserFromSessionId(sessionId)
+  async authenticateToken({ Cookie }) {
+    if (!Cookie)
+      return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
+    const dataOrResponse = await this._loginService.authenticateToken(Cookie)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
+  }
+
+  async logout() {
+    if (!getCookie(TOKEN_KEY))
+      return new Response(null, { status: 400, statusText: 'No session to logout' })
+    setCookie(TOKEN_KEY, '', -1)
+    return new Response(null, { status: 200 })
   }
 }
 
@@ -51,16 +62,19 @@ class AccountAccessEndpointsCaller {
   static call(uri, init = null) {
     const controller = new AccountAccessController()
     const { endpoint, query } = extractEndpointToObject(uri)
-    const data = init?.body ? JSON.parse(init.body) : null
+    const body = init?.body ? JSON.parse(init.body) : null
+    const headers = init?.headers ? init.headers : null
     switch (endpoint) {
       case `${this.endpoint}/availability`:
         return controller.isAvailable(query)
       case `${this.endpoint}/register`:
-        return controller.registerUser(data)
+        return controller.registerUser(body)
       case `${this.endpoint}/login`:
-        return controller.authenticateUser(data)
-      case `${this.endpoint}/session`:
-        return controller.getUserFromSessionId(data)
+        return controller.authenticateUser(body)
+      case `${this.endpoint}`:
+        return controller.authenticateToken(headers)
+      case `${this.endpoint}/logout`:
+        return controller.logout()
       default:
         return new Response(null, { status: 404, statusText: 'Endpoint not found' })
     }
