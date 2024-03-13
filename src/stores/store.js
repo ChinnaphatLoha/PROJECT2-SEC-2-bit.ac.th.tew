@@ -36,7 +36,6 @@ const useProjectStore = defineStore('projects', {
   actions: {
     /**
      * 
-     * @param {string} userId 
      * @param {Array} projects 
      */
     initializeProjects(projects) {
