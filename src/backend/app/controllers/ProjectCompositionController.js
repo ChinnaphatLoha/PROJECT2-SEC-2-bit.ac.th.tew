@@ -2,8 +2,7 @@
 import MeetingService from '../services/MeetingService'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
-import { getCookie } from '@/backend/utils/cookie-session-utils'
-import { TOKEN_KEY } from '../constants/token'
+import AuthValidator from '../middlewares/presentation_layer/auth/AuthValidator'
 
 class ProjectCompositionController {
   constructor() {
@@ -21,8 +20,10 @@ class ProjectCompositionController {
 class ProjectCompositionEndpointsCaller {
   static endpoint = Controller_Endpoints.PROJECT_COMPOSITION
   static call(uri, init = null) {
-    if (!getCookie(TOKEN_KEY))
+    AuthValidator.checkAuth()
+    if (!AuthValidator.authorized) {
       return new Response(null, { status: 401, statusText: 'Unauthorized' })
+    }
     const controller = new ProjectCompositionController()
     const { endpoint, query } = extractEndpointToObject(uri)
     const body = init?.body ? JSON.parse(init.body) : null
