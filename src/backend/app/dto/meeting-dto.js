@@ -11,7 +11,7 @@ const removeGroupPropertyFromFeedback = (feedback) => {
 
 export const getMeetingsDTO = async (meetings, feedbacks) => {
   const ALL_USERS = await getAllUsers()
-  const [meetingsDTO] = meetings.map((meeting) => {
+  const meetingsDTO = meetings.map((meeting) => {
     const uncleanedFeedbackRecords = Object.groupBy(
       feedbacks.map((feedback) => ({
         content: feedback.text,
