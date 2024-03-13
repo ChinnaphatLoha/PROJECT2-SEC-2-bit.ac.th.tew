@@ -1,11 +1,10 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
-import Provider from '@/api/provider';
 const columns = reactive([
   { title: 'Good', feedbacks: [{ content: 'EAE', user: 'Tew' }, { content: 'Bit', user: 'xxxxx' }] },
   { title: 'Bad', feedbacks: [{ content: 'Yed', user: 'Hod' }] },
-  { title: 'Bom', feedbacks: [] }
+  { feedbacks: [] }
 ]);
 </script>
 
