@@ -6,11 +6,13 @@ import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints.js'
 import Provider from '@/api/provider'
 import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
-// import { useUserStore } from '@/stores/UserStore.js';
+import { useUserStore, useProjectStore } from '@/stores/store'
 
 // const userStore = useUserStore;
 
 const userFormUtils = getFormUtils()
+const userStore = useUserStore()
+const projectStore = useProjectStore()
 
 const authenticationUser = async () => {
   const user = userFormUtils.getObject()
@@ -18,8 +20,16 @@ const authenticationUser = async () => {
     body: JSON.stringify(user)
   })
   const data = res.ok ? await res.json() : null
-  //? waiting store data to pinia
+  if (data) {
+    const { id, username, projects } = data
+    userStore.setUser(id, username)
+    projectStore.initializeProjects(projects)
+  } else {
+    alert('Data is null!')
+  }
   console.log(data)
+  console.log(userStore.$state)
+  console.log(projectStore.$state)
 }
 </script>
 
