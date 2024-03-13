@@ -25,6 +25,8 @@ Read more about data format in `src/backend/app/schema.js`
 No need to use **method** in the init object. The method is determined by the endpoint.
 :::
 
+---
+
 #### [/api/account](#apiaccount)
 
 
@@ -48,7 +50,7 @@ const data = response.ok ? await response.json() : null
 
 `GET /login` ➡ Login a user using data in the request body.
 - body: { username: string, password: string }
-- response data: { sessionId: string, id: string, username: string, projects: Array }
+- response data: { id: string, username: string, projects: Array }
 ```js
 const response = await Provider.request('/api/account/login', {
   body: JSON.stringify({ username: 'Famenu', password: '123456' })
@@ -56,12 +58,26 @@ const response = await Provider.request('/api/account/login', {
 const data = response.ok ? await response.json() : null
 ```
 
-`GET /session` ➡ Get the current session data (account).
-- body: { sessionId: string }
-- response data: { sessionId: string, id: string, username: string, projects: Array }
+`GET default` ➡ Get the user data using the cookie.
+- headers: { Cookie: string } (cookie's name is `bit_tkn`)
+- response data: { id: string, username: string, projects: Array }
 ```js
-const response = await Provider.request('/api/account/session', {
-  body: JSON.stringify({ sessionId: '123456' })
+const response = await Provider.request('/api/account', {
+  headers: {
+    'Cookie': 'encrypted-token'
+  }
 })
+const data = response.ok ? await response.json() : null
+```
+
+---
+
+#### [/api/project-composition](#apiproject-composition)
+
+`GET /meetings` ➡ Get all meetings of the specified project.
+- parameters: project id of the meetings as `pid`
+- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+```js
+const response = await Provider.request('/api/project-composition/meetings?pid=ab2e')
 const data = response.ok ? await response.json() : null
 ```

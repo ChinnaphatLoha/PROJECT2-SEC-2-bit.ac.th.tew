@@ -69,6 +69,7 @@
   "feedbacks": [
     {
       "id": "$TEST-F-01-01",
+      "userId": "65130500066",
       "text": "I'm so happy to be here",
       "group": "GOOD",
       "meetingId": "$TEST-M-01-01"
