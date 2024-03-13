@@ -22,7 +22,7 @@ class AccountAccessController {
 
   async registerUser(data) {
     try {
-      const validatedUser = this._userValidator.validate(data)
+      const validatedUser = await this._userValidator.validate(data)
       const resData = await this._registrationService.registerUser(validatedUser)
       return new Response(JSON.stringify(resData), { status: 201 })
     } catch (error) {
