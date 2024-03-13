@@ -10,9 +10,9 @@ const columns = reactive([
 
 <template>
   <div class="container mx-auto py-8">
-    <h1 class="text-3xl font-bold mb-4">
+    <!-- <h1 class="text-3xl font-bold mb-4">
       {{ title }}
-    </h1>
+    </h1> -->
 
     <div class="flex gap-8">
       <RetroColumn v-for="(column, index) in columns" :key="index" :title="column.title"
