@@ -1,6 +1,8 @@
 import JsonServerRepository from '../connection/JsonServerRepository.js'
 import { BASE_URL, endpoints } from '../../config/env.js'
 import { getNewAccountDTO } from '../dto/account-dto.js'
+import { TOKEN_KEY } from '../constants/token.js'
+import { setCookie } from '@/backend/utils/cookie-session-utils.js'
 
 class RegistrationService {
   constructor() {
@@ -14,7 +16,9 @@ class RegistrationService {
 
   async registerUser(user) {
     const newUser = await this._userRepository.create(user)
-    return getNewAccountDTO(newUser)
+    const newAccount = getNewAccountDTO(newUser)
+    setCookie(TOKEN_KEY, newAccount)
+    return newAccount
   }
 }
 

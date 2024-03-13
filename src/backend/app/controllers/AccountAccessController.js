@@ -37,10 +37,9 @@ class AccountAccessController {
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
 
-  async getUserFromSessionId(data) {
-    const { sessionId } = data
-    if (!sessionId) return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
-    const dataOrResponse = await this._loginService.getUserFromSessionId(sessionId)
+  async authenticateToken({ Cookie }) {
+    if (!Cookie) return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
+    const dataOrResponse = await this._loginService.authenticateToken(Cookie)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
@@ -51,16 +50,17 @@ class AccountAccessEndpointsCaller {
   static call(uri, init = null) {
     const controller = new AccountAccessController()
     const { endpoint, query } = extractEndpointToObject(uri)
-    const data = init?.body ? JSON.parse(init.body) : null
+    const body = init?.body ? JSON.parse(init.body) : null
+    const headers = init?.headers ? init.headers : null
     switch (endpoint) {
       case `${this.endpoint}/availability`:
         return controller.isAvailable(query)
       case `${this.endpoint}/register`:
-        return controller.registerUser(data)
+        return controller.registerUser(body)
       case `${this.endpoint}/login`:
-        return controller.authenticateUser(data)
+        return controller.authenticateUser(body)
       case `${this.endpoint}/session`:
-        return controller.getUserFromSessionId(data)
+        return controller.authenticateToken(headers)
       default:
         return new Response(null, { status: 404, statusText: 'Endpoint not found' })
     }
