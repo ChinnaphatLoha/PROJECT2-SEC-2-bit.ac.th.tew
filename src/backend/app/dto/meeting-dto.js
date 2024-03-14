@@ -22,6 +22,7 @@ export const getMeetingsDTO = async (meetings, feedbacks) => {
     )
     return {
       id: meeting.id,
+      projectId: meeting.projectId,
       start_date: meeting.start_date,
       end_date: meeting.end_date,
       description: meeting.description,
