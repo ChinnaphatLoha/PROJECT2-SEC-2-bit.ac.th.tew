@@ -27,7 +27,7 @@ class LoginService {
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials' })
     const userProjects = await this._getRelevantProjects(user.id)
     const token = await generateToken(user.id)
-    setCookie(TOKEN_KEY, token, 1)
+    setCookie(TOKEN_KEY, token, import.meta.env.VITE_COOKIE_EXPIRATION)
     return {
       ...getAccountDTO(user, userProjects)
     }
