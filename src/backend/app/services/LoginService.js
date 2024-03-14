@@ -36,7 +36,7 @@ class LoginService {
   async authenticateToken(Cookie) {
     const userId = await decryptToken(Cookie)
     const user = await this._userRepository.findById(userId).catch(() => null)
-    if (!user) return new Response(null, { status: 401, statusText: 'Invalid session'})
+    if (!user) return new Response(null, { status: 401, statusText: 'Invalid session' })
     const userProjects = await this._getRelevantProjects(userId)
     return {
       ...getAccountDTO(user, userProjects)
