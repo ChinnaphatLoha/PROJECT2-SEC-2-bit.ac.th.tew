@@ -23,7 +23,7 @@ class LoginService {
       username,
       password
     })
-    if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials'})
+    if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials' })
     const userProjects = await this._getRelevantProjects(user.id)
     return {
       sessionId: generateSessionId(user.id),
@@ -34,7 +34,7 @@ class LoginService {
   async getUserFromSessionId(sessionId) {
     const userId = getSessionUserId(sessionId)
     const user = await this._userRepository.findById(userId).catch(() => null)
-    if (!user) return new Response(null, { status: 401, statusText: 'Invalid session'})
+    if (!user) return new Response(null, { status: 401, statusText: 'Invalid session' })
     const userProjects = await this._getRelevantProjects(userId)
     return {
       sessionId: generateSessionId(user.id),

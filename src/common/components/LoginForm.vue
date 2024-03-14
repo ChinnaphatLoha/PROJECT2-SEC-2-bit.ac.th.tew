@@ -8,7 +8,7 @@ import BaseBtn from './BaseBtn.vue'
 
 const user = {
   username: '',
-  password: '',
+  password: ''
 }
 
 const getUsername = (user, value) => {
@@ -34,6 +34,6 @@ const authenticationUser = () => {
     <PasswordForm @update:passValue="getPassword">
       <template #text-header>Password</template>
     </PasswordForm>
-    <BaseBtn buttonText="Sign-in / Login" @click="authenticationUser"/>
+    <BaseBtn buttonText="Sign-in / Login" @click="authenticationUser" />
   </div>
 </template>

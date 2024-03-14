@@ -1,17 +1,17 @@
 <script setup>
 defineProps({
-    buttonText: {
-        type: String,
-        require: true,
-        default: 'Button Text'
-    }
+  buttonText: {
+    type: String,
+    require: true,
+    default: 'Button Text'
+  }
 })
 </script>
- 
+
 <template>
-<div>
+  <div>
     <button>
-        {{ buttonText }}
+      {{ buttonText }}
     </button>
-</div>
+  </div>
 </template>

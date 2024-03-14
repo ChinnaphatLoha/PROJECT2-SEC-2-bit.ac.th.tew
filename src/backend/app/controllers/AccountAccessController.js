@@ -30,8 +30,10 @@ class AccountAccessController {
 
   async authenticateUser(data) {
     const { username, password } = data
-    if (!username) return new Response(null, { status: 400, statusText: 'field "username" is required' })
-    if (!password) return new Response(null, { status: 400, statusText: 'field "password" is required' })
+    if (!username)
+      return new Response(null, { status: 400, statusText: 'field "username" is required' })
+    if (!password)
+      return new Response(null, { status: 400, statusText: 'field "password" is required' })
     const dataOrResponse = await this._loginService.authenticateUser(username, password)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
@@ -39,7 +41,8 @@ class AccountAccessController {
 
   async getUserFromSessionId(data) {
     const { sessionId } = data
-    if (!sessionId) return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
+    if (!sessionId)
+      return new Response(null, { status: 400, statusText: 'field "sessionId" is required' })
     const dataOrResponse = await this._loginService.getUserFromSessionId(sessionId)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
