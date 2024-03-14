@@ -1,5 +1,10 @@
-<script setup></script>
+<script setup>
+import RegisterForm from '@/common/components/RegisterForm.vue'
+</script>
 
 <template>
-  <div></div>
+  <div>
+    <RegisterForm />
+    <p>Already have an account? <RouterLink to="/login">Sign-in</RouterLink> here.</p>
+  </div>
 </template>

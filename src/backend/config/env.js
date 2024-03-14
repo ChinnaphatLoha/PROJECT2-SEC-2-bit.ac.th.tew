@@ -1,6 +1,6 @@
 // * Environment variables
 
-export const BASE_URL = 'http://localhost:3001'
+export const BASE_URL = import.meta.env?.VITE_BASE_URL ?? 'http://localhost:3001'
 
 export const endpoints = {
   user: 'users',

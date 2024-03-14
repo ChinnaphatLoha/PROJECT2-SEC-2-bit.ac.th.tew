@@ -80,7 +80,7 @@ export const validateExtraFields = (model, data) => {
  * @param {Object<string, Object<string, string | number | boolean | Array<T>>>} model
  * @param {Object<string, string | number | boolean | Array<T>>} data
  */
-export const validateModel = (model, data) => {
+export const validateModel = async (model, data) => {
   validateExtraFields(model, data)
   for (const [key, value] of Object.entries(model)) {
     if (!value.required && !data[key]) {
@@ -114,7 +114,12 @@ export const validateModel = (model, data) => {
     if (value.format && !validateFormat(data[key], value.format.regex)) {
       throw new SchemaError.FORMAT_MISMATCH(data[key], key, value.format.simplified)
     }
-    if (value.uniqueIn && !validateUnique(data[key], value.uniqueIn)) {
+    if (value.uniqueIn instanceof Function && value.uniqueIn() instanceof Promise) {
+      const uniqueSet = await value.uniqueIn()
+      if (!validateUnique(data[key], uniqueSet)) {
+        throw new SchemaError.DUPLICATE_VALUE(data[key], key)
+      }
+    } else if (value.uniqueIn && !validateUnique(data[key], value.uniqueIn)) {
       throw new SchemaError.DUPLICATE_VALUE(data[key], key)
     }
   }
