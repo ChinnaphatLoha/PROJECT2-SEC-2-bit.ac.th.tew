@@ -1,4 +1,4 @@
-import { getAllUsers } from '../schema'
+import { getAllUsers } from '../schema/schema'
 
 const removeGroupPropertyFromFeedback = (feedback) => {
   const feedbackRecords = {}
