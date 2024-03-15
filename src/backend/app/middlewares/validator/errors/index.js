@@ -1,5 +1,5 @@
 import DuplicateValueError from './custom/DuplicateValueError.js'
-import EmptyArrayFieldError from './custom/EmptyArrayFieldError.js'
+import EmptyFieldError from './custom/EmptyFieldError.js'
 import EnumValueError from './custom/EnumValueError.js'
 import FormatMismatchError from './custom/FormatMismatchError.js'
 import MissingFieldError from './custom/MissingFieldError.js'
@@ -9,7 +9,7 @@ import ValueTooLongError from './custom/ValueTooLongError.js'
 
 export default {
   DUPLICATE_VALUE: DuplicateValueError,
-  EMPTY_ARRAY_FIELD: EmptyArrayFieldError,
+  EMPTY_FIELD: EmptyFieldError,
   ENUM_VALUE: EnumValueError,
   FORMAT_MISMATCH: FormatMismatchError,
   MISSING_FIELD: MissingFieldError,

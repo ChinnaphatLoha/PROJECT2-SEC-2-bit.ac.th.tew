@@ -2,7 +2,7 @@
 import MeetingService from '../services/MeetingService'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
-import AuthValidator from '../middlewares/presentation_layer/auth/AuthValidator'
+import AuthValidator from '../middlewares/auth/AuthValidator'
 
 class ProjectCompositionController {
   constructor() {

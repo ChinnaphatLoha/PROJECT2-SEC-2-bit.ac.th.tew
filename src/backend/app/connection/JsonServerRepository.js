@@ -45,7 +45,7 @@ class JsonServerRepository {
   }
 
   async update(query, data) {
-    const id = await this.findFirst(query).then((data) => data.id)
+    const id = query.id ? query.id : await this.findFirst(query).then((data) => data.id)
     const response = await fetch(`${this.BASE_URL}/${this.endpoint}/${id}`, {
       method: 'PATCH',
       headers: {
@@ -57,7 +57,7 @@ class JsonServerRepository {
   }
 
   async delete(query) {
-    const id = await this.findFirst(query).then((data) => data.id)
+    const id = query.id ? query.id : await this.findFirst(query).then((data) => data.id)
     const response = await fetch(`${this.BASE_URL}/${this.endpoint}/${id}`, {
       method: 'DELETE'
     })

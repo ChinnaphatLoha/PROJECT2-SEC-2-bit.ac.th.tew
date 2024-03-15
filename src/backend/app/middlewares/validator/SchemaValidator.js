@@ -21,6 +21,16 @@ export const validateType = (value, type) => {
 }
 
 /**
+ * @param {string | number | boolean | Array<T>} value - The value to validate
+ */
+export const validateNotEmpty = (value) => {
+  if (Array.isArray(value)) {
+    return value.length > 0
+  }
+  return value !== '' && value !== null && value !== undefined
+}
+
+/**
  * @param {Object<string, any>} enumObject - The enum-like object to validate against
  */
 export const validateEnum = (value, enumObject) => {
@@ -86,18 +96,18 @@ export const validateModel = async (model, data) => {
     if (!value.required && !data[key]) {
       continue
     }
-    if (value.items && value.type === 'array') {
-      if (!Array.isArray(data[key])) {
-        throw new SchemaError.TYPE_MISMATCH(key, 'array', data[key])
-      } else if (data[key].length === 0 && value.required) {
-        throw new SchemaError.EMPTY_ARRAY_FIELD(key)
-      }
+    if (value.items && value.type === 'array' && Array.isArray(data[key])) {
       for (const item of data[key]) {
         validateModel(value.items, item)
       }
+    } else if (value.items && value.type === 'array') {
+      throw new SchemaError.TYPE_MISMATCH(key, 'array', data[key])
     }
     if (value.required && !data[key]) {
       throw new SchemaError.MISSING_FIELD(key)
+    }
+    if (value.required && !validateNotEmpty(data[key])) {
+      throw new SchemaError.EMPTY_FIELD(key)
     }
     if (value.type && !validateType(data[key], value.type)) {
       throw new SchemaError.TYPE_MISMATCH(key, value.type, data[key])
