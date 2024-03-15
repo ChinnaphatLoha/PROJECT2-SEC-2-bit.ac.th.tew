@@ -24,7 +24,7 @@ const useUserStore = defineStore('user', {
   getters: {
     getUser() {
       return this.user
-    },
+    }
   }
 })
 
@@ -35,8 +35,8 @@ const useProjectStore = defineStore('projects', {
   }),
   actions: {
     /**
-     * 
-     * @param {Array} projects 
+     *
+     * @param {Array} projects
      */
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
