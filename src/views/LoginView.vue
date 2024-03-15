@@ -5,6 +5,6 @@ import LoginForm from '../common/components/LoginForm.vue'
 <template>
   <div>
     <LoginForm />
-    <p>not have account? <RouterLink to="/register">Sign-up</RouterLink> here.</p>
+    <p>not have account? <RouterLink to="register">Sign-up</RouterLink> here.</p>
   </div>
 </template>
