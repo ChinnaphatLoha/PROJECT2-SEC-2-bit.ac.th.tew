@@ -29,7 +29,10 @@ class ProjectService {
 
   async addNewMember({ id, userId, passkey }) {
     if (!id || !userId || !passkey)
-      return new Response(null, { status: 400, statusText: 'Project ID, user ID, and passkey are required' })
+      return new Response(null, {
+        status: 400,
+        statusText: 'Project ID, user ID, and passkey are required'
+      })
     const project = await this._projectRepository.findById(id)
     if (!project) return new Response(null, { status: 404, statusText: 'Project not found' })
     if (project.passkey !== passkey)
