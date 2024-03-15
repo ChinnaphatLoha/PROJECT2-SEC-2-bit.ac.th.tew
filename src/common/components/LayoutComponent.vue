@@ -1,18 +1,21 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
 
 <template>
   <div class="w-full font-semibold bg-gray-800">
     <header class="text-white text-lg py-4 px-6 flex justify-between">
       <div class="flex items-center justify-between w-[18%] pl-10">
-        <router-link to="/project" class="link text-2xl">Project</router-link>
-        <router-link to="/retro" class="link text-2xl">Retro</router-link>
+        <RouterLink to="" class="link text-2xl">Project</RouterLink>
+        <RouterLink to="" class="link text-2xl">Retro</RouterLink>
       </div>
       <div class="flex items-center justify-between w-[18%]">
-        <router-link to="/user" class="link text-xl">Hello, TEW</router-link>
-        <router-link to="/home" class="btn btn-sign-out">Sign-out</router-link>
+        <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
+        <RouterLink to="" class="btn btn-sign-out">Sign-out</RouterLink>
       </div>
     </header>
   </div>
+  <slot></slot>
 </template>
 
 <style>
