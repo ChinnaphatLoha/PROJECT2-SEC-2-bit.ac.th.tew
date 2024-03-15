@@ -1,6 +1,7 @@
 import JsonServerRepository from '../connection/JsonServerRepository.js'
 import { BASE_URL, endpoints } from '../../config/env.js'
 import { getProjectDTO } from '../dto/project-dto.js'
+import AuthorityTypes from '../constants/authority-types.js'
 
 class ProjectService {
   constructor() {
