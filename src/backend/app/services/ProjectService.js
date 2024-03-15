@@ -1,6 +1,5 @@
 import JsonServerRepository from '../connection/JsonServerRepository.js'
 import { BASE_URL, endpoints } from '../../config/env.js'
-import AuthorityTypes from '../constants/authority-types.js'
 import { getProjectDTO } from '../dto/project-dto.js'
 
 class ProjectService {
@@ -10,9 +9,7 @@ class ProjectService {
 
   async createProject(project) {
     const builtProject = await this._projectRepository.create(project)
-    delete builtProject.users
-    delete builtProject.passkey
-    return { ...builtProject, authority: AuthorityTypes.OWNER }
+    return getProjectDTO(builtProject)
   }
 
   async updateProjectInfo({ id, name = null, description = null }) {
@@ -43,11 +40,10 @@ class ProjectService {
       { id },
       { users: [...project.users, { userId, authority: AuthorityTypes.MEMBER }] }
     )
-    return getProjectDTO(updatedProject, userId)
+    return getProjectDTO(updatedProject)
   }
 
   async deleteProject(id) {
-    if (!id) return new Response(null, { status: 400, statusText: 'Project ID is required' })
     const deletedProject = await this._projectRepository.delete({ id })
     return getProjectDTO(deletedProject)
   }
