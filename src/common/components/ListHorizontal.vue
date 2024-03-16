@@ -13,7 +13,7 @@ const scrollStep = 100
 
 <template>
   <div class="w-full">
-    <h1 class="text-2xl font-bold tracking-wide mb-4">
+    <h1 class="heading-title tracking-wide">
       <slot name="title">"List name"</slot>
     </h1>
     <div
@@ -23,8 +23,8 @@ const scrollStep = 100
       <slot v-for="(item, index) in items" :item="item" :index="index" :key="index"></slot>
     </div>
     <div>
-      <button @click="scrollPosition -= scrollStep" :disabled="scrollPosition <= 0">Prev</button>
-      <button @click="scrollPosition += scrollStep" :disabled="scrollPosition >= 1000">Next</button>
+      <button class="btn" @click="scrollPosition -= scrollStep" :disabled="scrollPosition <= 0">Prev</button>
+      <button class="btn" @click="scrollPosition += scrollStep" :disabled="scrollPosition >= 1000">Next</button>
     </div>
   </div>
 </template>

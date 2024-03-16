@@ -6,4 +6,10 @@
     .card-retro {
         @apply border-4 border-black bg-slate-50 rounded-3xl p-6 w-72 h-48 flex-none;
     }
+    .heading-title {
+        @apply text-3xl font-bold mb-4;
+    }
+    .info-input-list {
+        @apply grid grid-cols-8 gap-4;
+    }
 }
