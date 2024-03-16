@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 import CardRetro from '@/common/components/CardRetro.vue'
 import ListHorizontal from '@/common/components/ListHorizontal.vue'
-import ListWrap from '@/common/components/ListWrap.vue';
+import ListWrap from '@/common/components/ListWrap.vue'
 import NewProjectForm from '@/common/components/NewProjectForm.vue'
 const items = [
   { name: 'Item 1', ownerName: 'John Doe' },
@@ -15,6 +15,9 @@ const items = [
   { name: 'Item 8', ownerName: 'Jane Doe' }
 ]
 const popupPageProject = ref(false)
+const handlePopupPageProject = (status) => {
+  popupPageProject.value = status
+}
 </script>
 
 <template>
@@ -55,10 +58,8 @@ const popupPageProject = ref(false)
   </div>
   <hr class="mb-10">
   <input class="checkbox" type="checkbox" v-model="popupPageProject">
-  <div :class="popupPageProject ? 'absolute' : 'hidden'" class="top-1/3 left-1/4 ">
-    <div class="">
-      <NewProjectForm />
-    </div>
+  <div :class="popupPageProject ? 'absolute' : 'hidden'" class="top-1/3 left-1/4 w-7/12">
+    <NewProjectForm @closePopup="handlePopupPageProject" />
   </div>
 </template>
 
