@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { defineStore } from 'pinia'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 
