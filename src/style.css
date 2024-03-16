@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .card-retro {
+        @apply border-4 border-black bg-slate-50 rounded-3xl p-6 w-72 h-48 flex-none;
+    }
+}
