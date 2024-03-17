@@ -16,9 +16,10 @@ class ProjectCompositionController {
   }
 
   async createProject({ Cookie }, project) {
+    const userId = await decryptToken(Cookie, 'bitadmin')
     project = {
       ...project,
-      users: [{ userId: await decryptToken(Cookie), authority: AuthorityTypes.OWNER }]
+      users: [{ userId, authority: AuthorityTypes.OWNER }]
     }
     const validatedProject = await this._projectValidator.validate(project)
     const data = await this._projectService.createProject(validatedProject)
@@ -32,7 +33,7 @@ class ProjectCompositionController {
   }
 
   async joinToProject({ Cookie }, { pid, passkey }) {
-    const userId = await decryptToken(Cookie)
+    const userId = await decryptToken(Cookie, 'bitadmin')
     const dataOrResponse = await this._projectService.addNewMember({ id: pid, userId, passkey })
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
