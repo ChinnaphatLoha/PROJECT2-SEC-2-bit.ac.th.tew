@@ -40,7 +40,7 @@ export const Project = {
   },
   description: {
     type: 'string',
-    length: 100
+    length: 200
   },
   retrospective_type: {
     type: 'string',
