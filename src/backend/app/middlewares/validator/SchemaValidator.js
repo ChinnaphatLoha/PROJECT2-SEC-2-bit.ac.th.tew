@@ -21,6 +21,16 @@ export const validateType = (value, type) => {
 }
 
 /**
+ * @param {string | number | boolean | Array<T>} value - The value to validate
+ */
+export const validateNotEmpty = (value) => {
+  if (Array.isArray(value)) {
+    return value.length > 0
+  }
+  return value !== '' && value !== null && value !== undefined
+}
+
+/**
  * @param {Object<string, any>} enumObject - The enum-like object to validate against
  */
 export const validateEnum = (value, enumObject) => {
@@ -80,24 +90,24 @@ export const validateExtraFields = (model, data) => {
  * @param {Object<string, Object<string, string | number | boolean | Array<T>>>} model
  * @param {Object<string, string | number | boolean | Array<T>>} data
  */
-export const validateModel = (model, data) => {
+export const validateModel = async (model, data) => {
   validateExtraFields(model, data)
   for (const [key, value] of Object.entries(model)) {
     if (!value.required && !data[key]) {
       continue
     }
-    if (value.items && value.type === 'array') {
-      if (!Array.isArray(data[key])) {
-        throw new SchemaError.TYPE_MISMATCH(key, 'array', data[key])
-      } else if (data[key].length === 0 && value.required) {
-        throw new SchemaError.EMPTY_ARRAY_FIELD(key)
-      }
+    if (value.items && value.type === 'array' && Array.isArray(data[key])) {
       for (const item of data[key]) {
         validateModel(value.items, item)
       }
+    } else if (value.items && value.type === 'array') {
+      throw new SchemaError.TYPE_MISMATCH(key, 'array', data[key])
     }
     if (value.required && !data[key]) {
       throw new SchemaError.MISSING_FIELD(key)
+    }
+    if (value.required && !validateNotEmpty(data[key])) {
+      throw new SchemaError.EMPTY_FIELD(key)
     }
     if (value.type && !validateType(data[key], value.type)) {
       throw new SchemaError.TYPE_MISMATCH(key, value.type, data[key])
@@ -114,7 +124,12 @@ export const validateModel = (model, data) => {
     if (value.format && !validateFormat(data[key], value.format.regex)) {
       throw new SchemaError.FORMAT_MISMATCH(data[key], key, value.format.simplified)
     }
-    if (value.uniqueIn && !validateUnique(data[key], value.uniqueIn)) {
+    if (value.uniqueIn instanceof Function && value.uniqueIn() instanceof Promise) {
+      const uniqueSet = await value.uniqueIn()
+      if (!validateUnique(data[key], uniqueSet)) {
+        throw new SchemaError.DUPLICATE_VALUE(data[key], key)
+      }
+    } else if (value.uniqueIn && !validateUnique(data[key], value.uniqueIn)) {
       throw new SchemaError.DUPLICATE_VALUE(data[key], key)
     }
   }
