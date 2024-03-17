@@ -17,7 +17,7 @@ class RegistrationService {
   async registerUser(user) {
     const newUser = await this._userRepository.create(user)
     const newAccount = getNewAccountDTO(newUser)
-    const token = await generateToken(newUser.id)
+    const token = await generateToken(newUser.id, 'bitadmin')
     setCookie(TOKEN_KEY, token, import.meta.env.VITE_COOKIE_EXPIRATION)
     return newAccount
   }
