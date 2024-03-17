@@ -9,7 +9,4 @@
     .heading-title {
         @apply text-3xl font-bold mb-4;
     }
-    .info-input-list {
-        @apply grid grid-cols-8 gap-4;
-    }
 }
