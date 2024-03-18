@@ -1,18 +1,20 @@
-import { reactive, computed } from "vue";
+import { reactive } from "vue";
 
-function FeedbackManagement(newfeedbacks) {
-    const feedbacks = reactive(newfeedbacks);
+const feedbackManagement = (initialFeedbacks) => {
+    const value = reactive({
+        feedbackRecords: initialFeedbacks
+    });
 
-    const addFeedback = (user, content) => {
-        const newFeedback = {user,content}
-        feedbacks.push(newFeedback);
-        console.log(feedbacks);
+    const action = {
+        addFeedback(type, content, username) {
+            value.feedbackRecords[type].push({ content, username })
+        },
+        
+        listFeedbacks(){
+            return value.feedbackRecords;
+        }
     }
-
-    const listFeedbacks = () =>{
-        return feedbacks
-    }
-    return { addFeedback, listFeedbacks }
+    return { value, action };
 }
 
-export default FeedbackManagement
+export default feedbackManagement

@@ -4,6 +4,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProjectFormView from '@/views/ProjectFormView.vue'
 import TestComponent from '@/views/TestComponents.vue'
+import RetroFeedBackView from '@/views/RetroFeedBackView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,11 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/meeting',
+      name: 'meeting-feedback',
+      component: RetroFeedBackView
+    }
   ]
 })
 

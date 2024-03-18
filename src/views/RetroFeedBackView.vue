@@ -2,6 +2,11 @@
 import { reactive } from 'vue';
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
 // import Provider from '@/api/provider';
+
+// const response = await Provider.request('/api/project-composition/meetings?pid=$TEST-PJ-01')
+// const data = response.ok ? await response.json() : null
+// console.log(data)
+
 const meeting = reactive([
   {
     id: '$TEST-M-01-01',
@@ -21,22 +26,24 @@ const meeting = reactive([
       ],
       BAD: [
         {
-          content: "Gay",
+          content: "Boring",
           username: 'Tew2945'
         }
       ]
     }
   }
 ])
+
+
 </script>
 
 <template>
   <div class="container mx-auto py-8">
     <div class="flex gap-8">
-      <RetroColumn v-for="{feedbackRecords, id} in meeting" :key="id"
-        :feedbackRecords="feedbackRecords" />
+      <RetroColumn v-for="{ feedbackRecords, index } in meeting" :key="index" :feedbackRecords="feedbackRecords" />
     </div>
   </div>
+  <!-- <BaseLayout></BaseLayout> -->
 </template>
 
 <style scoped></style>
