@@ -1,6 +1,6 @@
-import { BASE_URL } from '../config/env.js'
-import RetrospectiveTypes from './constants/retrospective-types.js'
-import AuthorityTypes from './constants/authority-types.js'
+import { BASE_URL } from '../../config/env.js'
+import RetrospectiveTypes from '../constants/retrospective-types.js'
+import AuthorityTypes from '../constants/authority-types.js'
 
 export const getAllUsers = async () => {
   const users = await fetch(`${BASE_URL}/users`)
@@ -40,7 +40,7 @@ export const Project = {
   },
   description: {
     type: 'string',
-    length: 100
+    length: 200
   },
   retrospective_type: {
     type: 'string',

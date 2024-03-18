@@ -1,6 +1,6 @@
 const RetrospectiveTypes = {
-  GOOD_BAD_TRY: 'GOOD_BAD_TRY',
-  KLAM: 'KEEP_LESS_ADD_MORE',
+  GOOD_BAD_TRY: 'Good-Bad-Try',
+  KLAM: 'KLAM'
 }
 
 export default RetrospectiveTypes
