@@ -7,10 +7,11 @@ const feedbackManagement = (initialFeedbacks) => {
 
     const action = {
         addFeedback(type, content, username) {
-            value.feedbackRecords[type].push({ content, username })
+            if (content)
+                value.feedbackRecords[type].push({ content, username })
         },
-        
-        listFeedbacks(){
+
+        listFeedbacks() {
             return value.feedbackRecords;
         }
     }

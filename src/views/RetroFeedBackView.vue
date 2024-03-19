@@ -29,7 +29,8 @@ const meeting = reactive([
           content: "Boring",
           username: 'Tew2945'
         }
-      ]
+      ],
+      TRY: []
     }
   }
 ])
@@ -38,12 +39,12 @@ const meeting = reactive([
 </script>
 
 <template>
-  <div class="container mx-auto py-8">
+  
+  <BaseLayout><div class="container mx-auto py-8">
     <div class="flex gap-8">
       <RetroColumn v-for="{ feedbackRecords, index } in meeting" :key="index" :feedbackRecords="feedbackRecords" />
     </div>
-  </div>
-  <!-- <BaseLayout></BaseLayout> -->
+  </div></BaseLayout>
 </template>
 
 <style scoped></style>
