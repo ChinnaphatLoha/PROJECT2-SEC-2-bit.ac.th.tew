@@ -7,4 +7,10 @@ const ACCOUNT_ENDPOINTS = {
   session: `${ACCOUNT_ACCESS}/session`
 }
 
-export { ACCOUNT_ENDPOINTS }
+const PROJECT_ENDPOINTS = {
+  project: '/api/project-composition/projects',
+  projectById: (projectId) => `/api/project-composition/projects/${projectId}`,
+  projectJoin: '/api/project-composition/projects/join',
+}
+
+export { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS }

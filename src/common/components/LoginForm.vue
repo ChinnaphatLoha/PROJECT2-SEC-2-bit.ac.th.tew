@@ -6,16 +6,12 @@ import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints.js'
 import Provider from '@/api/provider'
 import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
-import { useUserStore, useProjectStore } from '@/stores/store'
-import usePollingFetch from '../utils/polling-fetch-data'
-
-// const userStore = useUserStore;
+import { useUserStore } from '@/stores/store'
+import { useRouter } from 'vue-router'
 
 const userFormUtils = getFormUtils()
 const userStore = useUserStore()
-const projectStore = useProjectStore()
-
-usePollingFetch
+const router = useRouter()
 
 const authenticationUser = async () => {
   const user = userFormUtils.getObject()
@@ -24,15 +20,14 @@ const authenticationUser = async () => {
   })
   const data = res.ok ? await res.json() : null
   if (data) {
-    const { username, projects } = data
-    userStore.setUser(username)
-    projectStore.initializeProjects(projects)
+    console.log(data)
+    const {id, username, projects} = data
+    userStore.initializeStore({id, username}, projects)
+    router.push({ name: 'home', params: { id: data.pid } })
   } else {
     alert('Data is null!')
   }
-  console.log(data)
   console.log(userStore.$state)
-  console.log(projectStore.$state)
 }
 </script>
 
@@ -53,4 +48,3 @@ const authenticationUser = async () => {
     </form>
   </div>
 </template>
-../utils/polling-fetch-data
