@@ -3,7 +3,7 @@ defineProps({
   items: {
     type: Array,
     // eslint-disable-next-line vue/require-valid-default-prop
-    default: []
+    default: [{id: 'empty', title: 'empty list'}]
   }
 })
 </script>

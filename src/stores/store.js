@@ -15,9 +15,8 @@ const useUserStore = defineStore('user', {
      * @param {string} userId - user ID
      * @param {string} username - username
      */
-    setUser(userId, username) {
+    setUser(username) {
       this.user = {
-        id: userId,
         username: username
       }
     }
@@ -51,6 +50,7 @@ const useProjectStore = defineStore('projects', {
     },
     createNewProject(userId, project) {
       // call backend create project
+      
     },
     addContributeProject(users) {
       // adding user by username?
