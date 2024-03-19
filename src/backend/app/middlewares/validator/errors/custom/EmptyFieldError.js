@@ -1,4 +1,4 @@
-class EmptyArrayFieldError extends Error {
+class EmptyFieldError extends Error {
   /**
    * @param {string} field - The field that is empty
    */
@@ -9,4 +9,4 @@ class EmptyArrayFieldError extends Error {
   }
 }
 
-export default EmptyArrayFieldError
+export default EmptyFieldError

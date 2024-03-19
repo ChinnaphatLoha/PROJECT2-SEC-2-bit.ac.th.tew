@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { defineStore } from 'pinia'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 
@@ -24,7 +25,7 @@ const useUserStore = defineStore('user', {
   getters: {
     getUser() {
       return this.user
-    },
+    }
   }
 })
 
@@ -35,8 +36,8 @@ const useProjectStore = defineStore('projects', {
   }),
   actions: {
     /**
-     * 
-     * @param {Array} projects 
+     *
+     * @param {Array} projects
      */
     initializeProjects(projects) {
       if (!(projects.length === 0)) {

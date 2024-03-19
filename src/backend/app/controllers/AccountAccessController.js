@@ -1,7 +1,7 @@
 import RegistrationService from '../services/RegistrationService.js'
 import LoginService from '../services/LoginService.js'
-import SchemaValidator from '../middlewares/persistence_layer/validator/SchemaValidator.js'
-import { User } from '../schema.js'
+import SchemaValidator from '../middlewares/validator/SchemaValidator.js'
+import { User } from '../schema/schema.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
 import { TOKEN_KEY } from '../constants/token.js'
@@ -22,7 +22,7 @@ class AccountAccessController {
 
   async registerUser(data) {
     try {
-      const validatedUser = this._userValidator.validate(data)
+      const validatedUser = await this._userValidator.validate(data)
       const resData = await this._registrationService.registerUser(validatedUser)
       return new Response(JSON.stringify(resData), { status: 201 })
     } catch (error) {

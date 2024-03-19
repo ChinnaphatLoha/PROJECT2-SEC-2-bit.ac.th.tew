@@ -5,6 +5,6 @@ import RegisterForm from '@/common/components/RegisterForm.vue'
 <template>
   <div>
     <RegisterForm />
-    <p>Already have an account? <RouterLink to="/login">Sign-in</RouterLink> here.</p>
+    <p>Already have an account? <RouterLink to="login">Sign-in</RouterLink> here.</p>
   </div>
 </template>
