@@ -53,4 +53,3 @@ const authenticationUser = async () => {
     </form>
   </div>
 </template>
-../utils/polling-fetch-data
