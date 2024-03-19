@@ -25,7 +25,7 @@ class LoginService {
       password
     })
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials' })
-    const token = await generateToken(user.id)
+    const token = await generateToken(user.id, 'bitadmin')
     setCookie(TOKEN_KEY, token, import.meta.env.VITE_COOKIE_EXPIRATION)
     const userProjects = await this._getRelevantProjects(user.id)
     return {
@@ -34,7 +34,7 @@ class LoginService {
   }
 
   async authenticateToken(Cookie) {
-    const userId = await decryptToken(Cookie)
+    const userId = await decryptToken(Cookie, 'bitadmin')
     const user = await this._userRepository.findById(userId).catch(() => null)
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid token' })
     const userProjects = await this._getRelevantProjects(userId)
