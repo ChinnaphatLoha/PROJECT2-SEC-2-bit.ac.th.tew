@@ -16,7 +16,7 @@ function pollingData(callback, stopSignal = false, endpoint, data) {
       // clear interval loop
       console.log('last polling')
       clearInterval(polling)
-      callback(endpoint, body)
+      callback(endpoint, data)
     }
     await callback(endpoint, data)
     i++
