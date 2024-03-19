@@ -1,31 +1,22 @@
-import Provider from '@/api/provider'
-
 //provide for meeting fetch
-const intervalTime = 5000 // Interval time in milliseconds
+const intervalTime = 1000 // Interval time in milliseconds
 
-/**
- *
- * @param {string} endpoint
- * @param {Object} body
- * @param {Object} returnObject - object that to store return data
- */
-export const usePollingFetch = async (endpoint, body = null, returnObject) => {
-  // Function to fetch data
-  const fetchDataAndUpdate = async () => {
-    const data = await fetch(endpoint)
-    // const res = await Provider.request(endpoint, body)
-    // const data = res.ok ? await res.json() : null
-    returnObject.body = data
-    // if (data?.hasChange === true) {
-    //   returnObject.body = data.body
-    // } else {
-    //   returnObject.body = null
-    // }
-  }
-
-  // Initial fetch
-  await fetchDataAndUpdate()
-
-  // Fetch data at intervals
-  setInterval(fetchDataAndUpdate, intervalTime)
+function pollingData(limit, callback) {
+  let i = 0
+  let polling = setInterval(function () {
+    console.log(i)
+    if (i === limit - 1) {
+      // clear interval loop
+      clearInterval(polling)
+      callback('http://localhost:3001/users')
+    }
+    i++
+  }, intervalTime)
 }
+
+const fetchData = async (url) => {
+  const data = await fetch(url)
+  console.log(data)
+}
+
+pollingData(3, fetchData)
