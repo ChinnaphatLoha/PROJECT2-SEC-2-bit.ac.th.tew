@@ -51,8 +51,8 @@ const useUserStore = defineStore('user-store', {
       const data = res.ok ? await res.json() : null
       console.log(data)
       if (res.ok) {
-        this.ownedProject.push(data)
         console.log('New project pushed on ownedProject' + data.pid)
+        this.ownedProject.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       }
     },
@@ -96,8 +96,8 @@ const useUserStore = defineStore('user-store', {
     getMembershipProject() {
       return this.membershipProject
     },
-    getMeetings() {
-
+    getMeetings(pid) {
+      return;
     }
   }
 })
