@@ -5,7 +5,7 @@ import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import Provider from '@/api/provider'
 import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import uuid from '../utils/uuid'
 
 const registerFormUtils = getFormUtils()
@@ -14,6 +14,10 @@ const newUser = {
   username: '',
   password: ''
 }
+
+onMounted(()=> {
+  console.log('Mounted Register')
+})
 
 const checkUniqueUsername = async () => {
   const { username } = registerFormUtils.getObject()
