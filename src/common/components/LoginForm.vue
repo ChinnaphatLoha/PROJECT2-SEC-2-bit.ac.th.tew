@@ -7,12 +7,24 @@ import Provider from '@/api/provider'
 import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import { useUserStore, useProjectStore } from '@/stores/store'
+import { onMounted } from 'vue'
+import { usePollingFetch } from '../utils/polling-fetch-data'
 
 // const userStore = useUserStore;
 
 const userFormUtils = getFormUtils()
 const userStore = useUserStore()
 const projectStore = useProjectStore()
+
+onMounted(() => {
+  console.log('Mounted Login')
+})
+
+const returnData = {
+  body: null
+}
+const fetchData = usePollingFetch('http://localhost:3001/users', null, returnData)
+console.log(fetchData)
 
 const authenticationUser = async () => {
   const user = userFormUtils.getObject()
@@ -50,3 +62,4 @@ const authenticationUser = async () => {
     </form>
   </div>
 </template>
+../utils/polling-fetch-data

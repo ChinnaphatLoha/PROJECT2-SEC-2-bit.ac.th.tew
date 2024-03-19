@@ -50,6 +50,7 @@ const useProjectStore = defineStore('projects', {
     },
     createNewProject(userId, project) {
       // call backend create project
+      
     },
     addContributeProject(users) {
       // adding user by username?
