@@ -27,10 +27,8 @@ const closeModal = () => {
 }
 
 const updateFeedbackRecords = (newContent) => {
-  console.log('This is new content: ', newContent);
   const { action } = feedbackManagement(feedbackRecords);
   action.addFeedback(type,newContent,'gay');
-  console.log(action.listFeedbacks());
 }
 
 
