@@ -1,22 +1,36 @@
-//provide for meeting fetch
-const intervalTime = 1000 // Interval time in milliseconds
+import Provider from '@/api/provider'
+import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints'
 
-function pollingData(limit, callback) {
+//provide for meeting fetch
+const intervalTime = 5000 // Interval time in milliseconds
+
+function pollingData(callback, stopSignal, endpoint, body) {
   let i = 0
-  let polling = setInterval(function () {
+  let polling = setInterval(async function () {
     console.log(i)
-    if (i === limit - 1) {
+    if (stopSignal) {
       // clear interval loop
+      console.log('last polling')
       clearInterval(polling)
-      callback('http://localhost:3001/users')
+      callback(endpoint, body)
     }
+    await callback(endpoint, body)
     i++
   }, intervalTime)
 }
 
-const fetchData = async (url) => {
-  const data = await fetch(url)
-  console.log(data)
+const fetchData = async (endpoint, data) => {
+  const res = await Provider.request(endpoint, { body: JSON.stringify(data) })
+  console.log(res)
+  console.log(res.ok)
+  const returnedData = await res.json()
+  console.log(returnedData)
 }
 
-pollingData(3, fetchData)
+const userdata = {
+  username: 'BomScoob',
+  password: 'bitadmin'
+}
+pollingData(fetchData, false, ACCOUNT_ENDPOINTS.login, userdata)
+
+export default pollingData
