@@ -1,30 +1,44 @@
 <script setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import Provider from '@/api/provider'
-import { getCookie } from '../utils/cookie-util';
+import { getCookie } from '../utils/cookie-util'
+
+import ErrorToast from './ErrorToast.vue'
+
+const router = useRouter()
 
 const form = reactive({
   onCreateProject: true,
   onJoinProject: false
 })
-
 const projectCreationForm = {
   projectName: '',
   retrospectiveType: '',
   passkey: '',
   description: ''
 }
-
 const projectJoinForm = {
   projectId: '',
   joinPasskey: ''
 }
+const errorToast = reactive({
+  show: false,
+  message: ''
+})
 
+const showErrorToast = (message) => {
+  errorToast.show = true
+  errorToast.message = message
+  setTimeout(() => {
+    errorToast.show = false
+    errorToast.message = ''
+  }, 3000)
+}
 const toggleForm = (formType) => {
   form.onCreateProject = formType === 'create'
   form.onJoinProject = formType === 'join'
 }
-
 const clearSpaces = (event) => {
   event.target.value = event.target.value.replace(/\s/g, '')
 }
@@ -46,6 +60,9 @@ const createProject = async () => {
   })
   const data = res.ok ? await res.json() : null
   console.log(data)
+  if (res.ok) {
+    router.push({ name: 'home', params: { id: data.pid } })
+  }
 }
 
 const joinProject = async () => {
@@ -61,13 +78,16 @@ const joinProject = async () => {
   })
   const data = res.ok ? await res.json() : null
   console.log(data ?? res.statusText)
+  if (res.ok) {
+    router.push({ name: 'home', params: { id: data.pid } })
+  } else if (res.status === 409) {
+    showErrorToast('You have already joined this project')
+  }
 }
 </script>
 
 <template>
   <div class="w-3/4 mt-16 mx-auto">
-    <!-- Form Section -->
-
     <!-- Toggle to change form -->
     <div class="flex gap-16">
       <h2
@@ -167,7 +187,7 @@ const joinProject = async () => {
         >
           Create Project
         </button>
-        <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
 
@@ -175,9 +195,7 @@ const joinProject = async () => {
     <form @submit.prevent="joinProject" v-else>
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-2">
-          <label for="project-id" class="block text-sm font-medium leading-6"
-            >Project ID</label
-          >
+          <label for="project-id" class="block text-sm font-medium leading-6">Project ID</label>
           <div class="mt-2">
             <input
               v-model.trim="projectJoinForm.projectId"
@@ -219,9 +237,10 @@ const joinProject = async () => {
         >
           Join Project
         </button>
-        <button type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
+    <ErrorToast v-if="errorToast.show" :message="errorToast.message" />
   </div>
 </template>
 
