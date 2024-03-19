@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useUserStore } from '@/stores/store'
 </script>
 
 <template>
@@ -8,6 +9,7 @@ import { RouterLink } from 'vue-router'
       <div class="flex items-center justify-between w-[18%] pl-10">
         <RouterLink to="" class="link text-2xl">Project</RouterLink>
         <RouterLink to="" class="link text-2xl">Retro</RouterLink>
+        <div @click="console.log(useUserStore().$state)">TEST STORE</div>
       </div>
       <div class="flex items-center justify-between w-[18%]">
         <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
