@@ -28,7 +28,7 @@ const closeModal = () => {
 
 const updateFeedbackRecords = (newContent) => {
   const { action } = feedbackManagement(feedbackRecords);
-  action.addFeedback(type,newContent,'gay');
+  action.addFeedback(type,newContent,'Tonnam');
 }
 
 
