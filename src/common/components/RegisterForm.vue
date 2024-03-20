@@ -1,67 +1,48 @@
 <script setup>
 import TextForm from './TextForm.vue'
+import PasswordForm from './PasswordForm.vue'
 import SubmitBtn from './SubmitBtn.vue'
 import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
-import Provider from '@/api/provider'
-import { ACCOUNT_ENDPOINTS } from '../constants/uri-endpoints'
-import { ref, onMounted } from 'vue'
-import uuid from '../utils/uuid'
+import { useUserStore } from '@/stores/store'
 
 const registerFormUtils = getFormUtils()
-const isAvailableUsername = ref(true)
-const newUser = {
-  username: '',
-  password: ''
-}
-
-onMounted(()=> {
-  console.log('Mounted Register')
-})
-
-const checkUniqueUsername = async () => {
-  const { username } = registerFormUtils.getObject()
-  newUser.username = username
-  const res = await Provider.request(ACCOUNT_ENDPOINTS.availability + `?username=${username}`)
-  const data = await res.json()
-  isAvailableUsername.value = data.available
-  if (isAvailableUsername.value) {
-    generatePassword()
-    registerNewUser()
-  } else {
-    alert('Duplicate username.')
-  }
-}
-
-const generatePassword = () => {
-  const generatedPassword = uuid()
-  newUser.password = generatedPassword
-}
+const userStore = useUserStore()
 
 const registerNewUser = async () => {
-  const res = await Provider.request(ACCOUNT_ENDPOINTS.register, {
-    body: JSON.stringify(newUser)
-  })
-  const data = res.ok ? res.json() : null
-  if (data === null) {
-    console.error('Data is null ' + data)
-  }
-  //? keep data to pinia store
-  console.log('store data to pinia state manager')
+  const { username, password } = registerFormUtils.getObject()
+  userStore.registerNewUser(username, password, testingError)
+}
+
+const testingError = (msg) => {
+  console.log(msg)
 }
 </script>
 
 <template>
-  <div>
-    <h1>Register</h1>
-    <form @submit.prevent="checkUniqueUsername">
+  <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Register</h1>
+    <form class="md-4" @submit.prevent="registerNewUser">
       <TextForm
+        class="mb-4"
         @update:textValue="registerFormUtils.setTextValue(USER_ATTRIBUTE.username, $event)"
         placeholderText="Enter your username"
+        label-id="username"
       >
         <template #text-header>Username</template>
       </TextForm>
+      <PasswordForm
+        class="mb-4"
+        @update:passValue="registerFormUtils.setTextValue(USER_ATTRIBUTE.password, $event)"
+        placeholderText="Enter your password"
+        label-id="password"
+      >
+        <template #text-header>Password</template>
+      </PasswordForm>
       <SubmitBtn buttonText="Sign-up / Register" />
     </form>
+    <div class="mt-4">
+      <p>Already have an account? <RouterLink to="login">Sign-in</RouterLink> here.</p>
+    </div>
   </div>
 </template>

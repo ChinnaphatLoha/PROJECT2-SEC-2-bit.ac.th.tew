@@ -32,7 +32,7 @@ const items = [
       </template>
     </ListHorizontal>
   </div>
-  <hr class="mb-10">
+  <hr class="mb-10" />
   <div class="p-4">
     <ListWrap :items="items">
       <template #title>
