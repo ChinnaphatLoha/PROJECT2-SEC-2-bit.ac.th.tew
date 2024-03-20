@@ -8,8 +8,9 @@ const handleOpenCollapse = () => {
 </script>
 
 <template>
-  <details class="collapse">
-    <summary class="collapse-title" @click="handleOpenCollapse">
+  <div class="collapse">
+    <input type="checkbox" @click="handleOpenCollapse" />
+    <div class="collapse-title">
       <div class="flex gap-12 items-start">
         <h1 class="heading-title tracking-wide">
           <slot name="title"></slot>
@@ -19,11 +20,11 @@ const handleOpenCollapse = () => {
           :class="openCollapse ? 'rotate-90' : 'rotate-270'"
         />
       </div>
-    </summary>
+    </div>
     <div class="collapse-content transition-all duration-500 ease-out">
       <slot name="listStyle"></slot>
     </div>
-  </details>
+  </div>
 </template>
 
 <style scoped></style>
