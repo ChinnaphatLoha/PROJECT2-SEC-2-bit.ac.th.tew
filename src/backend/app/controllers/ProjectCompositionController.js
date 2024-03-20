@@ -4,7 +4,7 @@ import FeedbackService from '../services/FeedbackService'
 import SchemaValidator from '../middlewares/validator/SchemaValidator.js'
 import { Project, Meeting, Feedback, Vote } from '../schema/schema.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
-import { extractEndpointToObject } from '../../utils/api-utils.js'
+import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
 import AuthValidator from '../middlewares/auth/AuthValidator'
 import AuthorityTypes from '../constants/authority-types'
 import { decryptToken } from '@/backend/utils/cookie-session-utils'
@@ -101,6 +101,7 @@ class ProjectCompositionEndpointsCaller {
     }
     const controller = new ProjectCompositionController()
     const { endpoint, query } = extractEndpointToObject(uri)
+    const q = extractQueryParams(query)
     const body = init?.body ? JSON.parse(init.body) : null
     const headers = init?.headers ? init.headers : null
     const method = init?.method ? init.method : 'GET'
@@ -110,9 +111,9 @@ class ProjectCompositionEndpointsCaller {
           case 'POST':
             return controller.createProject(headers, body)
           case 'PATCH':
-            return controller.updateProjectInfo(query, body)
+            return controller.updateProjectInfo(q, body)
           case 'DELETE':
-            return controller.deleteProject(query)
+            return controller.deleteProject(q)
           default:
             return new Response(null, { status: 404, statusText: 'Endpoint not found' })
         }
@@ -121,13 +122,13 @@ class ProjectCompositionEndpointsCaller {
       case `${this.endpoint}/meetings`:
         switch (method) {
           case 'GET':
-            return controller.getMeetingsByProjectId(query)
+            return controller.getMeetingsByProjectId(q)
           case 'POST':
             return controller.createMeeting(body)
           case 'PATCH':
-            return controller.updateMeetingInfo(query, body)
+            return controller.updateMeetingInfo(q, body)
           case 'DELETE':
-            return controller.deleteMeeting(query)
+            return controller.deleteMeeting(q)
           default:
             return new Response(null, { status: 404, statusText: 'Endpoint not found' })
         }
