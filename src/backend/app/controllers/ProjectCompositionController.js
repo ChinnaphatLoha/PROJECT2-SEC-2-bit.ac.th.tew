@@ -132,14 +132,14 @@ class ProjectCompositionEndpointsCaller {
           default:
             return new Response(null, { status: 404, statusText: 'Endpoint not found' })
         }
-      case `${this.endpoint}/feedbacks`:
+      case `${this.endpoint}/meetings/feedbacks`:
         switch (method) {
           case 'POST':
             return controller.createFeedback(body)
           default:
             return new Response(null, { status: 404, statusText: 'Endpoint not found' })
         }
-      case `${this.endpoint}/feedbacks/vote`:
+      case `${this.endpoint}/meetings/feedbacks/vote`:
         switch (method) {
           case 'POST':
             return controller.voteFeedback(body)
