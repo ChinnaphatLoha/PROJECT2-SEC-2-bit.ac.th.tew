@@ -23,8 +23,12 @@ const scrollStep = 100
       <slot v-for="(item, index) in items" :item="item" :index="index" :key="index"></slot>
     </div>
     <div>
-      <button class="btn" @click="scrollPosition -= scrollStep" :disabled="scrollPosition <= 0">Prev</button>
-      <button class="btn" @click="scrollPosition += scrollStep" :disabled="scrollPosition >= 1000">Next</button>
+      <button class="btn" @click="scrollPosition -= scrollStep" :disabled="scrollPosition <= 0">
+        Prev
+      </button>
+      <button class="btn" @click="scrollPosition += scrollStep" :disabled="scrollPosition >= 1000">
+        Next
+      </button>
     </div>
   </div>
 </template>

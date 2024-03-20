@@ -39,17 +39,17 @@ const router = createRouter({
           component: ProjectFormView
         },
         {
-        path: '/test',
-        name: 'test',
-        component: TestComponent
+          path: '/test',
+          name: 'test',
+          component: TestComponent
         }
       ]
-    },
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
+  if (to.matched.some((route) => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
     next({ name: 'login' })
   } else {
     next()
