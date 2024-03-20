@@ -1,4 +1,4 @@
 export const AUTHORITY_VALUE = {
-    OWNER: 'OWNER',
-    MEMBER: 'MEMBER'
-};
+  OWNER: 'OWNER',
+  MEMBER: 'MEMBER'
+}

@@ -50,12 +50,12 @@ const router = createRouter({
           component: MeetingView
         }
       ]
-    },
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
+  if (to.matched.some((route) => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
     next({ name: 'login' })
   } else {
     next()

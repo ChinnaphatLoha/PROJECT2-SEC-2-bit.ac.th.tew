@@ -1,13 +1,13 @@
 <script setup>
 defineProps({
-    color: {
-        type: String,
-        default: 'black'
-    },
-    size: {
-        type: String,
-        default: 'w-8'
-    }
+  color: {
+    type: String,
+    default: 'black'
+  },
+  size: {
+    type: String,
+    default: 'w-8'
+  }
 })
 </script>
 

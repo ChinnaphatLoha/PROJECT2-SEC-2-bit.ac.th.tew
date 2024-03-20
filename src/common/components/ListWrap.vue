@@ -3,11 +3,11 @@ defineProps({
   items: {
     type: Array,
     // eslint-disable-next-line vue/require-valid-default-prop
-    default: [{id: 'empty', title: 'empty list'}]
+    default: [{ id: 'empty', title: 'empty list' }]
   }
 })
 </script>
- 
+
 <template>
 <div class="w-full h-fit">
     <div
@@ -17,7 +17,5 @@ defineProps({
     </div>
   </div>
 </template>
- 
-<style scoped>
 
-</style>
+<style scoped></style>
