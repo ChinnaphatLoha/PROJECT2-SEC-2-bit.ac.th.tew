@@ -5,6 +5,7 @@ import { getCookie } from '@/common/utils/cookie-util'
 import router from '@/router'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
+import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
 
 const useUserStore = defineStore('user-store', {
   state: () => ({
@@ -16,10 +17,10 @@ const useUserStore = defineStore('user-store', {
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
         this.ownedProject = projects.filter(
-          (project) => project[PROJECT_ATTRIBUTE.users.authority] === 'OWNER'
+          (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.OWNER
         )
         this.membershipProject = projects.filter(
-          (project) => project[PROJECT_ATTRIBUTE.users.authority] === 'MEMBER'
+          (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.MEMBER
         )
       }
     },
@@ -31,6 +32,7 @@ const useUserStore = defineStore('user-store', {
       console.log('User Store initialized')
       this.setCurrentUser(user)
       this.initializeProjects(projects)
+      router.push({ name: 'home' })
     },
 
     async createNewProject(projectCreationForm) {
@@ -51,7 +53,6 @@ const useUserStore = defineStore('user-store', {
       const data = res.ok ? await res.json() : null
       console.log(data)
       if (res.ok) {
-        console.log('New project pushed on ownedProject' + data.pid)
         this.ownedProject.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       }
@@ -82,22 +83,24 @@ const useUserStore = defineStore('user-store', {
     removeOwnedProject(userId, projectId) {
       // remove Project
     },
+    fetchMeetings(pid) {
+      const res = Provider.request(PROJECT_ENDPOINTS.projectMeetingById(pid))
+      const data = res.ok ? res.json() : null
+      if (res.ok) {
+        return data
+      }
+      return null
+    }
   },
   getters: {
-    getUser() {
+    user() {
       return this.currentUser
     },
-    getUsername() {
+    username() {
       return this.currentUser.username
     },
-    getOwnedProject() {
-      return this.ownedProject
-    },
-    getMembershipProject() {
-      return this.membershipProject
-    },
-    getMeetings(pid) {
-      return;
+    meetings(pid) {
+      return this.fetchMeetings(pid)
     }
   }
 })
