@@ -21,7 +21,7 @@ class ProjectCompositionController {
   }
 
   async createProject({ Cookie }, project) {
-    const userId = await decryptToken(Cookie, 'bitadmin')
+    const userId = await decryptToken(Cookie, import.meta.env.DB_PASSWORD)
     project = {
       ...project,
       users: [{ userId, authority: AuthorityTypes.OWNER }]
@@ -38,7 +38,7 @@ class ProjectCompositionController {
   }
 
   async joinToProject({ Cookie }, { pid, passkey }) {
-    const userId = await decryptToken(Cookie, 'bitadmin')
+    const userId = await decryptToken(Cookie, import.meta.env.DB_PASSWORD)
     const dataOrResponse = await this._projectService.addNewMember({ id: pid, userId, passkey })
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
@@ -101,7 +101,7 @@ class ProjectCompositionEndpointsCaller {
     }
     const controller = new ProjectCompositionController()
     const { endpoint, query } = extractEndpointToObject(uri)
-    const q = extractQueryParams(query)
+    const q = query ? extractQueryParams(query) : null
     const body = init?.body ? JSON.parse(init.body) : null
     const headers = init?.headers ? init.headers : null
     const method = init?.method ? init.method : 'GET'
