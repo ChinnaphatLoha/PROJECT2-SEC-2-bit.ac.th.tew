@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
 import FormFeedBack from './FormFeedBack.vue';
 import PlusIcon from '../icons/PlusIcon.vue';
+import ErrorToast from '../ErrorToast.vue';
 import feedbackManagement from '@/common/utils/feedback-management';
 
 const props = defineProps({
@@ -21,14 +22,19 @@ const props = defineProps({
 }
 )
 
-const { feedbackRecords, type } = props
-const isOpen = ref(false);
+const { feedbackRecords, type, disabled } = props
+const isOpenModal = ref(false);
 
 const openModal = () => {
-  isOpen.value = true;
+  if (!disabled) {
+    isOpenModal.value = true;
+  }else{
+    showErrorToast('This Meeting is Time out!!!')
+  }
+  
 }
 const closeModal = () => {
-  isOpen.value = false;
+  isOpenModal.value = false;
 }
 
 const updateFeedbackRecords = (newContent) => {
@@ -36,12 +42,23 @@ const updateFeedbackRecords = (newContent) => {
   action.addFeedback(type,newContent,'Tonnam');
 }
 
+const errorToast = reactive({
+  show: false,
+  message: ''
+})
 
+const showErrorToast = (message) => {
+  errorToast.show = true
+  errorToast.message = message
+  setTimeout(() => {
+    errorToast.show = false
+    errorToast.message = ''
+  }, 3000)
+}
 </script>
 
 <template>
   <button class="flex flex-col justify-center items-center p-4 bg-white rounded-lg border-2 border-dashed w-full shadow-md"
-    :disabled="disabled"
     @click="openModal"
     >
     <PlusIcon />
@@ -49,7 +66,8 @@ const updateFeedbackRecords = (newContent) => {
       Add New Card
     </h2>
   </button>
-  <FormFeedBack v-show="isOpen" @addNewFeedback="updateFeedbackRecords" @closeModal="closeModal" />
+  <FormFeedBack v-show="isOpenModal" @addNewFeedback="updateFeedbackRecords" @closeModal="closeModal" />
+  <ErrorToast v-show="errorToast.show" :message="errorToast.message" />
 </template>
 
 
