@@ -21,13 +21,13 @@ const authenticationUser = async () => {
   const data = res.ok ? await res.json() : null
   if (data) {
     console.log(data)
-    const {id, username, projects} = data
-    userStore.initializeStore({id, username}, projects)
+    const { id, username, projects } = data
+    userStore.initializeStore({ id, username }, projects)
     router.push({ name: 'home', params: { id: data.pid } })
   } else {
     alert('Data is null!')
   }
-  console.log(userStore.$state)
+  console.log(userStore.user)
 }
 </script>
 

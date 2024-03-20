@@ -65,6 +65,32 @@
           "authority": "member"
         }
       ]
+    },
+    {
+      "id": "7162",
+      "name": "bompj",
+      "retrospective_type": "Good-Bad-Try",
+      "passkey": "12345678",
+      "description": "BomScoob 12345678",
+      "users": [
+        {
+          "userId": "65130500083",
+          "authority": "OWNER"
+        }
+      ]
+    },
+    {
+      "id": "e305",
+      "name": "FameNu2",
+      "retrospective_type": "Good-Bad-Try",
+      "passkey": "11111111",
+      "description": "asdasd",
+      "users": [
+        {
+          "userId": "65130500083",
+          "authority": "OWNER"
+        }
+      ]
     }
   ],
   "meetings": [
