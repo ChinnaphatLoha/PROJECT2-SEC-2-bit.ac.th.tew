@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCookie } from '@/backend/utils/cookie-session-utils'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import HomeView from '@/views/HomeView.vue'
@@ -26,6 +27,7 @@ const router = createRouter({
     },
     {
       path: '/',
+      meta: { requiresAuth: true },
       children: [
         {
           path: '',
@@ -50,6 +52,14 @@ const router = createRouter({
       component: RetroFeedBackView
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 export default router
