@@ -18,7 +18,7 @@ import { RouterLink } from 'vue-router'
   <slot></slot>
 </template>
 
-<style>
+<style scoped>
 .btn {
   padding: 0.75rem 1.5rem;
   background-color: transparent;
