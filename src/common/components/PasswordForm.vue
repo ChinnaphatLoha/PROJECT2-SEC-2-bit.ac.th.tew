@@ -1,5 +1,10 @@
 <script setup>
 defineProps({
+  labelId: {
+    type: String,
+    require: true,
+    default: 'Text Header'
+  },
   placeholderText: {
     type: String,
     require: false,
@@ -11,13 +16,18 @@ const emit = defineEmits(['update:passValue'])
 
 <template>
   <div>
-    <slot name="text-header">Text Header</slot>
+    <label :for="labelId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+      ><slot name="text-header">Text Header</slot></label
+    >
     <input
+      :id="labelId"
       required
       type="password"
       minlength="8"
+      pattern="^(?=.*[0-9])(?=.*[a-z]).{8,}$"
+      title="Password must contain at least one number and one lowercase letter, and at least 8 or more characters."
       :placeholder="placeholderText"
-      class="border border-black m-2"
+      class="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
       @input="emit('update:passValue', $event.target)"
     />
   </div>

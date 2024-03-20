@@ -3,8 +3,7 @@ import RegisterForm from '@/common/components/RegisterForm.vue'
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
     <RegisterForm />
-    <p>Already have an account? <RouterLink to="login">Sign-in</RouterLink> here.</p>
   </div>
 </template>

@@ -32,19 +32,32 @@ const authenticationUser = async () => {
 </script>
 
 <template>
-  <div>
-    <h1>Login</h1>
+  <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Login</h1>
     <form @submit.prevent="authenticationUser">
       <TextForm
+        class="mb-4"
         @update:textValue="userFormUtils.setTextValue(USER_ATTRIBUTE.username, $event)"
         placeholderText="Enter your username"
+        label-id="username"
       >
         <template #text-header>Username</template>
       </TextForm>
-      <PasswordForm @update:passValue="userFormUtils.setTextValue(USER_ATTRIBUTE.password, $event)">
+      <PasswordForm
+        class="mb-4"
+        @update:passValue="userFormUtils.setTextValue(USER_ATTRIBUTE.password, $event)"
+        placeholderText="Enter your password"
+        label-id="password"
+      >
         <template #text-header>Password</template>
       </PasswordForm>
       <SubmitBtn buttonText="Sign-in / Login" />
     </form>
+    <div class="mt-4">
+      <p>
+        not have account?
+        <RouterLink to="register" class="font-bold underline">Sign-up</RouterLink> here.
+      </p>
+    </div>
   </div>
 </template>
