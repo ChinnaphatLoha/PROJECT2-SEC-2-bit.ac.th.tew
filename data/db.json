@@ -31,7 +31,7 @@
       "id": "$TEST-PJ-01",
       "name": "PROJECT2-SEC-2-bit.ac.th.tew",
       "description": "How To Die In 5 Weeks",
-      "retrospective_type": "Start-Stop-Continue",
+      "retrospective_type": "Good-Bad-Try",
       "passkey": "Yml0dGV3",
       "users": [
         {
@@ -71,7 +71,7 @@
       "id": "$TEST-F-01-01",
       "userId": "65130500066",
       "text": "I'm so happy to be here",
-      "group": "GOOD",
+      "group": "Good",
       "meetingId": "$TEST-M-01-01"
     }
   ],
