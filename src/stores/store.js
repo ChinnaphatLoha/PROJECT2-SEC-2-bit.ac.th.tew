@@ -7,7 +7,6 @@ import { ACCOUNT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
-import randomUUID from '@/common/utils/uuid'
 
 const useUserStore = defineStore('user-store', {
   state: () => ({
@@ -47,7 +46,7 @@ const useUserStore = defineStore('user-store', {
       }
     },
 
-    async registerNewUser(username, callbackError) {
+    async registerNewUser(username, password, callbackError) {
       const newUser = {
         username: '',
         password: ''
@@ -57,7 +56,7 @@ const useUserStore = defineStore('user-store', {
         return
       } else {
         newUser.username = username
-        newUser.password = randomUUID()
+        newUser.password = password
         const res = await Provider.request(ACCOUNT_ENDPOINTS.register, {
           body: JSON.stringify(newUser)
         })

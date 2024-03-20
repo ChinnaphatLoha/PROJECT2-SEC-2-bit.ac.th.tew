@@ -3,8 +3,7 @@ import LoginForm from '../common/components/LoginForm.vue'
 </script>
 
 <template>
-  <div>
+  <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
     <LoginForm />
-    <p>not have account? <RouterLink to="register">Sign-up</RouterLink> here.</p>
   </div>
 </template>
