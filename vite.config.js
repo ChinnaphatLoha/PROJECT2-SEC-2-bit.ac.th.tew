@@ -5,20 +5,13 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  build: {
-    target: 'es2022'
-  },
-  esbuild: {
-    target: 'es2022'
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2022'
-    }
+  base: 'PROJECT2-SEC-2-bit.ac.th.tew'
 })
