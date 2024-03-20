@@ -1,4 +1,5 @@
 const ACCOUNT_ACCESS = '/api/account'
+const PROJECT_ACCESS = '/api/project-composition'
 
 const ACCOUNT_ENDPOINTS = {
   availability: `${ACCOUNT_ACCESS}/availability`,
@@ -8,10 +9,10 @@ const ACCOUNT_ENDPOINTS = {
 }
 
 const PROJECT_ENDPOINTS = {
-  project: '/api/project-composition/projects',
-  projectJoin: '/api/project-composition/projects/join',
+  project: `${PROJECT_ACCESS}/projects`,
+  projectJoin: `${PROJECT_ACCESS}/projects/join`,
   projectMeetingById(pid) {
-    return `/api/project-composition/meetings?pid=${pid}`
+    return `${PROJECT_ACCESS}/meetings?pid=${pid}`
   }
 }
 

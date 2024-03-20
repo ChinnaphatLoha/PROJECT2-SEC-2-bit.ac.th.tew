@@ -3,9 +3,11 @@ import { defineStore } from 'pinia'
 import Provider from '@/api/provider'
 import { getCookie } from '@/common/utils/cookie-util'
 import router from '@/router'
+import { ACCOUNT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
+import randomUUID from '@/common/utils/uuid'
 
 const useUserStore = defineStore('user-store', {
   state: () => ({
@@ -35,6 +37,41 @@ const useUserStore = defineStore('user-store', {
       router.push({ name: 'home' })
     },
 
+    async checkAvailableUsername(username) {
+      const res = await Provider.request(ACCOUNT_ENDPOINTS.availability + `?username=${username}`)
+      const data = res.ok ? await res.json() : null
+      if (data.available === true) {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    async registerNewUser(username, callbackError) {
+      const newUser = {
+        username: '',
+        password: ''
+      }
+      if ((await this.checkAvailableUsername(username)) === false) {
+        await callbackError('Username is already taken')
+        return
+      } else {
+        newUser.username = username
+        newUser.password = randomUUID()
+        const res = await Provider.request(ACCOUNT_ENDPOINTS.register, {
+          body: JSON.stringify(newUser)
+        })
+        const data = res.ok ? await res.json() : null
+        if (!res.ok) {
+          await callbackError('Failed to register new user')
+          return
+        }
+        console.log('registerNewUser is done')
+        console.log(data)
+        this.initializeStore({ id: data.id, username: data.username }, data.projects)
+      }
+    },
+
     async createNewProject(projectCreationForm) {
       console.log('Create project')
       const projectData = {
@@ -57,7 +94,7 @@ const useUserStore = defineStore('user-store', {
         router.push({ name: 'home', params: { id: data.pid } })
       }
     },
-    async joinProject(projectJoinForm, showErrorCallback) {
+    async joinProject(projectJoinForm, callbackError) {
       console.log('Join project')
       const res = await Provider.request(PROJECT_ENDPOINTS.projectJoin, {
         headers: {
@@ -75,9 +112,9 @@ const useUserStore = defineStore('user-store', {
         this.membershipProject.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       } else if (res.status === 409) {
-        showErrorCallback('You have already joined this project')
+        callbackError('You have already joined this project')
       } else {
-        showErrorCallback('Invalid passkey')
+        callbackError('Invalid passkey')
       }
     },
     removeOwnedProject(userId, projectId) {

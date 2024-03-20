@@ -19,7 +19,7 @@ const authenticationUser = async () => {
     body: JSON.stringify(user)
   })
   const data = res.ok ? await res.json() : null
-  if (data) {
+  if (res.ok && data) {
     console.log(data)
     const { id, username, projects } = data
     userStore.initializeStore({ id, username }, projects)
@@ -27,7 +27,7 @@ const authenticationUser = async () => {
   } else {
     alert('Data is null!')
   }
-  console.log(userStore.user)
+  console.log(userStore.username)
 }
 </script>
 
