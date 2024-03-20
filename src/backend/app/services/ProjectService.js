@@ -10,10 +10,10 @@ class ProjectService {
 
   async createProject(project) {
     const builtProject = await this._projectRepository.create(project)
-    return getProjectDTO(builtProject)
+    return getProjectDTO({ ...builtProject, authority: AuthorityTypes.OWNER })
   }
 
-  async updateProjectInfo({ id, name = null, description = null }) {
+  async updateProjectInfo(id, { name = null, description = null }) {
     if (!id) return new Response(null, { status: 400, statusText: 'Project ID is required' })
     if (!name && !description)
       return new Response(null, { status: 400, statusText: 'At least one field is required' })
@@ -22,7 +22,7 @@ class ProjectService {
       ...(description !== null && { description })
     }
     const updatedProject = await this._projectRepository.update({ id }, updateData)
-    return getProjectDTO(updatedProject)
+    return getProjectDTO({ ...updatedProject, authority: AuthorityTypes.OWNER })
   }
 
   async addNewMember({ id, userId, passkey }) {
@@ -46,7 +46,7 @@ class ProjectService {
 
   async deleteProject(id) {
     const deletedProject = await this._projectRepository.delete({ id })
-    return getProjectDTO(deletedProject)
+    return getProjectDTO({ ...deletedProject, authority: AuthorityTypes.OWNER})
   }
 }
 

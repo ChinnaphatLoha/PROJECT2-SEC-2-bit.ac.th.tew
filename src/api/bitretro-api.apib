@@ -74,10 +74,159 @@ const data = response.ok ? await response.json() : null
 
 #### [/api/project-composition](#apiproject-composition)
 
+`POST /projects` ➡ Create a new project using data in the request body.
+- headers: { Cookie: string } (cookie's name is `bit_tkn`)
+- body: { name: string, description?: string, retrospective_type: string, passkey: string }
+- response data: { id: string, name: string, description: string, retrospective_type: string, authority: string }
+```js
+const response = await Provider.request('/api/project-composition/projects', {
+  method: 'POST',
+  headers: {
+    'Cookie': getCookie(cookieName)
+  },
+  body: JSON.stringify({
+    name: 'Bit-Retro',
+    description: 'A project for Bit-Retro API',
+    retrospective_type: 'start-stop-continue,
+    passkey: '123456'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`PATCH /projects` ➡ Update the project using data in the request body.
+- parameters: project id of the project as `pid`
+- body: { name?: string, description?: string }
+- response data: { id: string, name: string, description: string, retrospective_type: string, authority: string }
+```js
+const response = await Provider.request('/api/project-composition/projects?pid=ab2e', {
+  method: 'PATCH',
+  body: JSON.stringify({
+    name: 'Bit-Retro',
+    description: 'A project for Bit-Retro API'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`DELETE /projects` ➡ Delete the project using project ID.
+- parameters: project id of the project as `pid`
+- response data: { id: string, name: string, description: string, retrospective_type: string, authority: string }
+```js
+const response = await Provider.request('/api/project-composition/projects?pid=ab2e', {
+  method: 'DELETE'
+})
+const data = response.ok ? await response.json() : null
+```
+
+`POST /projects/join` ➡ Join the project using project ID and passkey.
+- headers: { Cookie: string } (cookie's name is `bit_tkn`)
+- body: { pid: string, passkey: string }
+- response data: { id: string, name: string, description: string, retrospective_type: string, authority: string }
+```js
+const response = await Provider.request('/api/project-composition/projects/join', {
+  method: 'POST',
+  headers: {
+    'Cookie': getCookie(cookieName)
+  },
+  body: JSON.stringify({
+    pid: 'ab2e',
+    passkey: '123456'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
 `GET /meetings` ➡ Get all meetings of the specified project.
 - parameters: project id of the meetings as `pid`
 - response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
 ```js
 const response = await Provider.request('/api/project-composition/meetings?pid=ab2e')
+const data = response.ok ? await response.json() : null
+```
+
+`POST /meetings` ➡ Create a new meeting using data in the request body.
+- body: { projectId: string, start_date: string, end_date: string, description?: string }
+- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+```js
+const response = await Provider.request('/api/project-composition/meetings', {
+  method: 'POST',
+  body: JSON.stringify({
+    projectId: 'ab2e',
+    start_date: '2021-01-01T00:00:00',
+    end_date: '2021-01-01T01:00:00',
+    description: 'A meeting for Bit-Retro API'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`PATCH /meetings` ➡ Update the meeting using data in the request body.
+- parameters: meeting id of the meeting as `mid`
+- body: { start_date?: string, end_date?: string, description?: string }
+- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+```js
+const response = await Provider.request('/api/project-composition/meetings?mid=ab2e', {
+  method: 'PATCH',
+  body: JSON.stringify({
+    start_date: '2021-01-01T00:00:00',
+    end_date: '2021-01-01T01:00:00',
+    description: 'A meeting for Bit-Retro API'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`DELETE /meetings` ➡ Delete the meeting using meeting ID.
+- parameters: meeting id of the meeting as `mid`
+- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+```js
+const response = await Provider.request('/api/project-composition/meetings?mid=ab2e', {
+  method: 'DELETE'
+})
+const data = response.ok ? await response.json() : null
+```
+
+`POST /meetings/feedback` ➡ Create a new feedback using data in the request body.
+- body: { userId: stringb, meetingId: string, group: string, text: string }
+- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+```js
+const response = await Provider.request('/api/project-composition/meetings/feedback', {
+  method: 'POST',
+  body: JSON.stringify({
+    userId: 'ab2e',
+    meetingId: 'ab2e',
+    group: 'Start',
+    text: 'A feedback for Bit-Retro API'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`POST /meetings/feedbacks/vote` ➡ Vote for the feedback using data in the request body.
+- body: { userId: string, feedbackId: string }
+- response data: { id: string, userId: string, feedbackId: string }
+```js
+const response = await Provider.request('/api/project-composition/meetings/feedbacks/vote', {
+  method: 'POST',
+  body: JSON.stringify({
+    userId: 'ab2e',
+    feedbackId: 'ab2e'
+  })
+})
+const data = response.ok ? await response.json() : null
+```
+
+`DELETE /meetings/feedbacks/vote` ➡ Cancel the vote for the feedback using data in the request body.
+- body: { userId: string, feedbackId: string }
+- response data: { id: string, userId: string, feedbackId: string }
+```js
+const response = await Provider.request('/api/project-composition/meetings/feedbacks/vote', {
+  method: 'DELETE',
+  body: JSON.stringify({
+    userId: 'ab2e',
+    feedbackId: 'ab2e'
+  })
+})
 const data = response.ok ? await response.json() : null
 ```
