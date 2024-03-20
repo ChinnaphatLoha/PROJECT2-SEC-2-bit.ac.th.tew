@@ -1,7 +1,8 @@
 import ProjectService from '../services/ProjectService'
 import MeetingService from '../services/MeetingService'
+import FeedbackService from '../services/FeedbackService'
 import SchemaValidator from '../middlewares/validator/SchemaValidator.js'
-import { Project } from '../schema/schema.js'
+import { Project, Meeting, Feedback, Vote } from '../schema/schema.js'
 import Controller_Endpoints from '../constants/controller-endpoints.js'
 import { extractEndpointToObject, extractQueryParams } from '../../utils/api-utils.js'
 import AuthValidator from '../middlewares/auth/AuthValidator'
@@ -12,7 +13,11 @@ class ProjectCompositionController {
   constructor() {
     this._projectService = new ProjectService()
     this._meetingService = new MeetingService()
+    this._feedbackService = new FeedbackService()
     this._projectValidator = new SchemaValidator(Project)
+    this._meetingValidator = new SchemaValidator(Meeting)
+    this._feedbackValidator = new SchemaValidator(Feedback)
+    this._voteValidator = new SchemaValidator(Vote)
   }
 
   async createProject({ Cookie }, project) {
@@ -26,8 +31,8 @@ class ProjectCompositionController {
     return new Response(JSON.stringify(data), { status: 201 })
   }
 
-  async updateProjectInfo(projectInfo) {
-    const dataOrResponse = await this._projectService.updateProjectInfo(projectInfo)
+  async updateProjectInfo({ pid }, projectInfo) {
+    const dataOrResponse = await this._projectService.updateProjectInfo(pid, projectInfo)
     if (dataOrResponse instanceof Response) return dataOrResponse
     return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
@@ -40,14 +45,50 @@ class ProjectCompositionController {
   }
 
   async deleteProject({ pid }) {
-    return this._projectService.deleteProject({ id: pid, _dependent: 'meetings' })
+    return this._projectService.deleteProject(pid)
   }
 
-  async getMeetingsByProjectId(queryString) {
-    const { pid } = extractQueryParams(queryString)
+  async getMeetingsByProjectId({ pid }) {
     const data = await this._meetingService.getMeetingsByProjectId(pid)
     if (!data) return new Response(null, { status: 404, statusText: 'No meetings found' })
     return new Response(JSON.stringify(data), { status: 200 })
+  }
+
+  async createMeeting(meeting) {
+    const validatedMeeting = await this._meetingValidator.validate(meeting)
+    const dataOrResponse = await this._meetingService.createMeeting(validatedMeeting)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 201 })
+  }
+
+  async updateMeetingInfo({ mid }, meetingInfo) {
+    const dataOrResponse = await this._meetingService.updateMeetingInfo(mid, meetingInfo)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 200 })
+  }
+
+  async deleteMeeting({ mid }) {
+    return this._meetingService.deleteMeeting(mid)
+  }
+
+  async createFeedback(feedback) {
+    const validatedFeedback = await this._feedbackValidator.validate(feedback)
+    const data = await this._feedbackService.createFeedback(validatedFeedback)
+    return new Response(JSON.stringify(data), { status: 201 })
+  }
+
+  async voteFeedback(vote) {
+    const validatedVote = await this._voteValidator.validate(vote)
+    const dataOrResponse = await this._feedbackService.voteFeedback(validatedVote)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 201 })
+  }
+
+  async unvoteFeedback(vote) {
+    const validatedVote = await this._voteValidator.validate(vote)
+    const dataOrResponse = await this._feedbackService.unvoteFeedback(validatedVote)
+    if (dataOrResponse instanceof Response) return dataOrResponse
+    return new Response(JSON.stringify(dataOrResponse), { status: 200 })
   }
 }
 
@@ -60,6 +101,7 @@ class ProjectCompositionEndpointsCaller {
     }
     const controller = new ProjectCompositionController()
     const { endpoint, query } = extractEndpointToObject(uri)
+    const q = extractQueryParams(query)
     const body = init?.body ? JSON.parse(init.body) : null
     const headers = init?.headers ? init.headers : null
     const method = init?.method ? init.method : 'GET'
@@ -69,16 +111,43 @@ class ProjectCompositionEndpointsCaller {
           case 'POST':
             return controller.createProject(headers, body)
           case 'PATCH':
-            return controller.updateProjectInfo(body)
+            return controller.updateProjectInfo(q, body)
           case 'DELETE':
-            return controller.deleteProject(body)
+            return controller.deleteProject(q)
           default:
             return new Response(null, { status: 404, statusText: 'Endpoint not found' })
         }
       case `${this.endpoint}/projects/join`:
         return controller.joinToProject(headers, body)
       case `${this.endpoint}/meetings`:
-        return controller.getMeetingsByProjectId(query)
+        switch (method) {
+          case 'GET':
+            return controller.getMeetingsByProjectId(q)
+          case 'POST':
+            return controller.createMeeting(body)
+          case 'PATCH':
+            return controller.updateMeetingInfo(q, body)
+          case 'DELETE':
+            return controller.deleteMeeting(q)
+          default:
+            return new Response(null, { status: 404, statusText: 'Endpoint not found' })
+        }
+      case `${this.endpoint}/meetings/feedbacks`:
+        switch (method) {
+          case 'POST':
+            return controller.createFeedback(body)
+          default:
+            return new Response(null, { status: 404, statusText: 'Endpoint not found' })
+        }
+      case `${this.endpoint}/meetings/feedbacks/vote`:
+        switch (method) {
+          case 'POST':
+            return controller.voteFeedback(body)
+          case 'DELETE':
+            return controller.unvoteFeedback(body)
+          default:
+            return new Response(null, { status: 404, statusText: 'Endpoint not found' })
+        }
       default:
         return new Response(null, { status: 404, statusText: 'Endpoint not found' })
     }
