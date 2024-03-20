@@ -1,5 +1,9 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+const router = useRouter()
+function SignOut(){
+  router.push({name: "login"})
+}
 </script>
 
 <template>
@@ -26,7 +30,7 @@ import { RouterLink } from 'vue-router'
           </svg>
         </label>
         <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
-        <RouterLink to="" class="btn btn-sign-out">Sign-out</RouterLink>
+        <RouterLink to="" class="btn btn-sign-out" @click="SignOut">Sign-out</RouterLink>
       </div>
     </header>
   </div>
