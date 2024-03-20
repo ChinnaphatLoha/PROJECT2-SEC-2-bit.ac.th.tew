@@ -46,23 +46,23 @@
       "users": [
         {
           "userId": "65130500066",
-          "authority": "owner"
+          "authority": "OWNER"
         },
         {
           "userId": "65130500083",
-          "authority": "member"
+          "authority": "MEMBER"
         },
         {
           "userId": "65130500093",
-          "authority": "member"
+          "authority": "MEMBER"
         },
         {
           "userId": "65130500100",
-          "authority": "member"
+          "authority": "MEMBER"
         },
         {
           "userId": "65130500106",
-          "authority": "member"
+          "authority": "MEMBER"
         }
       ]
     }
