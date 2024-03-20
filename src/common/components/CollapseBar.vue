@@ -21,7 +21,7 @@ const handleOpenCollapse = () => {
         />
       </div>
     </div>
-    <div class="collapse-content transition-all duration-500 ease-out">
+    <div class="collapse-content">
       <slot name="listStyle"></slot>
     </div>
   </div>
