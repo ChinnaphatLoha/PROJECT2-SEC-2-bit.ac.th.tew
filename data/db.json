@@ -24,16 +24,6 @@
       "id": "65130500106",
       "username": "Tew2945",
       "password": "bitadmin"
-    },
-    {
-      "id": "21e8",
-      "username": "BomScoob1",
-      "password": "eaf5cee7"
-    },
-    {
-      "id": "c5e1",
-      "username": "BomScoob2",
-      "password": "e1de5a0b"
     }
   ],
   "projects": [
@@ -41,7 +31,7 @@
       "id": "$TEST-PJ-01",
       "name": "PROJECT2-SEC-2-bit.ac.th.tew",
       "description": "How To Die In 5 Weeks",
-      "retrospective_type": "Start-Stop-Continue",
+      "retrospective_type": "Good-Bad-Try",
       "passkey": "Yml0dGV3",
       "users": [
         {
@@ -91,7 +81,7 @@
       "id": "$TEST-F-01-01",
       "userId": "65130500066",
       "text": "I'm so happy to be here",
-      "group": "GOOD",
+      "group": "Good",
       "meetingId": "$TEST-M-01-01"
     }
   ],

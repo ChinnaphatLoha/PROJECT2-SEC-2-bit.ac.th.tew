@@ -1,12 +1,9 @@
 <script setup>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import Provider from '@/api/provider'
-import { getCookie } from '../utils/cookie-util'
+import { useUserStore } from '@/stores/store'
 
 import ErrorToast from './ErrorToast.vue'
-
-const router = useRouter()
+const userStore = useUserStore()
 
 const form = reactive({
   onCreateProject: true,
@@ -44,45 +41,13 @@ const clearSpaces = (event) => {
 }
 
 const createProject = async () => {
-  console.log('Create project')
-  const projectData = {
-    name: projectCreationForm.projectName,
-    retrospective_type: projectCreationForm.retrospectiveType,
-    passkey: projectCreationForm.passkey,
-    description: projectCreationForm.description
-  }
-  const res = await Provider.request('/api/project-composition/projects', {
-    method: 'POST',
-    headers: {
-      Cookie: getCookie('bit_tkn')
-    },
-    body: JSON.stringify(projectData)
-  })
-  const data = res.ok ? await res.json() : null
-  console.log(data)
-  if (res.ok) {
-    router.push({ name: 'home', params: { id: data.pid } })
-  }
+  userStore.createNewProject(projectCreationForm)
+  console.log(userStore.$state)
 }
 
 const joinProject = async () => {
-  console.log('Join project')
-  const res = await Provider.request('/api/project-composition/projects/join', {
-    headers: {
-      Cookie: getCookie('bit_tkn')
-    },
-    body: JSON.stringify({
-      pid: projectJoinForm.projectId,
-      passkey: projectJoinForm.joinPasskey
-    })
-  })
-  const data = res.ok ? await res.json() : null
-  console.log(data ?? res.statusText)
-  if (res.ok) {
-    router.push({ name: 'home', params: { id: data.pid } })
-  } else if (res.status === 409) {
-    showErrorToast('You have already joined this project')
-  }
+  userStore.joinProject(projectJoinForm, showErrorToast)
+  console.log(userStore.$state)
 }
 </script>
 

@@ -1,4 +1,5 @@
 const ACCOUNT_ACCESS = '/api/account'
+const PROJECT_ACCESS = '/api/project-composition'
 
 const ACCOUNT_ENDPOINTS = {
   availability: `${ACCOUNT_ACCESS}/availability`,
@@ -7,4 +8,12 @@ const ACCOUNT_ENDPOINTS = {
   session: `${ACCOUNT_ACCESS}/session`
 }
 
-export { ACCOUNT_ENDPOINTS }
+const PROJECT_ENDPOINTS = {
+  project: `${PROJECT_ACCESS}/projects`,
+  projectJoin: `${PROJECT_ACCESS}/projects/join`,
+  projectMeetingById(pid) {
+    return `${PROJECT_ACCESS}/meetings?pid=${pid}`
+  }
+}
+
+export { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS }

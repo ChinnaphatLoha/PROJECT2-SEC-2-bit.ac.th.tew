@@ -2,7 +2,7 @@
 const intervalTime = 5000 // Interval time in milliseconds
 
 /**
- * 
+ *
  * @param {Function} callback - callback function, fetch data function, that recieve (endpoint, body) param.
  * @param {Boolean} stopSignal - stop polling signal, default is False.
  * @param {string} endpoint - endpoint for fetch data.

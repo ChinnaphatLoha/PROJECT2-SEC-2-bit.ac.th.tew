@@ -1,6 +1,6 @@
 <script setup>
-import ListWrap from '@/common/components/ListWrap.vue';
-import CardRetro from '@/common/components/CardRetro.vue';
+import ListWrap from '@/common/components/ListWrap.vue'
+import CardRetro from '@/common/components/CardRetro.vue'
 </script>
 
 <template>

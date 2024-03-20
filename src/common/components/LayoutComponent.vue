@@ -12,6 +12,7 @@ function SignOut(){
       <div class="flex items-center justify-between w-[18%] pl-10">
         <RouterLink to="" class="link text-2xl">Project</RouterLink>
         <RouterLink to="" class="link text-2xl">Retro</RouterLink>
+        <div @click="console.log(useUserStore().$state)">TEST STORE</div>
       </div>
       <div class="flex items-center justify-between w-[40%]">
         <label class="input input-bordered flex items-center gap-2">
