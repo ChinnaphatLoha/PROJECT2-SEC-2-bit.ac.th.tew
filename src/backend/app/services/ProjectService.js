@@ -13,7 +13,7 @@ class ProjectService {
     return getProjectDTO(builtProject)
   }
 
-  async updateProjectInfo({ id, name = null, description = null }) {
+  async updateProjectInfo(id, { name = null, description = null }) {
     if (!id) return new Response(null, { status: 400, statusText: 'Project ID is required' })
     if (!name && !description)
       return new Response(null, { status: 400, statusText: 'At least one field is required' })
