@@ -7,12 +7,17 @@ import TITLE_TYPE from '@/common/constants/style-config';
 const props = defineProps({
   feedbackRecords: {
     type: Object,
-    default: () => {}
+    default: () => { }
+  },
+  end_date: {
+    type: String,
+    required: true
   }
 });
 
-const { feedbackRecords } = props; 
+const { feedbackRecords, end_date } = props;
 const feedbackRecordsArr = reactive(Object.entries(feedbackRecords));
+const currentDate = new Date().toISOString();
 const setStyleTitle = (title) => {
   const style = TITLE_TYPE[title];
   return style
@@ -21,20 +26,27 @@ const setStyleTitle = (title) => {
 const reversedFeedbacks = (feedbacks) => {
   return feedbacks.slice().reverse();
 }
+
+const isDisabled = currentDate > end_date;
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4" v-for="[title, feedbacks] in feedbackRecordsArr" :key="title">
-    <h2 class="text-xl font-bold mb-4" :class="setStyleTitle(title)">{{ title }}</h2>
-    <AddFeedBackBtn :feedbackRecords="feedbackRecords" :type="title" />
-    <FeedBackCard v-for="{ content, username, index } in reversedFeedbacks(feedbacks)" :key="index">
-      <template #content>
-        {{ content }}
-      </template>
-      <template #user>
-        {{ username }}
-      </template>
-    </FeedbackCard>
+  <div class="bg-white rounded-lg overflow-hidden shadow-lg min-w-52 max-w-96" v-for="[title, feedbacks] in feedbackRecordsArr"
+    :key="title">
+    <h2 class="text-xl font-bold px-4 py-2" :class="setStyleTitle(title)">{{ title }}</h2>
+    <div class="px-4 py-2">
+      <AddFeedBackBtn :disabled="isDisabled" :feedbackRecords="feedbackRecords" :type="title" />
+    </div>
+    <div class="flex flex-col gap-3 p-4">
+      <FeedBackCard v-for="{ content, username, index } in reversedFeedbacks(feedbacks)" :key="index">
+        <template #content>
+          {{ content }}
+        </template>
+        <template #user>
+          {{ username }}
+        </template>
+      </FeedbackCard>
+    </div>
   </div>
 </template>
 

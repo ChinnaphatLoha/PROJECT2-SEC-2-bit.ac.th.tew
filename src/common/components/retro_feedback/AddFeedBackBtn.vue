@@ -12,6 +12,11 @@ const props = defineProps({
   type: {
     type: String,
     required: true
+  },
+  disabled: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }
 )
@@ -35,13 +40,15 @@ const updateFeedbackRecords = (newContent) => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center p-4 bg-white rounded-lg border-2 border-dashed shadow-md"
-    @click="openModal">
+  <button class="flex flex-col justify-center items-center p-4 bg-white rounded-lg border-2 border-dashed w-full shadow-md"
+    :disabled="disabled"
+    @click="openModal"
+    >
+    <PlusIcon />
     <h2 class="text-lg font-semibold mb-4">
-      <PlusIcon />
       Add New Card
     </h2>
-  </div>
+  </button>
   <FormFeedBack v-show="isOpen" @addNewFeedback="updateFeedbackRecords" @closeModal="closeModal" />
 </template>
 
