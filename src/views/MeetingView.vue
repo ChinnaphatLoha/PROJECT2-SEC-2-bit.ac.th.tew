@@ -15,7 +15,7 @@ const items = [
   { id: '7', title: 'My Project', owner: 'John Doe' },
   { id: '8', title: 'My Project', owner: 'Jane Doe' }
 ]
-const response = await Provider.request('/api/project-composition/meetings')
+const response = await Provider.request('/api/project-composition/meetings?pid=c03a')
 const data = response.ok ? await response.json() : null
 console.log(data)
 </script>
