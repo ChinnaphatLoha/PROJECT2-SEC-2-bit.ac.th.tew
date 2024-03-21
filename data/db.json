@@ -60,9 +60,10 @@
   "meetings": [
     {
       "id": "5e3a",
-      "start_date": "2024-02-05T18:30:00",
-      "end_date": "2024-02-05T19:00:00",
-      "description": "Dive into the code (Hell o World)",
+      "topic": "Sprint 1 Review: Backend initial setup",
+      "start_date": "2024-03-22T05:38",
+      "end_date": "2024-03-22T05:53",
+      "description": "Discuss about how to use the backend",
       "projectId": "c03a"
     }
   ],
