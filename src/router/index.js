@@ -4,8 +4,9 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProjectFormView from '@/views/ProjectFormView.vue'
+import MeetingFormView from '@/views/MeetingFormView.vue'
 import TestComponent from '@/views/TestComponents.vue'
-import MeetingView from '@/views/MeetingView.vue'
+import ProjectView from '@/views/ProjectView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,14 +41,19 @@ const router = createRouter({
           component: ProjectFormView
         },
         {
+          path: 'meeting/form',
+          name: 'meeting-create',
+          component: MeetingFormView
+        },
+        {
           path: 'test',
           name: 'test',
           component: TestComponent
         },
         {
-          path: 'meeting',
-          name: 'meeting',
-          component: MeetingView
+          path: 'project/:id',
+          name: 'project-view',
+          component: ProjectView
         }
       ]
     }
