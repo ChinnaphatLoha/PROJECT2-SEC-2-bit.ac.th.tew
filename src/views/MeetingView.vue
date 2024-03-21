@@ -4,20 +4,25 @@ import CollapseBar from '@/common/components/CollapseBar.vue'
 import ListWrap from '@/common/components/ListWrap.vue'
 import CardRetro from '@/common/components/CardRetro.vue'
 import PlusIcon from '@/common/components/icons/PlusIcon.vue'
-import Provider from '@/api/provider'
+// import Provider from '@/api/provider'
+// import { computed, ref } from 'vue'
 const items = [
-  { id: '1', title: 'My Project', owner: 'John Doe' },
-  { id: '2', title: 'My Project', owner: 'Jane Doe' },
-  { id: '3', title: 'My Project', owner: 'John Smith' },
-  { id: '4', title: 'My Project', owner: 'Jane Smith' },
-  { id: '5', title: 'My Project', owner: 'John Waree' },
-  { id: '6', title: 'My Project', owner: 'Jane Waree' },
-  { id: '7', title: 'My Project', owner: 'John Doe' },
-  { id: '8', title: 'My Project', owner: 'Jane Doe' }
+  { id: '1', description: 'Hello world'},
+  { id: '2', description: 'Hello world'},
+  { id: '3', description: 'Hello world'},
+  { id: '4', description: 'Hello world'},
+  { id: '5', description: 'Hello world'},
+  { id: '6', description: 'Hello world'},
+  { id: '7', description: 'Hello world'},
+  { id: '8', description: 'Hello world'}
 ]
-const response = await Provider.request('/api/project-composition/meetings')
-const data = response.ok ? await response.json() : null
-console.log(data)
+// const response = await Provider.request('/api/project-composition/meetings?pid=$TEST-PJ-01')
+// const data = (response.ok ? await response.json() : null)
+// const displayProj = computed(() => {
+//   return data.value
+// })
+// console.log(displayProj())
+// console.log(data)
 </script>
 
 <template>
@@ -36,10 +41,10 @@ console.log(data)
           <template #default="props">
             <CardRetro :key="props.index" :id-card="props.item.id">
               <template #title>
-                {{ props.item.title }}
+                {{ props.item.description }}
               </template>
               <template #owner-name>
-                {{ props.item.owner }}
+                {{ props.item.id }}
               </template>
             </CardRetro>
           </template>
