@@ -4,7 +4,7 @@ import CollapseBar from '@/common/components/CollapseBar.vue'
 import ListWrap from '@/common/components/ListWrap.vue'
 import CardRetro from '@/common/components/CardRetro.vue'
 import PlusIcon from '@/common/components/icons/PlusIcon.vue'
-// import Provider from '@/api/provider'
+import Provider from '@/api/provider'
 // import { computed, ref } from 'vue'
 const items = [
   { id: '1', description: 'Hello world'},
@@ -16,13 +16,9 @@ const items = [
   { id: '7', description: 'Hello world'},
   { id: '8', description: 'Hello world'}
 ]
-// const response = await Provider.request('/api/project-composition/meetings?pid=$TEST-PJ-01')
-// const data = (response.ok ? await response.json() : null)
-// const displayProj = computed(() => {
-//   return data.value
-// })
-// console.log(displayProj())
-// console.log(data)
+const response = await Provider.request('/api/project-composition/meetings?pid=c03a')
+const data = response.ok ? await response.json() : null
+console.log(data)
 </script>
 
 <template>

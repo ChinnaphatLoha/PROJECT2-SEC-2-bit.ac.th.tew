@@ -59,27 +59,27 @@
   ],
   "meetings": [
     {
-      "id": "$TEST-M-01-01",
+      "id": "5e3a",
       "start_date": "2024-02-05T18:30:00",
       "end_date": "2024-02-05T19:00:00",
       "description": "Dive into the code (Hell o World)",
-      "projectId": "$TEST-PJ-01"
+      "projectId": "c03a"
     }
   ],
   "feedbacks": [
     {
-      "id": "$TEST-F-01-01",
+      "id": "tz21",
       "userId": "65130500066",
       "text": "I'm so happy to be here",
       "group": "Good",
-      "meetingId": "$TEST-M-01-01"
+      "meetingId": "5e3a"
     }
   ],
   "votes": [
     {
-      "id": "$TEST-V-01-01",
-      "feedbackId": "$TEST-F-01-01",
-      "userId": "65130500066"
+      "id": "v11q",
+      "feedbackId": "tz21",
+      "userId": "e891"
     }
   ]
 }
