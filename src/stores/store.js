@@ -119,13 +119,20 @@ const useUserStore = defineStore('user-store', {
     removeOwnedProject(userId, projectId) {
       // remove Project
     },
-    fetchMeetings(pid) {
-      const res = Provider.request(PROJECT_ENDPOINTS.projectMeetingById(pid))
-      const data = res.ok ? res.json() : null
-      if (res.ok) {
-        return data
+    async createNewMeeting(meetingCreationForm) {
+      const meetingData = {
+        projectId: meetingCreationForm.projectId,
+        topic: meetingCreationForm.topic,
+        start_date: meetingCreationForm.startDate,
+        end_date: meetingCreationForm.endDate,
+        description: meetingCreationForm.description
       }
-      return null
+      const res = await Provider.request(PROJECT_ENDPOINTS.meetings, {
+        method: 'POST',
+        body: JSON.stringify(meetingData)
+      })
+      const data = res.ok ? await res.json() : null
+      console.log(data)
     }
   },
   getters: {
@@ -135,8 +142,16 @@ const useUserStore = defineStore('user-store', {
     username() {
       return this.currentUser.username
     },
-    meetings(pid) {
-      return this.fetchMeetings(pid)
+    ownedProject(pid) {
+      return this.ownedProject.find((project) => project.pid === pid)
+    },
+    membershipProject(pid) {
+      return this.membershipProject.find((project) => project.pid === pid)
+    },
+    meeting(pid) {
+      const res = Provider.request(PROJECT_ENDPOINTS.meeting(pid))
+      const data = res.ok ? res.json() : null
+      return res.ok ? data : null
     }
   }
 })
