@@ -15,6 +15,24 @@ const useUserStore = defineStore('user-store', {
     membershipProject: []
   }),
   actions: {
+    saveDataToLocal() {
+      localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
+      localStorage.setItem('ownedProject', JSON.stringify(this.ownedProject))
+      localStorage.setItem('membershipProject', JSON.stringify(this.membershipProject))
+    },
+
+    async fetchDataFromLocal() {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+      this.ownedProject = JSON.parse(localStorage.getItem('ownedProject'))
+      this.membershipProject = JSON.parse(localStorage.getItem('membershipProject'))
+    },
+
+    clearDataFromLocal() {
+      localStorage.removeItem('currentUser')
+      localStorage.removeItem('ownedProject')
+      localStorage.removeItem('membershipProject')
+    },
+
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
         this.ownedProject = projects.filter(
@@ -33,6 +51,7 @@ const useUserStore = defineStore('user-store', {
       console.log('User Store initialized')
       this.setCurrentUser(user)
       this.initializeProjects(projects)
+      this.saveDataToLocal()
       router.push({ name: 'home' })
     },
 
@@ -71,6 +90,16 @@ const useUserStore = defineStore('user-store', {
       }
     },
 
+    async logout() {
+      const res = await Provider.request(ACCOUNT_ENDPOINTS.logout)
+      if (!res.ok) {
+        console.log('Failed to logout')
+        return
+      }
+      this.clearDataFromLocal()
+      router.push({ name: 'login' })
+    },
+
     async createNewProject(projectCreationForm) {
       console.log('Create project')
       const projectData = {
@@ -87,12 +116,14 @@ const useUserStore = defineStore('user-store', {
         body: JSON.stringify(projectData)
       })
       const data = res.ok ? await res.json() : null
-      console.log(data)
       if (res.ok) {
         this.ownedProject.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       }
+      console.log('save project to local')
+      this.saveDataToLocal()
     },
+
     async joinProject(projectJoinForm, callbackError) {
       console.log('Join project')
       const res = await Provider.request(PROJECT_ENDPOINTS.projectJoin, {
@@ -115,6 +146,8 @@ const useUserStore = defineStore('user-store', {
       } else {
         callbackError('Invalid passkey')
       }
+      console.log('save join project to local')
+      this.saveDataToLocal()
     },
     removeOwnedProject(userId, projectId) {
       // remove Project
