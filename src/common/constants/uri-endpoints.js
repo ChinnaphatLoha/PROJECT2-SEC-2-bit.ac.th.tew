@@ -6,7 +6,6 @@ const ACCOUNT_ENDPOINTS = {
   availability: `${ACCOUNT_ACCESS}/availability`,
   register: `${ACCOUNT_ACCESS}/register`,
   login: `${ACCOUNT_ACCESS}/login`,
-  session: `${ACCOUNT_ACCESS}/session`,
   logout: `${ACCOUNT_ACCESS}/logout`
 }
 
