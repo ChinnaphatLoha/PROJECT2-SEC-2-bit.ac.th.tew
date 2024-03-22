@@ -9,7 +9,7 @@ class MeetingService {
   }
 
   _validateSchedule(start_date, end_date) {
-    return new Date(start_date) < new Date(end_date) && new Date(start_date) >= new Date()
+    return new Date(start_date).getTime() < new Date(end_date).getTime()
   }
 
   async _getRelevantFeedbacks(meetingId) {
