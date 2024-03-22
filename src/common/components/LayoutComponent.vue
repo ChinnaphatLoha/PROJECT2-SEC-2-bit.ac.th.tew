@@ -1,8 +1,12 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/store'
+import BarSolid from './icons/BarSolid.vue'
+
 const router = useRouter()
-function SignOut(){
-  router.push({name: "login"})
+const userStore = useUserStore()
+function SignOut() {
+  userStore.logout()
 }
 </script>
 
@@ -10,11 +14,12 @@ function SignOut(){
   <div class="w-full font-semibold bg-gray-800">
     <header class="text-white text-lg py-4 px-6 flex justify-between">
       <div class="flex items-center justify-between w-[18%] pl-10">
-        <RouterLink to="" class="link text-2xl">Project</RouterLink>
-        <RouterLink to="" class="link text-2xl">Retro</RouterLink>
-        <div @click="console.log(useUserStore().$state)">TEST STORE</div>
+        <RouterLink :to="{name: 'home'}">
+          <BarSolid />
+        </RouterLink>
+        <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
       </div>
-      <div class="flex items-center justify-between w-[40%]">
+      <div class="flex items-center justify-between w-[30%]">
         <label class="input input-bordered flex items-center gap-2">
           <input type="text" class="grow" placeholder="Search" />
           <svg
@@ -30,8 +35,7 @@ function SignOut(){
             />
           </svg>
         </label>
-        <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
-        <RouterLink to="" class="btn btn-sign-out" @click="SignOut">Sign-out</RouterLink>
+        <p class="btn btn-sign-out" @click="SignOut">Sign-out</p>
       </div>
     </header>
   </div>
