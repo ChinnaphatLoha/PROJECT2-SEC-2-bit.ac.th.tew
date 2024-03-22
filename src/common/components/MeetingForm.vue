@@ -1,14 +1,17 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
-// import { useUserStore } from '@/stores/store'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/store'
 import { getShortISOStringInUserTimezone } from '@/common/utils/moment'
-
 import ErrorToast from './ErrorToast.vue'
-// const userStore = useUserStore()
+
+const userStore = useUserStore()
+const projectId = useRoute().params.id
 
 const now = ref(getShortISOStringInUserTimezone(new Date()))
 
 const meetingCreationForm = reactive({
+  projectId,
   topic: '',
   startDate: now.value,
   endDate: getShortISOStringInUserTimezone(
@@ -70,15 +73,17 @@ const errorToast = reactive({
 // }
 
 const createMeeting = async () => {
-  // userStore.createNewMeeting(meetingCreationForm)
-  // console.log(userStore.$state)
+  userStore.createNewMeeting(meetingCreationForm)
+  console.log(userStore.$state)
   console.log(meetingCreationForm)
 }
 </script>
 
 <template>
   <div class="w-3/4 mt-16 mx-auto">
-    <h2 class="text-base font-semibold leading-7 cursor-pointer">Create Meeting</h2>
+    <h2 class="text-base font-semibold leading-7 cursor-pointer">
+      Create Meeting [{{ userStore.ownedProject(projectId) }}]
+    </h2>
 
     <!-- Create Meeting -->
     <form @submit.prevent="createMeeting">
