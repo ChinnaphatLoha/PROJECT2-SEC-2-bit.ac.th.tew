@@ -6,16 +6,8 @@ import BarSolid from './icons/BarSolid.vue'
 const router = useRouter()
 const userStore = useUserStore()
 function SignOut() {
-  userStore.
-  router.push()
+  userStore.logout()
 }
-
-// const userStore = useUserStore()
-// console.log(userStore.currentUser)
-
-
-
-
 </script>
 
 <template>
