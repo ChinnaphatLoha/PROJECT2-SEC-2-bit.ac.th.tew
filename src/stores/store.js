@@ -2,7 +2,6 @@
 import { defineStore } from 'pinia'
 import Provider from '@/api/provider'
 import { getCookie } from '@/common/utils/cookie-util'
-import router from '@/router'
 import { ACCOUNT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
@@ -52,7 +51,6 @@ const useUserStore = defineStore('user-store', {
       this.setCurrentUser(user)
       this.initializeProjects(projects)
       this.saveDataToLocal()
-      router.push({ name: 'home' })
     },
 
     async checkAvailableUsername(username) {
@@ -97,7 +95,6 @@ const useUserStore = defineStore('user-store', {
         return
       }
       this.clearDataFromLocal()
-      router.push({ name: 'login' })
     },
 
     async createNewProject(projectCreationForm) {
@@ -118,7 +115,7 @@ const useUserStore = defineStore('user-store', {
       const data = res.ok ? await res.json() : null
       if (res.ok) {
         this.ownedProject.push(data)
-        router.push({ name: 'home', params: { id: data.pid } })
+        // router.push({ name: 'home', params: { id: data.pid } })
       }
       console.log('save project to local')
       this.saveDataToLocal()
@@ -140,7 +137,7 @@ const useUserStore = defineStore('user-store', {
       if (res.ok) {
         console.log('Pushing new project')
         this.membershipProject.push(data)
-        router.push({ name: 'home', params: { id: data.pid } })
+        // router.push({ name: 'home', params: { id: data.pid } })
       } else if (res.status === 409) {
         callbackError('You have already joined this project')
       } else {
