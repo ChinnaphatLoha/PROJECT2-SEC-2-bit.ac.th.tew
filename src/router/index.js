@@ -7,6 +7,7 @@ import ProjectFormView from '@/views/ProjectFormView.vue'
 import MeetingFormView from '@/views/MeetingFormView.vue'
 import TestComponent from '@/views/TestComponents.vue'
 import ProjectView from '@/views/ProjectView.vue'
+import { useUserStore } from '@/stores/store'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,13 +62,24 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((route) => route.meta.requiresAuth) && !getCookie('bit_tkn')) {
-    next({ name: 'login' })
-  } else if ((to.name === 'login' || to.name === 'register') && getCookie('bit_tkn')) {
-    next({ name: 'home' })
+  const isAuthenticated = getCookie('bit_tkn');
+  const isLoginPage = to.name === 'login' || to.name === 'register';
+  const requiresAuth = to.matched.some(route => route.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
+    next({ name: 'login' });
+  } else if (isLoginPage && isAuthenticated) {
+    useUserStore().fetchDataFromLocal();
+    next({ name: 'home' });
+  } else if (!useUserStore().currentUser && isAuthenticated) {
+    console.log('Route to', to, 'currentUser is null, fetching data from local');
+    useUserStore().fetchDataFromLocal();
+    console.log(useUserStore().$state);
+    next();
   } else {
-    next()
+    next();
   }
-})
+});
+
 
 export default router
