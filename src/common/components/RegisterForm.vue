@@ -5,10 +5,11 @@ import SubmitBtn from './SubmitBtn.vue'
 import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import { useUserStore } from '@/stores/store'
-import { router } from 'json-server'
+import { useRouter } from 'vue-router'
 
 const registerFormUtils = getFormUtils()
 const userStore = useUserStore()
+const router = useRouter()
 
 const registerNewUser = async () => {
   const { username, password } = registerFormUtils.getObject()

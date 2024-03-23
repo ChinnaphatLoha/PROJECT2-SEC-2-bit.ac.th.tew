@@ -10,34 +10,36 @@ import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
 const useUserStore = defineStore('user-store', {
   state: () => ({
     currentUser: null,
-    ownedProject: [],
-    membershipProject: []
+    ownedProjects: [],
+    membershipProjects: [],
+    currentProjectId: null,
+    currentMeetingId: null
   }),
   actions: {
     saveDataToLocal() {
       localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
-      localStorage.setItem('ownedProject', JSON.stringify(this.ownedProject))
-      localStorage.setItem('membershipProject', JSON.stringify(this.membershipProject))
+      localStorage.setItem('ownedProjects', JSON.stringify(this.ownedProjects))
+      localStorage.setItem('membershipProjects', JSON.stringify(this.membershipProjects))
     },
 
-    async fetchDataFromLocal() {
+    fetchDataFromLocal() {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
-      this.ownedProject = JSON.parse(localStorage.getItem('ownedProject'))
-      this.membershipProject = JSON.parse(localStorage.getItem('membershipProject'))
+      this.ownedProjects = JSON.parse(localStorage.getItem('ownedProjects'))
+      this.membershipProjects = JSON.parse(localStorage.getItem('membershipProjects'))
     },
 
     clearDataFromLocal() {
       localStorage.removeItem('currentUser')
-      localStorage.removeItem('ownedProject')
-      localStorage.removeItem('membershipProject')
+      localStorage.removeItem('ownedProjects')
+      localStorage.removeItem('membershipProjects')
     },
 
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
-        this.ownedProject = projects.filter(
+        this.ownedProjects = projects.filter(
           (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.OWNER
         )
-        this.membershipProject = projects.filter(
+        this.membershipProjects = projects.filter(
           (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.MEMBER
         )
       }
@@ -97,6 +99,13 @@ const useUserStore = defineStore('user-store', {
       this.clearDataFromLocal()
     },
 
+    onProject(pid) {
+      this.currentProjectId = pid
+    },
+    onMeeting(mid) {
+      this.currentMeetingId = mid
+    },
+
     async createNewProject(projectCreationForm) {
       console.log('Create project')
       const projectData = {
@@ -149,13 +158,27 @@ const useUserStore = defineStore('user-store', {
     removeOwnedProject(userId, projectId) {
       // remove Project
     },
-    fetchMeetings(pid) {
-      const res = Provider.request(PROJECT_ENDPOINTS.projectMeetingById(pid))
-      const data = res.ok ? res.json() : null
-      if (res.ok) {
-        return data
+    async createNewMeeting(meetingCreationForm, callbackError) {
+      const meetingData = {
+        projectId: meetingCreationForm.projectId,
+        topic: meetingCreationForm.topic,
+        start_date: meetingCreationForm.startDate,
+        end_date: meetingCreationForm.endDate,
+        description: meetingCreationForm.description
       }
-      return null
+      const res = await Provider.request(PROJECT_ENDPOINTS.meetings, {
+        method: 'POST',
+        body: JSON.stringify(meetingData)
+      })
+      const data = res.ok ? await res.json() : null
+      if (data) {
+        this.ownedProjects
+          .find((project) => project.id === meetingCreationForm.projectId)
+          .meetings.push(data)
+        this.saveDataToLocal()
+      } else {
+        callbackError(res.statusText)
+      }
     }
   },
   getters: {
@@ -165,8 +188,16 @@ const useUserStore = defineStore('user-store', {
     username() {
       return this.currentUser.username
     },
-    meetings(pid) {
-      return this.fetchMeetings(pid)
+    ownedProject() {
+      return this.ownedProjects.find((project) => project.id === this.currentProjectId)
+    },
+    membershipProject() {
+      return this.membershipProjects.find((project) => project.id === this.currentProjectId)
+    },
+    meeting(pid) {
+      const res = Provider.request(PROJECT_ENDPOINTS.meeting(pid))
+      const data = res.ok ? res.json() : null
+      return res.ok ? data : null
     }
   }
 })

@@ -12,9 +12,10 @@ const ACCOUNT_ENDPOINTS = {
 const PROJECT_ENDPOINTS = {
   project: `${PROJECT_ACCESS}/projects`,
   projectJoin: `${PROJECT_ACCESS}/projects/join`,
-  projectMeetingById(pid) {
+  meeting(pid) {
     return `${PROJECT_ACCESS}/meetings?pid=${pid}`
-  }
+  },
+  meetings: `${PROJECT_ACCESS}/meetings`,
 }
 
 export { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS }

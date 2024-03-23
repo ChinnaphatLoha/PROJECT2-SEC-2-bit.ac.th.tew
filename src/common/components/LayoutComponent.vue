@@ -1,13 +1,13 @@
 <script setup>
-// import { RouterLink, useRouter } from 'vue-router'
-import { RouterLink } from 'vue-router'
+import {  useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import BarSolid from './icons/BarSolid.vue'
 
-// const router = useRouter()
+const router = useRouter()
 const userStore = useUserStore()
-function SignOut() {
+function signout() {
   userStore.logout()
+  router.push({ name: 'login' })
 }
 </script>
 
@@ -36,7 +36,7 @@ function SignOut() {
             />
           </svg>
         </label>
-        <p class="btn btn-sign-out" @click="SignOut">Sign-out</p>
+        <p class="btn btn-sign-out" @click="signout">Sign-out</p>
       </div>
     </header>
   </div>
