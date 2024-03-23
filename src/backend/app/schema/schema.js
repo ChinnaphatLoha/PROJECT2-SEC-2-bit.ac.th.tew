@@ -70,25 +70,30 @@ export const Project = {
 }
 
 export const Meeting = {
+  topic: {
+    type: 'string',
+    length: 50,
+    required: true
+  },
   start_date: {
     type: 'string',
     format: {
-      regex: /^(?:\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})$/,
-      simplified: 'YYYY-MM-DDTHH:mm:ss'
+      regex: /^(?:\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+      simplified: 'YYYY-MM-DDTHH:mm'
     },
     required: true
   },
   end_date: {
     type: 'string',
     format: {
-      regex: /^(?:\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})$/,
-      simplified: 'YYYY-MM-DDTHH:mm:ss'
+      regex: /^(?:\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$/,
+      simplified: 'YYYY-MM-DDTHH:mm'
     },
     required: true
   },
   description: {
     type: 'string',
-    length: 100
+    length: 300
   },
   projectId: {
     type: 'string',

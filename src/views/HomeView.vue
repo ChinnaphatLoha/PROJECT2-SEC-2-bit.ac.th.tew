@@ -15,49 +15,51 @@ const items = [
 </script>
 
 <template>
-  <div class="m-4 mt-8">
-    <button class="btn">Create or join Project</button>
-  </div>
-  <div class="m-4 mt-8">
-    <CollapseBar>
-      <template #title>
-        <h1>My Project</h1>
-      </template>
-      <template #listStyle>
-        <ListWrap :items="items">
-          <template #default="props">
-            <CardRetro :key="props.index" :id-card="props.item.id">
-              <template #title>
-                {{ props.item.title }}
-              </template>
-              <template #owner-name>
-                {{ props.item.owner }}
-              </template>
-            </CardRetro>
-          </template>
-        </ListWrap>
-      </template>
-    </CollapseBar>
-  </div>
-  <div class="m-4 mt-8">
-    <CollapseBar>
-      <template #title>
-        <h1>Share with Me</h1>
-      </template>
-      <template #listStyle>
-        <ListWrap :items="items">
-          <template #default="props">
-            <CardRetro :key="props.index" :id-card="props.item.id">
-              <template #title>
-                {{ props.item.title }}
-              </template>
-              <template #owner-name>
-                {{ props.item.owner }}
-              </template>
-            </CardRetro>
-          </template>
-        </ListWrap>
-      </template>
-    </CollapseBar>
-  </div>
+  <BaseLayout>
+    <div class="m-4 mt-8">
+      <button class="btn">Create or join Project</button>
+    </div>
+    <div class="m-4 mt-8">
+      <CollapseBar>
+        <template #title>
+          <h1>My Project</h1>
+        </template>
+        <template #listStyle>
+          <ListWrap :items="items">
+            <template #default="props">
+              <CardRetro :key="props.index" :id-card="props.item.id">
+                <template #title>
+                  {{ props.item.title }}
+                </template>
+                <template #owner-name>
+                  {{ props.item.owner }}
+                </template>
+              </CardRetro>
+            </template>
+          </ListWrap>
+        </template>
+      </CollapseBar>
+    </div>
+    <div class="m-4 mt-8">
+      <CollapseBar>
+        <template #title>
+          <h1>Share with Me</h1>
+        </template>
+        <template #listStyle>
+          <ListWrap :items="items">
+            <template #default="props">
+              <CardRetro :key="props.index" :id-card="props.item.id">
+                <template #title>
+                  {{ props.item.title }}
+                </template>
+                <template #owner-name>
+                  {{ props.item.owner }}
+                </template>
+              </CardRetro>
+            </template>
+          </ListWrap>
+        </template>
+      </CollapseBar>
+    </div>
+  </BaseLayout>
 </template>
