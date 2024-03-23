@@ -15,4 +15,7 @@
   .create-title {
     @apply text-2xl font-bold;
   }
+  .auth-underline-text {
+    @apply font-bold underline;
+  }
 }
