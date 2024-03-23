@@ -11,34 +11,36 @@ import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
 const useUserStore = defineStore('user-store', {
   state: () => ({
     currentUser: null,
-    ownedProject: [],
-    membershipProject: []
+    ownedProjects: [],
+    membershipProjects: [],
+    currentProjectId: null,
+    currentMeetingId: null
   }),
   actions: {
     saveDataToLocal() {
       localStorage.setItem('currentUser', JSON.stringify(this.currentUser))
-      localStorage.setItem('ownedProject', JSON.stringify(this.ownedProject))
-      localStorage.setItem('membershipProject', JSON.stringify(this.membershipProject))
+      localStorage.setItem('ownedProjects', JSON.stringify(this.ownedProjects))
+      localStorage.setItem('membershipProjects', JSON.stringify(this.membershipProjects))
     },
 
-    async fetchDataFromLocal() {
+    fetchDataFromLocal() {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
-      this.ownedProject = JSON.parse(localStorage.getItem('ownedProject'))
-      this.membershipProject = JSON.parse(localStorage.getItem('membershipProject'))
+      this.ownedProjects = JSON.parse(localStorage.getItem('ownedProjects'))
+      this.membershipProjects = JSON.parse(localStorage.getItem('membershipProjects'))
     },
 
     clearDataFromLocal() {
       localStorage.removeItem('currentUser')
-      localStorage.removeItem('ownedProject')
-      localStorage.removeItem('membershipProject')
+      localStorage.removeItem('ownedProjects')
+      localStorage.removeItem('membershipProjects')
     },
 
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
-        this.ownedProject = projects.filter(
+        this.ownedProjects = projects.filter(
           (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.OWNER
         )
-        this.membershipProject = projects.filter(
+        this.membershipProjects = projects.filter(
           (project) => project[PROJECT_ATTRIBUTE.users.authority] === AUTHORITY_VALUE.MEMBER
         )
       }
@@ -100,6 +102,13 @@ const useUserStore = defineStore('user-store', {
       router.push({ name: 'login' })
     },
 
+    onProject(pid) {
+      this.currentProjectId = pid
+    },
+    onMeeting(mid) {
+      this.currentMeetingId = mid
+    },
+
     async createNewProject(projectCreationForm) {
       console.log('Create project')
       const projectData = {
@@ -117,7 +126,7 @@ const useUserStore = defineStore('user-store', {
       })
       const data = res.ok ? await res.json() : null
       if (res.ok) {
-        this.ownedProject.push(data)
+        this.ownedProjects.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       }
       console.log('save project to local')
@@ -139,7 +148,7 @@ const useUserStore = defineStore('user-store', {
       console.log(data ?? res.statusText)
       if (res.ok) {
         console.log('Pushing new project')
-        this.membershipProject.push(data)
+        this.membershipProjects.push(data)
         router.push({ name: 'home', params: { id: data.pid } })
       } else if (res.status === 409) {
         callbackError('You have already joined this project')
@@ -152,7 +161,7 @@ const useUserStore = defineStore('user-store', {
     removeOwnedProject(userId, projectId) {
       // remove Project
     },
-    async createNewMeeting(meetingCreationForm) {
+    async createNewMeeting(meetingCreationForm, callbackError) {
       const meetingData = {
         projectId: meetingCreationForm.projectId,
         topic: meetingCreationForm.topic,
@@ -165,7 +174,14 @@ const useUserStore = defineStore('user-store', {
         body: JSON.stringify(meetingData)
       })
       const data = res.ok ? await res.json() : null
-      console.log(data)
+      if (data) {
+        this.ownedProjects
+          .find((project) => project.id === meetingCreationForm.projectId)
+          .meetings.push(data)
+        this.saveDataToLocal()
+      } else {
+        callbackError(res.statusText)
+      }
     }
   },
   getters: {
@@ -175,11 +191,11 @@ const useUserStore = defineStore('user-store', {
     username() {
       return this.currentUser.username
     },
-    ownedProject(pid) {
-      return this.ownedProject.find((project) => project.pid === pid)
+    ownedProject() {
+      return this.ownedProjects.find((project) => project.id === this.currentProjectId)
     },
-    membershipProject(pid) {
-      return this.membershipProject.find((project) => project.pid === pid)
+    membershipProject() {
+      return this.membershipProjects.find((project) => project.id === this.currentProjectId)
     },
     meeting(pid) {
       const res = Provider.request(PROJECT_ENDPOINTS.meeting(pid))
