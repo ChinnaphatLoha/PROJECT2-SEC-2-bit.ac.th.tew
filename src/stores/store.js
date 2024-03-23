@@ -21,19 +21,16 @@ const useUserStore = defineStore('user-store', {
       localStorage.setItem('ownedProjects', JSON.stringify(this.ownedProjects))
       localStorage.setItem('membershipProjects', JSON.stringify(this.membershipProjects))
     },
-
     fetchDataFromLocal() {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
       this.ownedProjects = JSON.parse(localStorage.getItem('ownedProjects'))
       this.membershipProjects = JSON.parse(localStorage.getItem('membershipProjects'))
     },
-
     clearDataFromLocal() {
       localStorage.removeItem('currentUser')
       localStorage.removeItem('ownedProjects')
       localStorage.removeItem('membershipProjects')
     },
-
     initializeProjects(projects) {
       if (!(projects.length === 0)) {
         this.ownedProjects = projects.filter(
@@ -47,7 +44,6 @@ const useUserStore = defineStore('user-store', {
     setCurrentUser(user) {
       this.currentUser = user
     },
-
     initializeStore(user, projects) {
       console.log('User Store initialized')
       this.setCurrentUser(user)
@@ -64,7 +60,6 @@ const useUserStore = defineStore('user-store', {
         return false
       }
     },
-
     async registerNewUser(username, password, callbackError) {
       const newUser = {
         username: '',
@@ -89,7 +84,6 @@ const useUserStore = defineStore('user-store', {
         this.initializeStore({ id: data.id, username: data.username }, data.projects)
       }
     },
-
     async logout() {
       const res = await Provider.request(ACCOUNT_ENDPOINTS.logout)
       if (!res.ok) {
@@ -129,7 +123,6 @@ const useUserStore = defineStore('user-store', {
       console.log('save project to local')
       this.saveDataToLocal()
     },
-
     async joinProject(projectJoinForm, callbackError) {
       console.log('Join project')
       const res = await Provider.request(PROJECT_ENDPOINTS.projectJoin, {
@@ -155,9 +148,27 @@ const useUserStore = defineStore('user-store', {
       console.log('save join project to local')
       this.saveDataToLocal()
     },
-    removeOwnedProject(userId, projectId) {
-      // remove Project
+    async updateProjectInfo(projectId, projectData) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.project_mutate(projectId), {
+        method: 'PATCH',
+        body: JSON.stringify(projectData)
+      })
+      if (res.ok) {
+        const project = this.ownedProjects.find((project) => project.id === projectId)
+        Object.assign(project, projectData)
+        this.saveDataToLocal()
+      }
     },
+    async removeOwnedProject(projectId) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.project_mutate(projectId), {
+        method: 'DELETE'
+      })
+      if (res.ok) {
+        this.ownedProjects = this.ownedProjects.filter((project) => project.id !== projectId)
+        this.saveDataToLocal()
+      }
+    },
+
     async createNewMeeting(meetingCreationForm, callbackError) {
       const meetingData = {
         projectId: meetingCreationForm.projectId,
@@ -178,6 +189,49 @@ const useUserStore = defineStore('user-store', {
         this.saveDataToLocal()
       } else {
         callbackError(res.statusText)
+      }
+    },
+    async updateMeetingInfo(meetingId, meetingData) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(meetingData), {
+        method: 'PATCH',
+        body: JSON.stringify(meetingData)
+      })
+      if (res.ok) {
+        const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
+        const meeting = project.meetings.find((meeting) => meeting.id === meetingId)
+        Object.assign(meeting, meetingData)
+        this.saveDataToLocal()
+      }
+    },
+    async removeMeeting(projectId, meetingId) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(meetingId), {
+        method: 'DELETE'
+      })
+      if (res.ok) {
+        const project = this.ownedProjects.find((project) => project.id === projectId)
+        project.meetings = project.meetings.filter((meeting) => meeting.id !== meetingId)
+        this.saveDataToLocal()
+      }
+    },
+
+    async createNewFeedback(feedbackData) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(feedbackData.meetingId), {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: this.currentUser.id,
+          meetingId: feedbackData.meetingId,
+          group: feedbackData.group,
+          text: feedbackData.content
+        })
+      })
+      if (res.ok) {
+        const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
+        const meeting = project.meetings.find((meeting) => meeting.id === feedbackData.meetingId)
+        meeting.feedbackRecords[feedbackData.group].push({
+          username: this.currentUser.username,
+          content: feedbackData.content
+        })
+        this.saveDataToLocal()
       }
     }
   },
