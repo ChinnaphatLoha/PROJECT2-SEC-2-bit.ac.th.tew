@@ -1,9 +1,10 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+// import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import BarSolid from './icons/BarSolid.vue'
 
-const router = useRouter()
+// const router = useRouter()
 const userStore = useUserStore()
 function SignOut() {
   userStore.logout()
