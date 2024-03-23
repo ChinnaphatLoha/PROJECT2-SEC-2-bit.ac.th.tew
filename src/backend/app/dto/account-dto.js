@@ -15,7 +15,8 @@ export const getAccountDTO = (user, userProjects) => {
       name: project.name,
       description: project.description,
       retrospectiveType: project.retrospective_type,
-      authority: project.users.find((u) => u.userId === user.id).authority
+      authority: project.users.find((u) => u.userId === user.id).authority,
+      meetings: []
     }))
   }
 }
