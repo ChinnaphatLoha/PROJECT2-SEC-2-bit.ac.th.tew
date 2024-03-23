@@ -1,7 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import AngleDownArrow from './icons/AngleDownArrow.vue'
-const openCollapse = ref(false)
+
+const props = defineProps({
+  openColl: {
+    type: Boolean,
+    default: false
+  }
+})
+const openCollapse = ref(props.openColl)
 const handleOpenCollapse = () => {
   openCollapse.value = !openCollapse.value
 }
@@ -9,7 +16,7 @@ const handleOpenCollapse = () => {
 
 <template>
   <div class="collapse">
-    <input type="checkbox" @click="handleOpenCollapse" />
+    <input type="checkbox" @click="handleOpenCollapse" v-model="openCollapse" />
     <div class="collapse-title">
       <div class="flex gap-12 items-start">
         <h1 class="heading-title tracking-wide">
