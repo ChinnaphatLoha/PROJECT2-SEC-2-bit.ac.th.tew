@@ -1,11 +1,6 @@
 <script setup>
 import { reactive } from 'vue';
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
-// import Provider from '@/api/provider';
-
-// const response = await Provider.request('/api/project-composition/meetings?pid=$TEST-PJ-01')
-// const data = response.ok ? await response.json() : null
-// console.log(data)
 
 const meeting = reactive([
   {
@@ -34,11 +29,6 @@ const meeting = reactive([
     }
   }
 ])
-
-const e = new Date();
-console.log(e.toISOString());
-console.log(meeting[0].end_date);
-
 </script>
 
 <template>

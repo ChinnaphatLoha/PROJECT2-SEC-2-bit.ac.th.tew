@@ -7,6 +7,7 @@ import ProjectFormView from '@/views/ProjectFormView.vue'
 import MeetingFormView from '@/views/MeetingFormView.vue'
 import TestComponent from '@/views/TestComponents.vue'
 import ProjectView from '@/views/ProjectView.vue'
+import RetroFeedBackView from '@/views/RetroFeedBackView.vue'
 import { useUserStore } from '@/stores/store'
 
 const router = createRouter({
@@ -59,7 +60,7 @@ const router = createRouter({
       ]
     },
     {
-      path: '/meeting',
+      path: '/meeting-feedback',
       name: 'meeting-feedback',
       component: RetroFeedBackView
 
