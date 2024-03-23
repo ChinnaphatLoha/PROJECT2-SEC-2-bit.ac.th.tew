@@ -2,6 +2,7 @@
 import CardRetro from '@/common/components/CardRetro.vue'
 import ListHorizontal from '@/common/components/ListHorizontal.vue'
 import ListWrap from '@/common/components/ListWrap.vue'
+import CollapseBar from '@/common/components/CollapseBar.vue'
 const items = [
   { name: 'Item 1', ownerName: 'John Doe' },
   { name: 'Item 2', ownerName: 'Jane Doe' },
@@ -35,9 +36,6 @@ const items = [
   <hr class="mb-10" />
   <div class="p-4">
     <ListWrap :items="items">
-      <template #title>
-        <h1>Wrap List</h1>
-      </template>
       <template #default="props">
         <CardRetro :key="props.index">
           <template #title>
@@ -49,6 +47,28 @@ const items = [
         </CardRetro>
       </template>
     </ListWrap>
+  </div>
+  <hr class="p-4" />
+  <div class="p-4">
+    <CollapseBar>
+      <template #title>
+        <h1>Collapsible Bar Test 1.0</h1>
+      </template>
+      <template #listStyle>
+        <ListWrap :items="items">
+          <template #default="props">
+            <CardRetro :key="props.index">
+              <template #title>
+                {{ props.item.name }}
+              </template>
+              <template #owner-name>
+                {{ props.item.ownerName }}
+              </template>
+            </CardRetro>
+          </template>
+        </ListWrap>
+      </template>
+    </CollapseBar>
   </div>
 </template>
 

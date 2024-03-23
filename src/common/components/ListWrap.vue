@@ -9,11 +9,10 @@ defineProps({
 </script>
 
 <template>
-  <div class="w-full">
-    <h1 class="heading-title tracking-wide">
-      <slot name="title">"List name"</slot>
-    </h1>
-    <div class="flex flex-wrap w-full h-fit gap-8">
+<div class="w-full h-fit">
+    <div
+      class="flex flex-wrap w-full h-fit gap-8"
+    >
       <slot v-for="(item, index) in items" :item="item" :index="index" :key="index"></slot>
     </div>
   </div>

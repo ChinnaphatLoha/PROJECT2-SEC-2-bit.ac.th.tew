@@ -21,11 +21,14 @@ class LoginService {
 
   async authenticateUser(username, password) {
     const user = await this._userRepository.findFirst({
-      username,
-      password
+      username
     })
-    if (!user) return new Response(null, { status: 401, statusText: 'Invalid credentials' })
-    const token = await generateToken(user.id, 'bitadmin')
+    if (!user) return new Response(null, { status: 404, statusText: 'User not found' })
+    const encryptedPassword = user.password
+    const decryptedPassword = await decryptToken(encryptedPassword, username)
+    if (decryptedPassword !== password)
+      return new Response(null, { status: 401, statusText: 'Invalid credentials' })
+    const token = await generateToken(user.id, import.meta.env.DB_PASSWORD)
     setCookie(TOKEN_KEY, token, import.meta.env.VITE_COOKIE_EXPIRATION)
     const userProjects = await this._getRelevantProjects(user.id)
     return {

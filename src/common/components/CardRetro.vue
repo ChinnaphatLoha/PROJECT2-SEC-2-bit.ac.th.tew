@@ -9,11 +9,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="card-retro" :id="idCard">
-    <div class="h-fit flex flex-col gap-16">
-      <h1 class="text-4xl"><slot name="title"></slot></h1>
-      <p class="text-slate-300 text-right"><slot name="owner-name"></slot></p>
-    </div>
+  <div class="card-retro relative flex flex-col gap-16" :id="idCard">
+      <h1 class="text-2xl font-bold"><slot name="title"></slot></h1>
+      <p class="text-slate-300 text-right absolute right-6 bottom-6"><slot name="owner-name"></slot></p>
   </div>
 </template>
 
