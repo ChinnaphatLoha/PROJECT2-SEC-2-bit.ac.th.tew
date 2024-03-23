@@ -1,14 +1,21 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
-// import { useUserStore } from '@/stores/store'
+import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/store'
 import { getShortISOStringInUserTimezone } from '@/common/utils/moment'
-
 import ErrorToast from './ErrorToast.vue'
-// const userStore = useUserStore()
+
+const userStore = useUserStore()
+const projectId = useRoute().params.id
+userStore.onProject(projectId)
+if (!userStore.ownedProject) {
+  useRouter().push({ name: 'project-view', params: { id: projectId } })
+}
 
 const now = ref(getShortISOStringInUserTimezone(new Date()))
 
 const meetingCreationForm = reactive({
+  projectId,
   topic: '',
   startDate: now.value,
   endDate: getShortISOStringInUserTimezone(
@@ -60,28 +67,28 @@ const errorToast = reactive({
   message: ''
 })
 
-// const showErrorToast = (message) => {
-//   errorToast.show = true
-//   errorToast.message = message
-//   setTimeout(() => {
-//     errorToast.show = false
-//     errorToast.message = ''
-//   }, 3000)
-// }
+const showErrorToast = (message) => {
+  errorToast.show = true
+  errorToast.message = message
+  setTimeout(() => {
+    errorToast.show = false
+    errorToast.message = ''
+  }, 3000)
+}
 
-const createMeeting = async () => {
-  // userStore.createNewMeeting(meetingCreationForm)
-  // console.log(userStore.$state)
-  console.log(meetingCreationForm)
+const createNewMeeting = async () => {
+  userStore.createNewMeeting(meetingCreationForm, showErrorToast)
+  //NOTE: Redirect to the meeting view page (newly created meeting)
 }
 </script>
 
 <template>
   <div class="w-3/4 mt-16 mx-auto">
-    <h2 class="text-base font-semibold leading-7 cursor-pointer">Create Meeting</h2>
+    <h1 class="text-xl mb-6">{{ userStore.ownedProject?.name }}</h1>
+    <h2 class="text-base font-semibold leading-7">Create Meeting</h2>
 
     <!-- Create Meeting -->
-    <form @submit.prevent="createMeeting">
+    <form @submit.prevent="createNewMeeting">
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         <div class="sm:col-span-2">
           <label for="meeting-topic" class="block text-sm font-medium leading-6"

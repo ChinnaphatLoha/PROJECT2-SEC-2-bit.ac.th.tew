@@ -4,8 +4,16 @@ import { getMeetingsDTO } from '../dto/meeting-dto.js'
 
 class MeetingService {
   constructor() {
+    this._projectRepository = new JsonServerRepository(BASE_URL, endpoints.project)
     this._meetingRepository = new JsonServerRepository(BASE_URL, endpoints.meeting)
     this._feedbackRepository = new JsonServerRepository(BASE_URL, endpoints.feedback)
+  }
+
+  async _isProjectExist(projectId) {
+    return this._projectRepository
+      .findById(projectId)
+      .then((project) => !!project)
+      .catch(() => false)
   }
 
   _validateSchedule(start_date, end_date) {
@@ -29,7 +37,10 @@ class MeetingService {
   }
 
   async createMeeting(meeting) {
-    const { start_date, end_date } = meeting
+    const { projectId, start_date, end_date } = meeting
+    if (!(await this._isProjectExist(projectId))) {
+      return new Response(null, { status: 404, statusText: 'Project not found' })
+    }
     if (!this._validateSchedule(start_date, end_date))
       return new Response(null, { status: 400, statusText: 'Invalid schedule' })
     const createdMeeting = await this._meetingRepository.create(meeting)

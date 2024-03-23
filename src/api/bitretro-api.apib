@@ -146,15 +146,16 @@ const data = response.ok ? await response.json() : null
 ```
 
 `POST /meetings` ➡ Create a new meeting using data in the request body.
-- body: { projectId: string, start_date: string, end_date: string, description?: string }
-- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+- body: { projectId: string, topic: string, start_date: string, end_date: string, description?: string }
+- response data: { id: string, topic: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
 ```js
 const response = await Provider.request('/api/project-composition/meetings', {
   method: 'POST',
   body: JSON.stringify({
     projectId: 'ab2e',
-    start_date: '2021-01-01T00:00:00',
-    end_date: '2021-01-01T01:00:00',
+    topic: 'Bit-Retro API',
+    start_date: '2021-01-01T00:00',
+    end_date: '2021-01-01T01:00',
     description: 'A meeting for Bit-Retro API'
   })
 })
@@ -163,14 +164,15 @@ const data = response.ok ? await response.json() : null
 
 `PATCH /meetings` ➡ Update the meeting using data in the request body.
 - parameters: meeting id of the meeting as `mid`
-- body: { start_date?: string, end_date?: string, description?: string }
-- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+- body: { topic?: string, start_date?: string, end_date?: string, description?: string }
+- response data: { id: string, topic: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
 ```js
 const response = await Provider.request('/api/project-composition/meetings?mid=ab2e', {
   method: 'PATCH',
   body: JSON.stringify({
-    start_date: '2021-01-01T00:00:00',
-    end_date: '2021-01-01T01:00:00',
+    topic: 'Bit-Retro API',
+    start_date: '2021-01-01T00:00',
+    end_date: '2021-01-01T01:00',
     description: 'A meeting for Bit-Retro API'
   })
 })
@@ -179,7 +181,7 @@ const data = response.ok ? await response.json() : null
 
 `DELETE /meetings` ➡ Delete the meeting using meeting ID.
 - parameters: meeting id of the meeting as `mid`
-- response data: { id: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
+- response data: { id: string, topic: string, start_date: string, end_date: string, description: string, feedbackRecords: { [title]: { content: string, username: string }[], ... } }
 ```js
 const response = await Provider.request('/api/project-composition/meetings?mid=ab2e', {
   method: 'DELETE'

@@ -43,7 +43,7 @@ const router = createRouter({
           component: ProjectFormView
         },
         {
-          path: 'meeting/form',
+          path: 'meeting/:id/form',
           name: 'meeting-create',
           component: MeetingFormView
         },
