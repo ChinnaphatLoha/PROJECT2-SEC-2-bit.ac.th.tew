@@ -56,14 +56,14 @@ const router = createRouter({
           path: 'project/:id',
           name: 'project-view',
           component: ProjectView
+        },
+        {
+          path: 'feedback/:id',
+          name: 'meeting-feedback',
+          component: RetroFeedBackView
+    
         }
       ]
-    },
-    {
-      path: '/meeting-feedback',
-      name: 'meeting-feedback',
-      component: RetroFeedBackView
-
     }
   ]
 })
