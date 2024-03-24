@@ -5,11 +5,12 @@ import { useUserStore } from '@/stores/store'
 import { getShortISOStringInUserTimezone } from '@/common/utils/moment'
 import ErrorToast from './ErrorToast.vue'
 
+const router = useRouter()
 const userStore = useUserStore()
 const projectId = useRoute().params.id
 userStore.onProject(projectId)
 if (!userStore.ownedProject) {
-  useRouter().push({ name: 'project-view', params: { id: projectId } })
+  router.push({ name: 'project-view', params: { id: projectId } })
 }
 
 const now = ref(getShortISOStringInUserTimezone(new Date()))
@@ -74,6 +75,10 @@ const showErrorToast = (message) => {
     errorToast.show = false
     errorToast.message = ''
   }, 3000)
+}
+
+const goBackToPreviousPage = () => {
+  router.go(-1)
 }
 
 const createNewMeeting = async () => {
@@ -167,7 +172,7 @@ const createNewMeeting = async () => {
         >
           Create Meeting
         </button>
-        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />

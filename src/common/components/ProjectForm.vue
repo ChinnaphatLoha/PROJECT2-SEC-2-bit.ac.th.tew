@@ -1,8 +1,11 @@
 <script setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/store'
 
 import ErrorToast from './ErrorToast.vue'
+
+const router = useRouter()
 const userStore = useUserStore()
 
 const form = reactive({
@@ -38,6 +41,10 @@ const toggleForm = (formType) => {
 }
 const clearSpaces = (event) => {
   event.target.value = event.target.value.replace(/\s/g, '')
+}
+
+const goBackToPreviousPage = () => {
+  router.go(-1)
 }
 
 const createProject = async () => {
@@ -152,7 +159,7 @@ const joinProject = async () => {
         >
           Create Project
         </button>
-        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
 
@@ -202,7 +209,7 @@ const joinProject = async () => {
         >
           Join Project
         </button>
-        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />
