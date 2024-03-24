@@ -2,17 +2,8 @@ name: Format and Deployment
 on: 
   push:
     branches: 
-        - feature/retro-feedback
+        - development
 jobs:
-  log:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v1
-      - name: Extract branch name
-        run: echo "running on branch ${GITHUB_REF##*/}"
-        id: extract_branch
-
   eslint:
     name: Run Eslint
     runs-on: ubuntu-latest
