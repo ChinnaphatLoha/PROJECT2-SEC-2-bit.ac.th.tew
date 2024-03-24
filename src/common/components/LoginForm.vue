@@ -55,7 +55,7 @@ const authenticationUser = async () => {
     <div class="mt-4">
       <p>
         not have account?
-        <RouterLink to="register" class="font-bold underline">Sign-up</RouterLink> here.
+        <RouterLink to="register" class="auth-underline-text">Sign-up</RouterLink> here.
       </p>
     </div>
   </div>

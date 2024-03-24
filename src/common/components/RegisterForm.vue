@@ -45,7 +45,7 @@ const testingError = (msg) => {
       <SubmitBtn buttonText="Sign-up / Register" />
     </form>
     <div class="mt-4">
-      <p>Already have an account? <RouterLink to="login">Sign-in</RouterLink> here.</p>
+      <p>Already have an account? <RouterLink to="login" class="auth-underline-text">Sign-in</RouterLink> here.</p>
     </div>
   </div>
 </template>
