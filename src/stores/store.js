@@ -247,11 +247,6 @@ const useUserStore = defineStore('user-store', {
     },
     membershipProject() {
       return this.membershipProjects.find((project) => project.id === this.currentProjectId)
-    },
-    meeting(pid) {
-      const res = Provider.request(PROJECT_ENDPOINTS.meeting(pid))
-      const data = res.ok ? res.json() : null
-      return res.ok ? data : null
     }
   }
 })
