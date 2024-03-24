@@ -172,7 +172,7 @@ const createNewMeeting = async () => {
         >
           Create Meeting
         </button>
-        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button @click="goBackToPreviousPage" type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />

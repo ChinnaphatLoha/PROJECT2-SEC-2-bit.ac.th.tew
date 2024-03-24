@@ -159,7 +159,7 @@ const joinProject = async () => {
         >
           Create Project
         </button>
-        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button @click="goBackToPreviousPage" type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
       </div>
     </form>
 
