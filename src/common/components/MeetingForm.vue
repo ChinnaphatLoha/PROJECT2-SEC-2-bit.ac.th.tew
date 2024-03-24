@@ -89,8 +89,17 @@ const createNewMeeting = async () => {
 
 <template>
   <div class="w-3/4 mt-16 mx-auto">
-    <h1 class="text-xl mb-6">{{ userStore.ownedProject?.name }}</h1>
-    <h2 class="text-base font-semibold leading-7">Create Meeting</h2>
+    <div class="breadcrumbs mb-6">
+      <ul>
+        <li>
+          <RouterLink :to="{ name: 'project-view', params: { id: userStore.ownedProject?.id } }"
+            ><h2 class="text-xl">{{ userStore.ownedProject?.name }}</h2></RouterLink
+          >
+        </li>
+        <li><h2 class="text-lg">Meeting Creation Form</h2></li>
+      </ul>
+    </div>
+    <h1 class="text-base font-semibold leading-7">Create Meeting</h1>
 
     <!-- Create Meeting -->
     <form @submit.prevent="createNewMeeting">
@@ -172,7 +181,13 @@ const createNewMeeting = async () => {
         >
           Create Meeting
         </button>
-        <button @click="goBackToPreviousPage" type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button
+          @click="goBackToPreviousPage"
+          type="button"
+          class="text-sm font-semibold leading-6 text-white"
+        >
+          Cancel
+        </button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />
