@@ -1,5 +1,5 @@
 <script setup>
-import {  useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import BarSolid from './icons/BarSolid.vue'
 
@@ -15,10 +15,10 @@ function signout() {
   <div class="w-full font-semibold bg-gray-800">
     <header class="text-white text-lg py-4 px-6 flex justify-between">
       <div class="flex items-center justify-between w-[18%] pl-10">
-        <RouterLink :to="{name: 'home'}">
+        <RouterLink :to="{ name: 'home' }">
           <BarSolid />
         </RouterLink>
-        <RouterLink to="" class="link text-xl">Hello, TEW</RouterLink>
+        <h1 class="text-xl">Hello {{ userStore.username }}</h1>
       </div>
       <div class="flex items-center justify-between w-[30%]">
         <label class="input input-bordered flex items-center gap-2">
