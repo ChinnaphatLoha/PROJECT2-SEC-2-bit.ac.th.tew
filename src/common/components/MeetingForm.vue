@@ -82,8 +82,8 @@ const goBackToPreviousPage = () => {
 }
 
 const createNewMeeting = async () => {
-  userStore.createNewMeeting(meetingCreationForm, showErrorToast)
-  //NOTE: Redirect to the meeting view page (newly created meeting)
+  const { id } = await userStore.createNewMeeting(meetingCreationForm, showErrorToast)
+  router.push({ name: 'meeting-feedback', params: { id } })
 }
 </script>
 
@@ -181,6 +181,7 @@ const createNewMeeting = async () => {
         >
           Create Meeting
         </button>
+
         <button
           @click="goBackToPreviousPage"
           type="button"
