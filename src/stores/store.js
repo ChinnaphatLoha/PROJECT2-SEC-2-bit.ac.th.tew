@@ -41,11 +41,23 @@ const useUserStore = defineStore('user-store', {
         )
       }
     },
+    async initializeMeetings(authority) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.meeting(this.currentProjectId))
+      if (res.ok) {
+        const data = (await res.json()) ?? []
+        if (authority === AUTHORITY_VALUE.OWNER) {
+          this.ownedProjects.find((project) => project.id === this.currentProjectId).meetings = data
+        } else {
+          this.membershipProjects.find((project) => project.id === this.currentProjectId).meetings =
+            data
+        }
+        this.saveDataToLocal()
+      }
+    },
     setCurrentUser(user) {
       this.currentUser = user
     },
     initializeStore(user, projects) {
-      console.log('User Store initialized')
       this.setCurrentUser(user)
       this.initializeProjects(projects)
       this.saveDataToLocal()
@@ -84,6 +96,18 @@ const useUserStore = defineStore('user-store', {
         this.initializeStore({ id: data.id, username: data.username }, data.projects)
       }
     },
+    async loginBySession() {
+      const res = await Provider.request(ACCOUNT_ENDPOINTS.data, {
+        headers: {
+          Cookie: getCookie('bit_tkn')
+        }
+      })
+      const data = res.ok ? await res.json() : null
+      if (res.ok && data) {
+        const { id, username, projects } = data
+        this.initializeStore({ id, username }, projects)
+      }
+    },
     async logout() {
       const res = await Provider.request(ACCOUNT_ENDPOINTS.logout)
       if (!res.ok) {
@@ -117,14 +141,12 @@ const useUserStore = defineStore('user-store', {
       })
       const data = res.ok ? await res.json() : null
       if (res.ok) {
-        this.ownedProject.push(data)
-        // router.push({ name: 'home', params: { id: data.pid } })
+        this.ownedProjects.push(data)
+        this.saveDataToLocal()
+        return data
       }
-      console.log('save project to local')
-      this.saveDataToLocal()
     },
     async joinProject(projectJoinForm, callbackError) {
-      console.log('Join project')
       const res = await Provider.request(PROJECT_ENDPOINTS.projectJoin, {
         headers: {
           Cookie: getCookie('bit_tkn')
@@ -135,18 +157,15 @@ const useUserStore = defineStore('user-store', {
         })
       })
       const data = res.ok ? await res.json() : null
-      console.log(data ?? res.statusText)
       if (res.ok) {
-        console.log('Pushing new project')
-        this.membershipProject.push(data)
-        // router.push({ name: 'home', params: { id: data.pid } })
+        this.membershipProjects.push(data)
+        this.saveDataToLocal()
+        return data
       } else if (res.status === 409) {
         callbackError('You have already joined this project')
       } else {
         callbackError('Invalid passkey')
       }
-      console.log('save join project to local')
-      this.saveDataToLocal()
     },
     async updateProjectInfo(projectId, projectData) {
       const res = await Provider.request(PROJECT_ENDPOINTS.project_mutate(projectId), {
@@ -187,6 +206,7 @@ const useUserStore = defineStore('user-store', {
           .find((project) => project.id === meetingCreationForm.projectId)
           .meetings.push(data)
         this.saveDataToLocal()
+        return data
       } else {
         callbackError(res.statusText)
       }
@@ -247,6 +267,11 @@ const useUserStore = defineStore('user-store', {
     },
     membershipProject() {
       return this.membershipProjects.find((project) => project.id === this.currentProjectId)
+    },
+    authority() {
+      const allProjects = this.ownedProjects.concat(this.membershipProjects)
+      const project = allProjects.find((project) => project.id === this.currentProjectId)
+      return project.authority
     }
   }
 })

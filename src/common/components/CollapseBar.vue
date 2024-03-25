@@ -5,7 +5,7 @@ import AngleDownArrow from './icons/AngleDownArrow.vue'
 const props = defineProps({
   openColl: {
     type: Boolean,
-    default: false
+    default: true
   }
 })
 const openCollapse = ref(props.openColl)
@@ -24,7 +24,7 @@ const handleOpenCollapse = () => {
         </h1>
         <AngleDownArrow
           class="transition-all duration-500 ease-out"
-          :class="openCollapse ? 'rotate-90' : 'rotate-270'"
+          :class="openCollapse ? '' : 'rotate-90'"
         />
       </div>
     </div>

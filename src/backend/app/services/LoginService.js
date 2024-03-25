@@ -32,7 +32,7 @@ class LoginService {
     setCookie(TOKEN_KEY, token, import.meta.env.VITE_COOKIE_EXPIRATION)
     const userProjects = await this._getRelevantProjects(user.id)
     return {
-      ...getAccountDTO(user, userProjects)
+      ...(await getAccountDTO(user, userProjects))
     }
   }
 
@@ -42,7 +42,7 @@ class LoginService {
     if (!user) return new Response(null, { status: 401, statusText: 'Invalid token' })
     const userProjects = await this._getRelevantProjects(userId)
     return {
-      ...getAccountDTO(user, userProjects)
+      ...(await getAccountDTO(user, userProjects))
     }
   }
 }

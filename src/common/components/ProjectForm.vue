@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 
 import ErrorToast from './ErrorToast.vue'
@@ -48,13 +48,18 @@ const goBackToPreviousPage = () => {
 }
 
 const createProject = async () => {
-  userStore.createNewProject(projectCreationForm)
-  console.log(userStore.$state)
+  const { id } = await userStore.createNewProject(projectCreationForm)
+  if (id) {
+    userStore.onProject(id)
+    router.push({ name: 'project-view', params: { id } })
+  }
 }
 
 const joinProject = async () => {
-  userStore.joinProject(projectJoinForm, showErrorToast)
-  console.log(userStore.$state)
+  const { id } = await userStore.joinProject(projectJoinForm, showErrorToast)
+  if (id) {
+    router.push({ name: 'project-view', params: { id: projectJoinForm.projectId } })
+  }
 }
 </script>
 
@@ -159,7 +164,13 @@ const joinProject = async () => {
         >
           Create Project
         </button>
-        <button @click="goBackToPreviousPage" type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button
+          @click="goBackToPreviousPage"
+          type="button"
+          class="text-sm font-semibold leading-6 text-white"
+        >
+          Cancel
+        </button>
       </div>
     </form>
 
@@ -209,7 +220,13 @@ const joinProject = async () => {
         >
           Join Project
         </button>
-        <button @click="goBackToPreviousPage" type="reset" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+        <button
+          @click="goBackToPreviousPage"
+          type="reset"
+          class="text-sm font-semibold leading-6 text-white"
+        >
+          Cancel
+        </button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />

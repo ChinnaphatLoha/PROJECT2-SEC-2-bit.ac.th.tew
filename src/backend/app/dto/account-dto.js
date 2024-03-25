@@ -1,3 +1,5 @@
+import { getUsername } from '../schema/schema'
+
 export const getNewAccountDTO = (newUser) => {
   return {
     id: newUser.id,
@@ -6,17 +8,18 @@ export const getNewAccountDTO = (newUser) => {
   }
 }
 
-export const getAccountDTO = (user, userProjects) => {
+export const getAccountDTO = async (user, userProjects) => {
   return {
     id: user.id,
     username: user.username,
-    projects: userProjects.map((project) => ({
+    projects: await Promise.all(userProjects.map(async (project) => ({
       id: project.id,
       name: project.name,
       description: project.description,
       retrospectiveType: project.retrospective_type,
       authority: project.users.find((u) => u.userId === user.id).authority,
+      owner: await getUsername(project.users.find((u) => u.authority === 'OWNER').userId),
       meetings: []
-    }))
+    })))
   }
 }
