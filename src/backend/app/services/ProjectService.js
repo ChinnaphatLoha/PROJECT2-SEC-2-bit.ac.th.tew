@@ -12,7 +12,7 @@ class ProjectService {
   async createProject(project) {
     project.passkey = await generateToken(project.passkey, import.meta.env.DB_PASSWORD)
     const builtProject = await this._projectRepository.create(project)
-    return getProjectDTO({ ...builtProject, authority: AuthorityTypes.OWNER })
+    return await getProjectDTO({ ...builtProject, authority: AuthorityTypes.OWNER })
   }
 
   async updateProjectInfo(id, { name = null, description = null }) {
@@ -24,7 +24,7 @@ class ProjectService {
       ...(description !== null && { description })
     }
     const updatedProject = await this._projectRepository.update({ id }, updateData)
-    return getProjectDTO({ ...updatedProject, authority: AuthorityTypes.OWNER })
+    return await getProjectDTO({ ...updatedProject, authority: AuthorityTypes.OWNER })
   }
 
   async addNewMember({ id, userId, passkey }) {
@@ -45,12 +45,12 @@ class ProjectService {
       { id },
       { users: [...project.users, { userId, authority: AuthorityTypes.MEMBER }] }
     )
-    return getProjectDTO(updatedProject)
+    return await getProjectDTO(updatedProject)
   }
 
   async deleteProject(id) {
     const deletedProject = await this._projectRepository.delete({ id })
-    return getProjectDTO({ ...deletedProject, authority: AuthorityTypes.OWNER })
+    return await getProjectDTO({ ...deletedProject, authority: AuthorityTypes.OWNER })
   }
 }
 
