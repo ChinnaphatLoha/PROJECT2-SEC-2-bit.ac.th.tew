@@ -10,6 +10,14 @@ export const getAllUsers = async () => {
   return users ? users : []
 }
 
+export const getUsername = async (id) => {
+  const user = await fetch(`${BASE_URL}/users/${id}`)
+    .then((res) => res.json())
+    // eslint-disable-next-line no-unused-vars
+    .catch((err) => null)
+  return user ? user.username : null
+}
+
 const getAllUsernames = async () => {
   const users = await getAllUsers()
   return users ? users.map((user) => user.username) : []

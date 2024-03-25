@@ -30,6 +30,7 @@ const getGroupTemplate = (retrospective_type) => {
 }
 
 export const getMeetingsDTO = async (meetings = [], feedbacks = []) => {
+  if (!meetings.length) return []
   const { projectId } = meetings[0]
   const retrospective_type = await getRetrospectiveType(projectId)
   const groups = getGroupTemplate(retrospective_type)
