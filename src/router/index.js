@@ -5,7 +5,6 @@ import RegisterView from '@/views/RegisterView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProjectFormView from '@/views/ProjectFormView.vue'
 import MeetingFormView from '@/views/MeetingFormView.vue'
-import TestComponent from '@/views/TestComponents.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import RetroFeedBackView from '@/views/RetroFeedBackView.vue'
 import { useUserStore } from '@/stores/store'
@@ -48,11 +47,6 @@ const router = createRouter({
           component: MeetingFormView
         },
         {
-          path: 'test',
-          name: 'test',
-          component: TestComponent
-        },
-        {
           path: 'project/:id',
           name: 'project-view',
           component: ProjectView
@@ -79,9 +73,7 @@ router.beforeEach((to, from, next) => {
     useUserStore().fetchDataFromLocal();
     next({ name: 'home' });
   } else if (!useUserStore().currentUser && isAuthenticated) {
-    console.log('Route to', to, 'currentUser is null, fetching data from local');
     useUserStore().fetchDataFromLocal();
-    console.log(useUserStore().$state);
     next();
   } else {
     next();
