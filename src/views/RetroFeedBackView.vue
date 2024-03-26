@@ -5,46 +5,31 @@ import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
 import { useUserStore } from '@/stores/store';
 
 const useStore = useUserStore();
-useStore.onMeeting(useRoute().params.id)
+useStore.onMeeting(useRoute().params.id);
 
-onBeforeUnmount(useStore.onMeeting(null))
+let meeting = reactive({ items: useStore.meeting})
+console.log(meeting);
+watch(
+  () => useStore.meeting,
+  (newValue) => {
+    meeting = reactive(newValue);
+  });
 
-const meeting = reactive([
-  {
-    id: '$TEST-M-01-01',
-    start_date: '2024-02-05T18:30:00',
-    end_date: '2025-02-05T19:00:00',
-    description: 'Dive into the code (Hell o World)',
-    feedbackRecords: {
-      GOOD: [
-        {
-          content: "I'm so happy to be here",
-          username: 'FameNu'
-        },
-        {
-          content: "So enjoy",
-          username: 'FameNu'
-        },
-      ],
-      BAD: [
-        {
-          content: "Boring",
-          username: 'Tew2945'
-        }
-      ],
-      TRY: []
-    }
-  }
-])
+onBeforeUnmount(() => {
+  useStore.onMeeting(null);
+});
+console.log(meeting);
 </script>
 
 <template>
-  
-  <BaseLayout><div class="container mx-auto py-8">
-    <div class="flex justify-center gap-8">
-      <RetroColumn v-for="{ feedbackRecords, end_date, index } in meeting" :key="index" :endDate="end_date" :feedbackRecords="feedbackRecords" />
+  <BaseLayout>
+    <div class="container mx-auto py-8">
+      <div class="flex justify-center gap-8">
+        <RetroColumn v-for="{feedbackRecords, end_date, id} in meeting" :key="id" :endDate="end_date"
+          :feedbackRecords="feedbackRecords" />
+      </div>
     </div>
-  </div></BaseLayout>
+  </BaseLayout>
 </template>
 
 <style scoped></style>

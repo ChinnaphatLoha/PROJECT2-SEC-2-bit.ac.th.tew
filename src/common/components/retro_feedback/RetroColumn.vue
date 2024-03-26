@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 
-const { feedbackRecords, endDate, meetingId } = props;
+const { feedbackRecords, endDate } = props;
 const feedbackRecordsArr = reactive(Object.entries(feedbackRecords));
 const currentDate = new Date().toISOString();
 const setStyleTitle = (title) => {
