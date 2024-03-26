@@ -52,7 +52,7 @@ const router = createRouter({
           component: ProjectView
         },
         {
-          path: 'feedback/:id',
+          path: 'feedback/:mid',
           name: 'meeting-feedback',
           component: RetroFeedBackView
     
