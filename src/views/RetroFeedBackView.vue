@@ -1,6 +1,11 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
+import { useUserStore } from '@/stores/store';
+
+const useStore = useUserStore();
+useStore.onMeeting(useRoute().params.id)
 
 const meeting = reactive([
   {
@@ -34,7 +39,7 @@ const meeting = reactive([
 <template>
   
   <BaseLayout><div class="container mx-auto py-8">
-    <div class="flex gap-8">
+    <div class="flex justify-center gap-8">
       <RetroColumn v-for="{ feedbackRecords, end_date, index } in meeting" :key="index" :end_date="end_date" :feedbackRecords="feedbackRecords" />
     </div>
   </div></BaseLayout>
