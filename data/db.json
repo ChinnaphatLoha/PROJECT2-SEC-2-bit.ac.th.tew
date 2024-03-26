@@ -55,23 +55,6 @@
           "authority": "MEMBER"
         }
       ]
-    },
-    {
-      "id": "95d3",
-      "name": "Hello Welcome Good Morning",
-      "retrospective_type": "KLAM",
-      "passkey": "EbHrkPRZiCrUj/yLiXgeKkXhXzYOynOnLKjJQHQK4gx8xqaf",
-      "description": "เป็นรูปที่มีทุกบ้าน",
-      "users": [
-        {
-          "userId": "ab4b",
-          "authority": "OWNER"
-        },
-        {
-          "userId": "e891",
-          "authority": "MEMBER"
-        }
-      ]
     }
   ],
   "meetings": [
@@ -85,7 +68,7 @@
     },
     {
       "id": "e55b",
-      "projectId": "95d3",
+      "projectId": null,
       "topic": "How to yed hee Fame",
       "start_date": "2024-03-25T10:36",
       "end_date": "2024-03-25T10:51",

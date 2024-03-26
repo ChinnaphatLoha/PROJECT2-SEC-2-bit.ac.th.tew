@@ -14,11 +14,11 @@ function signout() {
 <template>
   <div class="w-full font-semibold bg-gray-800">
     <header class="text-white text-lg py-4 px-6 flex justify-between">
-      <div class="flex items-center justify-between w-[18%] pl-10">
+      <div class="flex items-center justify-between w-[25%] pl-10">
         <RouterLink :to="{ name: 'home' }">
           <BarSolid />
         </RouterLink>
-        <h1 class="text-xl">Hello {{ userStore.username }}</h1>
+        <h1 class="text-xl tracking-wider">Hello {{ userStore.username }}</h1>
       </div>
       <div class="flex items-center justify-between w-[30%]">
         <label class="input input-bordered flex items-center gap-2">

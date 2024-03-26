@@ -184,6 +184,7 @@ const useUserStore = defineStore('user-store', {
       })
       if (res.ok) {
         this.ownedProjects = this.ownedProjects.filter((project) => project.id !== projectId)
+        
         this.saveDataToLocal()
       }
     },
@@ -240,7 +241,7 @@ const useUserStore = defineStore('user-store', {
         body: JSON.stringify({
           userId: this.currentUser.id,
           meetingId: feedbackData.meetingId,
-          group: feedbackData.group,
+          group: feedbackData.title,
           text: feedbackData.content
         })
       })
@@ -272,6 +273,11 @@ const useUserStore = defineStore('user-store', {
       const allProjects = this.ownedProjects.concat(this.membershipProjects)
       const project = allProjects.find((project) => project.id === this.currentProjectId)
       return project.authority
+    },
+    meeting() {
+      const allProjects = this.ownedProjects.concat(this.membershipProjects)
+      const project = allProjects.find((project) => project.id === this.currentProjectId)
+      return project.meetings.find((meeting) => meeting.id === this.currentMeetingId)
     }
   }
 })
