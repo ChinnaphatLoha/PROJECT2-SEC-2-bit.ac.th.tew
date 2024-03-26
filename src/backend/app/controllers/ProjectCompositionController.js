@@ -45,7 +45,7 @@ class ProjectCompositionController {
   }
 
   async deleteProject({ pid }) {
-    return this._projectService.deleteProject(pid)
+    return new Response(JSON.stringify(await this._projectService.deleteProject(pid)), { status: 200 })
   }
 
   async getMeetingsByProjectId({ pid }) {
@@ -68,7 +68,7 @@ class ProjectCompositionController {
   }
 
   async deleteMeeting({ mid }) {
-    return this._meetingService.deleteMeeting(mid)
+    return new Response(JSON.stringify(await this._meetingService.deleteMeeting(mid)), { status: 200 })
   }
 
   async createFeedback(feedback) {

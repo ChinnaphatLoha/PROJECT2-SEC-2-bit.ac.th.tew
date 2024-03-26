@@ -1,22 +1,27 @@
 <script setup>
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 
 import ErrorToast from './ErrorToast.vue'
 
+const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+
+const projectId = route.params.id
+userStore.onProject(projectId)
+const project = userStore.ownedProject
 
 const form = reactive({
   onCreateProject: true,
   onJoinProject: false
 })
 const projectCreationForm = {
-  projectName: '',
+  projectName: project?.name || '',
   retrospectiveType: '',
   passkey: '',
-  description: ''
+  description: project?.description || ''
 }
 const projectJoinForm = {
   projectId: '',
@@ -48,10 +53,14 @@ const goBackToPreviousPage = () => {
 }
 
 const createProject = async () => {
-  const { id } = await userStore.createNewProject(projectCreationForm)
-  if (id) {
-    userStore.onProject(id)
-    router.push({ name: 'project-view', params: { id } })
+  if (projectId) {
+    updateProject()
+  } else {
+    const { id } = await userStore.createNewProject(projectCreationForm)
+    if (id) {
+      userStore.onProject(id)
+      router.push({ name: 'project-view', params: { id } })
+    }
   }
 }
 
@@ -61,12 +70,21 @@ const joinProject = async () => {
     router.push({ name: 'project-view', params: { id: projectJoinForm.projectId } })
   }
 }
+
+const updateProject = async () => {
+  const projectUpdateForm = {
+    name: projectCreationForm.projectName,
+    description: projectCreationForm.description
+  }
+  userStore.updateProjectInfo(projectId, projectUpdateForm)
+  router.push({ name: 'project-view', params: { id: projectId } })
+}
 </script>
 
 <template>
   <div class="w-3/4 mt-16 mx-auto">
     <!-- Toggle to change form -->
-    <div class="flex gap-16">
+    <div v-if="!projectId" class="flex gap-16">
       <h2
         class="text-base font-semibold leading-7 cursor-pointer"
         :class="form.onCreateProject ? 'text-indigo-600' : ''"
@@ -102,7 +120,7 @@ const joinProject = async () => {
           </div>
         </div>
 
-        <div class="sm:col-span-2">
+        <div v-if="!projectId" class="sm:col-span-2">
           <label for="retrospective-type" class="block text-sm font-medium leading-6"
             >Retrospective type</label
           >
@@ -120,7 +138,7 @@ const joinProject = async () => {
           </div>
         </div>
 
-        <div class="sm:col-span-2">
+        <div v-if="!projectId" class="sm:col-span-2">
           <label for="passkey" class="block text-sm font-medium leading-6">Passkey</label>
           <div class="mt-2">
             <input
@@ -162,7 +180,7 @@ const joinProject = async () => {
           type="submit"
           class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Create Project
+          {{ projectId ? 'Update Project' : 'Create Project' }}
         </button>
         <button
           @click="goBackToPreviousPage"
