@@ -12,19 +12,16 @@ const membershipProjects = reactive({ items: useStore.$state.membershipProjects 
 
 watch(
   () => [useStore.$state.ownedProjects, useStore.$state.membershipProjects],
-  () => {
-    ownedProjects.items = useStore.$state.ownedProjects
-    membershipProjects.items = useStore.$state.membershipProjects
-  },
-  { immediate: true }
+  (newValue) => {
+    ownedProjects.items = newValue[0]
+    membershipProjects.items = newValue[1]
+  }
 )
-
-useStore.loginBySession()
 </script>
 
 <template>
   <BaseLayout>
-    <div class="m-4 mt-8">
+    <div class="m-8">
       <RouterLink :to="{ name: 'project-create' }">
         <button class="btn">Create or join Project</button>
       </RouterLink>
@@ -46,7 +43,7 @@ useStore.loginBySession()
                 <template #title>
                   {{ props.item.name }}
                 </template>
-                <template #owner-name>
+                <template #tag>
                   {{ props.item.owner }}
                 </template>
               </CardRetro>
@@ -67,7 +64,7 @@ useStore.loginBySession()
                 <template #title>
                   {{ props.item.name }}
                 </template>
-                <template #owner-name>
+                <template #tag>
                   {{ props.item.owner }}
                 </template>
               </CardRetro>
