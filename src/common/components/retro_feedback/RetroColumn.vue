@@ -9,14 +9,14 @@ const props = defineProps({
     type: Object,
     default: () => { }
   },
-  end_date: {
+  endDate: {
     type: String,
     required: true
   }
 });
 
 
-const { feedbackRecords, end_date } = props;
+const { feedbackRecords, endDate, meetingId } = props;
 const feedbackRecordsArr = reactive(Object.entries(feedbackRecords));
 const currentDate = new Date().toISOString();
 const setStyleTitle = (title) => {
@@ -28,7 +28,7 @@ const reversedFeedbacks = (feedbacks) => {
   return feedbacks.slice().reverse();
 }
 
-const isDisabled = currentDate > end_date;
+const isDisabled = currentDate > endDate;
 </script>
 
 <template>
@@ -36,12 +36,12 @@ const isDisabled = currentDate > end_date;
     :key="title">
     <h2 class="text-xl font-bold px-4 py-2" :class="setStyleTitle(title)">{{ title }}</h2>
     <div class="px-4 py-2">
-      <AddFeedBackBtn :disabled="isDisabled" :feedbackRecords="feedbackRecords" :type="title" />
+      <AddFeedBackBtn :disabled="isDisabled" :feedbackRecords="feedbackRecords" :title="title" />
     </div>
     <div class="flex flex-col gap-3 p-4">
       <FeedBackCard v-for="{ content, username, index } in reversedFeedbacks(feedbacks)" :key="index">
         <template #content>
-          <div class="break-words  max-w-96">{{ content }}</div>
+          <div class="break-words max-w-96">{{ content }}</div>
         </template>
         <template #user>
           {{ username }}

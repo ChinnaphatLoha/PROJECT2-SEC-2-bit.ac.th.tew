@@ -12,7 +12,7 @@ const props = defineProps({
     type: Object,
     default: () => {}
   },
-  type: {
+  title: {
     type: String,
     required: true
   },
@@ -24,7 +24,7 @@ const props = defineProps({
 }
 )
 
-const { feedbackRecords, type, disabled } = props
+const { feedbackRecords, title, disabled } = props
 const isOpenModal = ref(false);
 
 const openModal = () => {
@@ -41,7 +41,8 @@ const closeModal = () => {
 
 const updateFeedbackRecords = (newContent) => {
   const { action } = feedbackManagement(feedbackRecords);
-  action.addFeedback(type,newContent,useStore.username);
+  action.addFeedback(title,newContent,useStore.username);
+  useStore.createNewFeedback({meetingId: useStore.currentMeetingId ,group:title,content: newContent})
 }
 
 const errorToast = reactive({
