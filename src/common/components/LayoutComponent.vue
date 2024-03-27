@@ -1,38 +1,69 @@
 <script setup>
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import BarSolid from './icons/BarSolid.vue'
-// import { Meeting } from '@/backend/app/schema/schema';
 
 const router = useRouter()
-const userStore = useUserStore()
+const store = useUserStore()
+
+const allMeetings = ref(
+  store.$state.ownedProjects
+    .concat(store.$state.membershipProjects)
+    .map((project) => project.meetings)
+    .flat()
+)
+const now = new Date()
+const incomingMeeting = ref(
+  allMeetings.value
+    .filter((meeting) => new Date(meeting?.start_date) > now)
+    .sort((a, b) => new Date(a?.start_date) - new Date(b?.start_date))[0]
+)
+
+const indicator = computed(() => {
+  if (!incomingMeeting.value) return 'btn-disabled'
+  return 'border-0 bg-orange-500 hover:bg-orange-700'
+})
+
+watch(
+  () => [store.$state.ownedProjects, store.$state.membershipProjects],
+  (newValue) => {
+    allMeetings.value = newValue.map((project) => project.meetings).flat()
+    incomingMeeting.value = allMeetings.value
+      .filter((meeting) => new Date(meeting?.start_date) > now)
+      .sort((a, b) => new Date(a?.start_date) - new Date(b?.start_date))[0]
+  }
+)
+
 function signout() {
-  userStore.logout()
+  store.logout()
   router.push({ name: 'login' })
 }
 
 function moveToIncomingMeeting() {
-  const allProject = userStore.$state.ownedProjects.concat(userStore.$state.membershipProjects)
-  const allMeeting = allProject.map((project) => project.meetings)
-  const now = new Date()
-  const meetingFormNow = allMeeting.filter((meeting) => meeting.start_date > now)
-  const incomingMeeting = meetingFormNow.sort((a, b) => a.start_date - b.start_date)[0]
-  router.push({ name: 'meeting-feedback', params: { id: incomingMeeting.id } })
+  if (!incomingMeeting.value) return
+  router.push({ name: 'meeting-feedback', params: { id: incomingMeeting.value.id } })
 }
 </script>
 
 <template>
-  <div class="w-full font-semibold bg-gray-800">
-    <header class="text-white text-lg py-4 px-6 flex justify-between">
+  <div class="w-full font-semibold bg-[#F8B379]">
+    <header class="text-[#411209] text-lg py-4 px-6 flex justify-between">
       <div class="flex items-center justify-between w-[20%] pl-10">
         <RouterLink :to="{ name: 'home' }">
           <BarSolid />
         </RouterLink>
-        <button class="btn" @click="moveToIncomingMeeting">Incoming Meeting</button>
+        <button :class="indicator" class="btn" @click="moveToIncomingMeeting">
+          <span :class="[indicator !== 'btn-disabled' ? 'text-white' : 'text-[#411209]']"
+            >Incoming Meeting</span
+          >
+        </button>
       </div>
-      <div class="flex items-center justify-between w-[20%]">
-        <h1 class="text-xl tracking-wider">Hello, {{ userStore.username }}</h1>
-        <p class="btn btn-sign-out" @click="signout">Sign-out</p>
+      <div class="flex items-center justify-between w-[35%]">
+        <h1 class="text-2xl tracking-wider truncate">Hello, {{ store.username }}</h1>
+        <button class="btn px-8 border-0 bg-[#F1691E] hover:bg-orange-700" @click="signout">
+          <span class="text-[#FEF6EE] text-lg">Sign out</span>
+        </button>
       </div>
     </header>
   </div>
