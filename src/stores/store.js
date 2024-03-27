@@ -5,6 +5,7 @@ import { getCookie } from '@/common/utils/cookie-util'
 import { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
 import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
+import { ERROR_MSG } from '@/common/constants/messages'
 
 const useUserStore = defineStore('user-store', {
   state: () => ({
@@ -64,7 +65,7 @@ const useUserStore = defineStore('user-store', {
         password: ''
       }
       if ((await this.checkAvailableUsername(username)) === false) {
-        await callbackError('Username is already taken')
+        await callbackError(ERROR_MSG.INVALID_USERNAME)
         return
       } else {
         newUser.username = username
@@ -77,8 +78,6 @@ const useUserStore = defineStore('user-store', {
           await callbackError('Failed to register new user')
           return
         }
-        console.log('registerNewUser is done')
-        console.log(data)
         this.initializeStore({ id: data.id, username: data.username }, data.projects)
       }
     },

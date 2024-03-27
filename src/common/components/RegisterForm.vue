@@ -6,19 +6,28 @@ import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import { useUserStore } from '@/stores/store'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const registerFormUtils = getFormUtils()
 const userStore = useUserStore()
 const router = useRouter()
+const isAuthenticatedFailed = ref(false)
+const errorMsg = ref('')
 
 const registerNewUser = async () => {
   const { username, password } = registerFormUtils.getObject()
-  userStore.registerNewUser(username, password, testingError)
-  router.push({ name: 'home' })
+  userStore.registerNewUser(username, password, showErrors)
+  if (isAuthenticatedFailed.value) router.push({ name: 'register' })
+  else router.push({ name: 'home' })
 }
 
-const testingError = (msg) => {
-  console.log(msg)
+const showErrors = (msg) => {
+  console.log('msg', msg)
+  errorMsg.value = msg
+  isAuthenticatedFailed.value = true
+  setTimeout(() => {
+    isAuthenticatedFailed.value = false
+  }, 5000)
 }
 </script>
 
@@ -26,6 +35,9 @@ const testingError = (msg) => {
   <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
     <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Register</h1>
     <form class="md-4" @submit.prevent="registerNewUser">
+      <div v-show="isAuthenticatedFailed" class="mb-4">
+        <p class="text-red-900 text-xs italic bg-red-300 rounded-md p-2">{{ errorMsg }}</p>
+      </div>
       <TextForm
         class="mb-4"
         @update:textValue="registerFormUtils.setTextValue(USER_ATTRIBUTE.username, $event)"
@@ -45,7 +57,10 @@ const testingError = (msg) => {
       <SubmitBtn buttonText="Sign-up / Register" />
     </form>
     <div class="mt-4">
-      <p>Already have an account? <RouterLink to="login" class="auth-underline-text">Sign-in</RouterLink> here.</p>
+      <p>
+        Already have an account?
+        <RouterLink to="login" class="auth-underline-text">Sign-in</RouterLink> here.
+      </p>
     </div>
   </div>
 </template>

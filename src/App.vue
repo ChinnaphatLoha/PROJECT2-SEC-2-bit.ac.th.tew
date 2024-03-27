@@ -1,16 +1,8 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import globalSetup from '@/common/config/globalSetup'
 
-const observer = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    const expiredCookie = mutation.oldValue
-    if (expiredCookie) {
-      localStorage.clear()
-    }
-  })
-})
-
-observer.observe(document, { attributes: true })
+globalSetup()
 </script>
 
 <template>

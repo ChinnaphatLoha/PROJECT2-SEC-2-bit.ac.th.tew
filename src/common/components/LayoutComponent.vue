@@ -13,7 +13,7 @@ const allMeetings = ref(
     .map((project) => project.meetings)
     .flat()
 )
-const now = new Date()
+const now = new Date(new Date().getTime() - 15 * 60000)
 const incomingMeeting = ref(
   allMeetings.value
     .filter((meeting) => new Date(meeting?.start_date) > now)
