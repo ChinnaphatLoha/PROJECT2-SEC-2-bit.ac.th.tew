@@ -37,27 +37,32 @@ const router = createRouter({
           component: HomeView
         },
         {
-          path: 'project/form',
+          path: 'project/new',
           name: 'project-create',
           component: ProjectFormView
         },
         {
-          path: 'project/:id/edit',
+          path: 'project/:pid/edit',
           name: 'project-edit',
           component: ProjectFormView
         },
         {
-          path: 'meeting/:id/form',
+          path: 'project/:pid/meeting/new',
           name: 'meeting-create',
           component: MeetingFormView
         },
         {
-          path: 'project/:id',
+          path: 'project/:pid/meeting/:mid/edit',
+          name: 'meeting-edit',
+          component: MeetingFormView
+        },
+        {
+          path: 'project/:pid',
           name: 'project-view',
           component: ProjectView
         },
         {
-          path: 'feedback/:id',
+          path: 'project/:pid/meeting/:mid',
           name: 'meeting-feedback',
           component: RetroFeedBackView
         }

@@ -37,7 +37,7 @@ watch(
               <CardRetro
                 :key="props.index"
                 :route_name="'project-view'"
-                :id-card="props.item.id"
+                :pid="props.item.id"
                 @click="useStore.onProject(props.item.id)"
               >
                 <template #title>
@@ -60,7 +60,7 @@ watch(
         <template #listStyle>
           <ListWrap :items="membershipProjects.items">
             <template #default="props">
-              <CardRetro :key="props.index" :route_name="'project-view'" :id-card="props.item.id">
+              <CardRetro :key="props.index" :route_name="'project-view'" :pid="props.item.id">
                 <template #title>
                   {{ props.item.name }}
                 </template>

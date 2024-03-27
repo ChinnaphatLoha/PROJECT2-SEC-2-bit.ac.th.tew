@@ -48,13 +48,14 @@ class MeetingService {
     return meetingDTO
   }
 
-  async updateMeetingInfo(id, { start_date = null, end_date = null, description = null }) {
+  async updateMeetingInfo(id, { topic, start_date = null, end_date = null, description = null }) {
     if (!id) return new Response(null, { status: 400, statusText: 'Meeting ID is required' })
     if (!start_date && !end_date && !description)
       return new Response(null, { status: 400, statusText: 'At least one field is required' })
     if (!this._validateSchedule(start_date, end_date) && (start_date || end_date))
       return new Response(null, { status: 400, statusText: 'Invalid schedule' })
     const updateData = {
+      ...(topic !== null && { topic }),
       ...(start_date !== null && { start_date }),
       ...(end_date !== null && { end_date }),
       ...(description !== null && { description })

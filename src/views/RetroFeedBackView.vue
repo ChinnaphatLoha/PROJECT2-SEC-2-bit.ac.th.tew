@@ -1,51 +1,144 @@
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue';
-import { useUserStore } from '@/stores/store';
-import pollingData from '@/common/utils/polling-fetch-data';
-import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints';
+import { onBeforeUnmount, onMounted, reactive, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
+import { useUserStore } from '@/stores/store'
+import pollingData from '@/common/utils/polling-fetch-data'
+import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
+import { formatDateTime } from '@/common/utils/moment'
 
-const useStore = useUserStore();
-const meetingId = useRoute().params.id
-useStore.onMeeting(meetingId);
+const useStore = useUserStore()
+const router = useRouter()
+const projectId = useRoute().params.pid
+const meetingId = useRoute().params.mid
+useStore.onProject(projectId)
+useStore.onMeeting(meetingId)
+const AUTHORITY = useStore.authority
+const isOwner = AUTHORITY === 'OWNER'
 
-const ENDPOINT = PROJECT_ENDPOINTS.project_mutate(meetingId);
+const ENDPOINT = PROJECT_ENDPOINTS.project_mutate(meetingId)
+
+const getMeetingDuration = (start, end) => {
+  const startDate = new Date(start)
+  const endDate = new Date(end)
+  const diff = endDate.getTime() - startDate.getTime()
+  const minutes = Math.floor(diff / 60000)
+  return minutes
+}
 
 onMounted(() => {
-  const data = { id: meetingId };
-  pollingData(fetchMeetingData, true, ENDPOINT, data);
+  const data = { id: meetingId }
+  pollingData(fetchMeetingData, true, ENDPOINT, data)
 })
 
 const fetchMeetingData = async (data) => {
   try {
-    await useStore.onMeeting(data.id);
+    await useStore.onMeeting(data.id)
   } catch (error) {
-    console.log('Error fetching meeting data:', error);
+    console.log('Error fetching meeting data:', error)
   }
 }
 
+const goToMeetingEdit = () => {
+  router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
+}
+
 let meeting = reactive({ items: useStore.meeting })
+const [date, start_time] = formatDateTime(new Date(meeting.items.start_date), '[date, time]')
+// eslint-disable-next-line no-unused-vars
+const [_, end_time] = formatDateTime(new Date(meeting.items.end_date), '[date, time]')
 watch(
   () => useStore.meeting,
   (newValue) => {
-    meeting = newValue;
-  });
+    meeting = newValue
+  }
+)
 
 onBeforeUnmount(() => {
-  useStore.onMeeting(null);
+  useStore.onMeeting(null)
   const signal = false
   pollingData(fetchMeetingData, signal, ENDPOINT, null)
-});
+})
 </script>
 
 <template>
   <BaseLayout>
-    <div class="container mx-auto py-8">
-      <div class="text-4xl font-bold mb-4">{{ meeting.items.topic }}</div>
-      <div class="flex justify-center gap-8 items-start">
-        <RetroColumn v-for="{ feedbackRecords, end_date, id } in meeting" :key="id" :endDate="end_date"
-          :feedbackRecords="feedbackRecords" />
+    <div class="container m-8 py-8">
+      <div class="flex justify-between items-center w-full">
+        <div class="flex items-center breadcrumbs tracking-wide">
+          <ul>
+            <li>
+              <RouterLink :to="{ name: 'project-view', params: { id: projectId } }"
+                ><h2 class="text-xl font-semibold">Project</h2></RouterLink
+              >
+            </li>
+            <li>
+              <div class="flex items-center gap-4 w-[65%]">
+                <h1 class="text-xl">{{ meeting.items.topic }}</h1>
+                <button v-if="isOwner" @click="goToMeetingEdit" class="btn btn-square btn-custom">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                <button v-if="isOwner" class="btn btn-square btn-custom">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="flex w-[45%] my-8">
+          <div
+            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
+          >
+            {{ date }}
+          </div>
+          <div class="divider divider-horizontal text-2xl">:</div>
+          <div
+            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
+          >
+            {{ start_time }} - {{ end_time }}
+          </div>
+          <div class="divider divider-horizontal text-2xl">:</div>
+          <div
+            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
+          >
+            {{ getMeetingDuration(meeting.items.start_date, meeting.items.end_date) }} min
+          </div>
+        </div>
+      </div>
+      <p class="text-lg ml-4">{{ meeting.items.description }}</p>
+      <div class="flex gap-8 items-start my-8">
+        <RetroColumn
+          v-for="{ feedbackRecords, end_date, id } in meeting"
+          :key="id"
+          :endDate="end_date"
+          :feedbackRecords="feedbackRecords"
+        />
       </div>
     </div>
   </BaseLayout>

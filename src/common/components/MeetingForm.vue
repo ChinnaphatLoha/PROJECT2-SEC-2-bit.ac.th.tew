@@ -6,23 +6,27 @@ import { getShortISOStringInUserTimezone } from '@/common/utils/moment'
 import ErrorToast from './ErrorToast.vue'
 
 const router = useRouter()
-const userStore = useUserStore()
-const projectId = useRoute().params.id
-userStore.onProject(projectId)
-if (!userStore.ownedProject) {
-  router.push({ name: 'project-view', params: { id: projectId } })
+const store = useUserStore()
+const projectId = useRoute().params.pid
+const meetingId = useRoute().params.mid
+store.onProject(projectId)
+store.onMeeting(meetingId)
+if (!store.ownedProject) {
+  router.push({ name: 'project-view', params: { pid: projectId } })
 }
-
+const meeting = store.meeting
 const now = ref(getShortISOStringInUserTimezone(new Date()))
 
 const meetingCreationForm = reactive({
   projectId,
-  topic: '',
-  startDate: now.value,
-  endDate: getShortISOStringInUserTimezone(
-    new Date(new Date(now.value).setMinutes(new Date(now.value).getMinutes() + 15))
-  ),
-  description: ''
+  topic: meeting?.topic || '',
+  startDate: meeting?.start_date || now.value,
+  endDate:
+    meeting?.end_date ||
+    getShortISOStringInUserTimezone(
+      new Date(new Date(now.value).setMinutes(new Date(now.value).getMinutes() + 15))
+    ),
+  description: meeting?.description || ''
 })
 
 const minAllowedStartDate = computed(() => {
@@ -82,8 +86,17 @@ const goBackToPreviousPage = () => {
 }
 
 const createNewMeeting = async () => {
-  const { id } = await userStore.createNewMeeting(meetingCreationForm, showErrorToast)
-  router.push({ name: 'meeting-feedback', params: { id } })
+  if (meetingId) {
+    updateMeeting()
+  } else {
+    const { id } = await store.createNewMeeting(meetingCreationForm, showErrorToast)
+    router.push({ name: 'meeting-feedback', params: { mid: id } })
+  }
+}
+
+const updateMeeting = async () => {
+  const { id } = await store.updateMeetingInfo(meetingId, meetingCreationForm)
+  router.push({ name: 'meeting-feedback', params: { pid: projectId, mid: id } })
 }
 </script>
 
@@ -92,8 +105,8 @@ const createNewMeeting = async () => {
     <div class="breadcrumbs mb-6">
       <ul>
         <li>
-          <RouterLink :to="{ name: 'project-view', params: { id: userStore.ownedProject?.id } }"
-            ><h2 class="text-xl">{{ userStore.ownedProject?.name }}</h2></RouterLink
+          <RouterLink :to="{ name: 'project-view', params: { pid: store.ownedProject?.id } }"
+            ><h2 class="text-xl">{{ store.ownedProject?.name }}</h2></RouterLink
           >
         </li>
         <li><h2 class="text-lg">Meeting Creation Form</h2></li>
@@ -179,7 +192,7 @@ const createNewMeeting = async () => {
           type="submit"
           class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Create Meeting
+          {{ meeting ? 'Update Meeting' : 'Create Meeting' }}
         </button>
 
         <button

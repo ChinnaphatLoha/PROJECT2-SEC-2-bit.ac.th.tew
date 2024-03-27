@@ -42,7 +42,10 @@ function signout() {
 
 function moveToIncomingMeeting() {
   if (!incomingMeeting.value) return
-  router.push({ name: 'meeting-feedback', params: { id: incomingMeeting.value.id } })
+  router.push({
+    name: 'meeting-feedback',
+    params: { pid: incomingMeeting.value.projectId, mid: incomingMeeting.value.id }
+  })
 }
 </script>
 
