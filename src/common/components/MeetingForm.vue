@@ -90,7 +90,7 @@ const createNewMeeting = async () => {
     updateMeeting()
   } else {
     const { id } = await store.createNewMeeting(meetingCreationForm, showErrorToast)
-    router.push({ name: 'meeting-feedback', params: { mid: id } })
+    router.push({ name: 'meeting-feedback', params: { pid: projectId, mid: id } })
   }
 }
 
