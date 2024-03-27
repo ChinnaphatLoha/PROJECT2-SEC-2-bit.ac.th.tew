@@ -42,7 +42,7 @@ const closeModal = () => {
 const updateFeedbackRecords = (newContent) => {
   const { action } = feedbackManagement(feedbackRecords);
   action.addFeedback(title,newContent,useStore.username);
-  useStore.createNewFeedback({meetingId: useStore.currentMeetingId ,group:title,content: newContent})
+  useStore.createNewFeedback({meetingId: useStore.currentMeetingId , title,content: newContent})
 }
 
 const errorToast = reactive({
