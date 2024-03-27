@@ -1,11 +1,14 @@
 import { getAllUsers } from '../schema/schema'
 import GroupByRetrospectiveTypes from '../constants/group-by-retrospective-types'
+import MeetingService from '../services/MeetingService'
 import JsonServerRepository from '../connection/JsonServerRepository'
 import { BASE_URL, endpoints } from '../../config/env'
 
-const projectRepository = new JsonServerRepository(BASE_URL, endpoints.project)
+const _meetingService = new MeetingService()
+const _meetingRepository = new JsonServerRepository(BASE_URL, endpoints.meeting)
+const _projectRepository = new JsonServerRepository(BASE_URL, endpoints.project)
 const getRetrospectiveType = (pid) =>
-  projectRepository.findById(pid).then(({ retrospective_type }) => retrospective_type)
+  _projectRepository.findById(pid).then(({ retrospective_type }) => retrospective_type)
 
 const removeGroupPropertyFromFeedback = (feedback) => {
   const feedbackRecords = {}
@@ -64,4 +67,13 @@ export const getMeetingsDTO = async (meetings = [], feedbacks = []) => {
     }
   })
   return meetingsDTO
+}
+
+export const getMeetingDtoByProjectId = async (projectId) => {
+  const meetings = await _meetingRepository.findMany({ projectId })
+  if (!meetings) return []
+  const [feedbacks] = await Promise.all(
+    meetings.map((meeting) => _meetingService._getRelevantFeedbacks(meeting.id))
+  )
+  return await getMeetingsDTO(meetings, feedbacks)
 }
