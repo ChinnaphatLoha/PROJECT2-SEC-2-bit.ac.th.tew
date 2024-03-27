@@ -26,7 +26,6 @@ const authenticationUser = async () => {
   } else {
     alert('Data is null!')
   }
-  console.log(userStore.$state)
 }
 </script>
 

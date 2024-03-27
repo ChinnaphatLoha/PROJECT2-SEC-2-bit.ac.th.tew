@@ -8,7 +8,6 @@ const useStore = useUserStore();
 useStore.onMeeting(useRoute().params.id);
 
 let meeting = reactive({ items: useStore.meeting})
-console.log(meeting);
 watch(
   () => useStore.meeting,
   (newValue) => {
@@ -18,7 +17,6 @@ watch(
 onBeforeUnmount(() => {
   useStore.onMeeting(null);
 });
-console.log(meeting);
 </script>
 
 <template>
