@@ -2,9 +2,8 @@
 import { defineStore } from 'pinia'
 import Provider from '@/api/provider'
 import { getCookie } from '@/common/utils/cookie-util'
-import { ACCOUNT_ENDPOINTS } from '@/common/constants/uri-endpoints'
+import { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { PROJECT_ATTRIBUTE } from '@/common/constants/project-attributes'
-import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { AUTHORITY_VALUE } from '@/common/constants/authority-values'
 import { ERROR_MSG } from '@/common/constants/messages'
 
