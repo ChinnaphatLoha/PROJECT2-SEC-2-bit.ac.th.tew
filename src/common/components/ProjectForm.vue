@@ -9,7 +9,7 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
-const projectId = route.params.id
+const projectId = route.params.pid
 userStore.onProject(projectId)
 const project = userStore.ownedProject
 
@@ -59,7 +59,7 @@ const createProject = async () => {
     const { id } = await userStore.createNewProject(projectCreationForm)
     if (id) {
       userStore.onProject(id)
-      router.push({ name: 'project-view', params: { id } })
+      router.push({ name: 'project-view', params: { pid: id } })
     }
   }
 }
@@ -67,7 +67,7 @@ const createProject = async () => {
 const joinProject = async () => {
   const { id } = await userStore.joinProject(projectJoinForm, showErrorToast)
   if (id) {
-    router.push({ name: 'project-view', params: { id: projectJoinForm.projectId } })
+    router.push({ name: 'project-view', params: { pid: projectJoinForm.projectId } })
   }
 }
 
@@ -77,7 +77,7 @@ const updateProject = async () => {
     description: projectCreationForm.description
   }
   userStore.updateProjectInfo(projectId, projectUpdateForm)
-  router.push({ name: 'project-view', params: { id: projectId } })
+  router.push({ name: 'project-view', params: { pid: projectId } })
 }
 </script>
 

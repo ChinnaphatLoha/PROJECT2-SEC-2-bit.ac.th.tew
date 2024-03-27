@@ -110,7 +110,6 @@ const useUserStore = defineStore('user-store', {
     },
 
     async createNewProject(projectCreationForm) {
-      console.log('Create project')
       const projectData = {
         name: projectCreationForm.projectName,
         retrospective_type: projectCreationForm.retrospectiveType,
@@ -198,15 +197,21 @@ const useUserStore = defineStore('user-store', {
       }
     },
     async updateMeetingInfo(meetingId, meetingData) {
-      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(meetingData), {
+      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(meetingId), {
         method: 'PATCH',
-        body: JSON.stringify(meetingData)
+        body: JSON.stringify({
+          topic: meetingData.topic,
+          start_date: meetingData.startDate,
+          end_date: meetingData.endDate,
+          description: meetingData.description
+        })
       })
       if (res.ok) {
         const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
         const meeting = project.meetings.find((meeting) => meeting.id === meetingId)
         Object.assign(meeting, meetingData)
         this.saveDataToLocal()
+        return await res.json()
       }
     },
     async removeMeeting(projectId, meetingId) {

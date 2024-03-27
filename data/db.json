@@ -55,6 +55,19 @@
           "authority": "MEMBER"
         }
       ]
+    },
+    {
+      "id": "3beb",
+      "name": "Test Project 1",
+      "retrospective_type": "KLAM",
+      "passkey": "oV4xWkQaBns+y+mzl8jcr3GyB3fJXysY7sAj46X+LvBwJx8=",
+      "description": "",
+      "users": [
+        {
+          "userId": "ab4b",
+          "authority": "OWNER"
+        }
+      ]
     }
   ],
   "meetings": [
@@ -65,6 +78,14 @@
       "end_date": "2024-03-22T05:53",
       "description": "Discuss about how to use the backend",
       "projectId": "c03a"
+    },
+    {
+      "id": "f850",
+      "projectId": "3beb",
+      "topic": "Test Meeting 1 (updated)",
+      "start_date": "2024-03-27T18:27",
+      "end_date": "2024-03-27T18:42",
+      "description": ""
     }
   ],
   "feedbacks": [

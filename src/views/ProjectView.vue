@@ -13,7 +13,7 @@ defineEmits(['closeDeleteDialog', 'deleteProject'])
 const router = useRouter()
 const store = useUserStore()
 
-const projectId = useRoute().params.id
+const projectId = useRoute().params.pid
 store.onProject(projectId)
 const AUTHORITY = store.authority
 const isOwner = AUTHORITY === 'OWNER'
@@ -94,7 +94,7 @@ const goToProjectEdit = () => {
       <h2 class="heading-title tracking-wide my-8">Meetings</h2>
       <ListWrap :items="items">
         <template #default="props">
-          <CardRetro :key="props.index" :route_name="'meeting-feedback'" :id-card="props.item.id">
+          <CardRetro :key="props.index" :route_name="'meeting-feedback'" :pid="projectId" :mid="props.item.id">
             <template #title>
               {{ props.item.topic }}
             </template>

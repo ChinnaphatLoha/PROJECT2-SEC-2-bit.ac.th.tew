@@ -15,7 +15,7 @@ export const getAccountDTO = async (user, userProjects) => {
     username: user.username,
     projects: await Promise.all(
       userProjects.map(async (project) => {
-        const [meetingsDTO] = await getMeetingDtoByProjectId(project.id)
+        const meetingsDTO = await getMeetingDtoByProjectId(project.id)
         return {
           id: project.id,
           name: project.name,
