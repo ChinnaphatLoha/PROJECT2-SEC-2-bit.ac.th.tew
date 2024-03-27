@@ -1,11 +1,15 @@
 <script setup>
-import { onBeforeUnmount, onMounted, reactive, watch } from 'vue'
+import { ref, onBeforeUnmount, onMounted, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
+import DeleteDialog from '@/common/components/DeleteDialog.vue'
 import { useUserStore } from '@/stores/store'
 import pollingData from '@/common/utils/polling-fetch-data'
 import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { formatDateTime } from '@/common/utils/moment'
+
+defineEmits(['closeDeleteDialog', 'delete'])
+const openedDeleteDialog = ref(false)
 
 const useStore = useUserStore()
 const router = useRouter()
@@ -15,8 +19,14 @@ useStore.onProject(projectId)
 useStore.onMeeting(meetingId)
 const AUTHORITY = useStore.authority
 const isOwner = AUTHORITY === 'OWNER'
+const project = isOwner ? useStore.ownedProject : useStore.membershipProject
 
-const ENDPOINT = PROJECT_ENDPOINTS.project_mutate(meetingId)
+const deleteMeeting = () => {
+  useStore.removeMeeting(projectId, meetingId)
+  router.push({ name: 'project-view', params: { pid: projectId } })
+}
+
+// const ENDPOINT = PROJECT_ENDPOINTS.project_mutate(meetingId)
 
 const getMeetingDuration = (start, end) => {
   const startDate = new Date(start)
@@ -26,18 +36,18 @@ const getMeetingDuration = (start, end) => {
   return minutes
 }
 
-onMounted(() => {
-  const data = { id: meetingId }
-  pollingData(fetchMeetingData, true, ENDPOINT, data)
-})
+// onMounted(() => {
+//   const data = { id: meetingId }
+//   pollingData(fetchMeetingData, true, ENDPOINT, data)
+// })
 
-const fetchMeetingData = async (data) => {
-  try {
-    await useStore.onMeeting(data.id)
-  } catch (error) {
-    console.log('Error fetching meeting data:', error)
-  }
-}
+// const fetchMeetingData = async (data) => {
+//   try {
+//     await useStore.onMeeting(data.id)
+//   } catch (error) {
+//     console.log('Error fetching meeting data:', error)
+//   }
+// }
 
 const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
@@ -54,11 +64,11 @@ watch(
   }
 )
 
-onBeforeUnmount(() => {
-  useStore.onMeeting(null)
-  const signal = false
-  pollingData(fetchMeetingData, signal, ENDPOINT, null)
-})
+// onBeforeUnmount(() => {
+//   useStore.onMeeting(null)
+//   const signal = false
+//   pollingData(fetchMeetingData, signal, ENDPOINT, null)
+// })
 </script>
 
 <template>
@@ -69,12 +79,12 @@ onBeforeUnmount(() => {
           <ul>
             <li>
               <RouterLink :to="{ name: 'project-view', params: { id: projectId } }"
-                ><h2 class="text-xl font-semibold">Project</h2></RouterLink
+                ><h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">Project</h2></RouterLink
               >
             </li>
             <li>
               <div class="flex items-center gap-4 w-[65%]">
-                <h1 class="text-xl">{{ meeting.items.topic }}</h1>
+                <h1 class="text-2xl">{{ meeting.items.topic }}</h1>
                 <button v-if="isOwner" @click="goToMeetingEdit" class="btn btn-square btn-custom">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +101,11 @@ onBeforeUnmount(() => {
                     />
                   </svg>
                 </button>
-                <button v-if="isOwner" class="btn btn-square btn-custom">
+                <button
+                  @click="openedDeleteDialog = true"
+                  v-if="isOwner"
+                  class="btn btn-square btn-custom"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -142,6 +156,19 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </BaseLayout>
+
+  <div
+    v-if="openedDeleteDialog"
+    @click.self="openedDeleteDialog = false"
+    class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
+  >
+    <DeleteDialog
+      :item_type="'meeting'"
+      :item_name="useStore.meeting.topic"
+      @closeDeleteDialog="openedDeleteDialog = false"
+      @delete="deleteMeeting"
+    />
+  </div>
 </template>
 
 <style scoped></style>

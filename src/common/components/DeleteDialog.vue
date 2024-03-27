@@ -1,14 +1,20 @@
 <script setup>
-import { useUserStore } from '@/stores/store'
-
-const store = useUserStore()
-const projectName = store.ownedProject.name
+defineProps({
+  item_type: {
+    type: String,
+    required: true
+  },
+  item_name: {
+    type: String,
+    required: true
+  }
+})
 </script>
 
 <template>
   <div class="w-[32%] flex flex-col m-auto p-4 border rounded-lg bg-slate-50">
     <div class="flex justify-between items-center border-b mb-4">
-      <h1 class="font-semibold">Delete {{ projectName }}</h1>
+      <h1 class="font-semibold">Delete {{ item_name }}</h1>
       <button @click="$emit('closeDeleteDialog')" class="btn btn-ghost btn-square btn-custom">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +33,7 @@ const projectName = store.ownedProject.name
       </button>
     </div>
 
-    <button @click="$emit('deleteProject')" class="btn">I want to delete this project</button>
+    <button @click="$emit('delete')" class="btn">I want to delete this {{ item_type }}</button>
   </div>
 </template>
 

@@ -226,7 +226,7 @@ const useUserStore = defineStore('user-store', {
     },
 
     async createNewFeedback(feedbackData) {
-      const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(feedbackData.meetingId), {
+      const res = await Provider.request(PROJECT_ENDPOINTS.feedback, {
         method: 'POST',
         body: JSON.stringify({
           userId: this.currentUser.id,
@@ -238,7 +238,7 @@ const useUserStore = defineStore('user-store', {
       if (res.ok) {
         const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
         const meeting = project.meetings.find((meeting) => meeting.id === feedbackData.meetingId)
-        meeting.feedbackRecords[feedbackData.group].push({
+        meeting.feedbackRecords[feedbackData.title].push({
           username: this.currentUser.username,
           content: feedbackData.content
         })

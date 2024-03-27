@@ -15,7 +15,8 @@ const PROJECT_ENDPOINTS = {
   projectJoin: `${PROJECT_ACCESS}/projects/join`,
   meeting: (pid) => `${PROJECT_ACCESS}/meetings?pid=${pid}`,
   meeting_mutate: (mid) => `${PROJECT_ACCESS}/meetings?mid=${mid}`,
-  meetings: `${PROJECT_ACCESS}/meetings`
+  meetings: `${PROJECT_ACCESS}/meetings`,
+  feedback: `${PROJECT_ACCESS}/meetings/feedbacks`,
 }
 
 export { ACCOUNT_ENDPOINTS, PROJECT_ENDPOINTS }
