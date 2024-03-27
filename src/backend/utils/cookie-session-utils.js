@@ -109,7 +109,7 @@ export const setCookie = (name, value, days) => {
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
   const expires = `expires=${date.toUTCString()}`
   document.cookie = `${name}=${value};${expires};path=/`
-  const cookieExpiration = new Date(Date.now() + import.meta.env.VITE_COOKIE_EXPIRATION * 60 * 1000)
+  const cookieExpiration = new Date(Date.now() + import.meta.env.VITE_COOKIE_EXPIRATION * 24 * 60 * 60 * 1000);
   localStorage.setItem('cookieExpiration', cookieExpiration.toISOString())
 }
 
