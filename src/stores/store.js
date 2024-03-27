@@ -41,19 +41,6 @@ const useUserStore = defineStore('user-store', {
         )
       }
     },
-    async initializeMeetings(authority) {
-      const res = await Provider.request(PROJECT_ENDPOINTS.meeting(this.currentProjectId))
-      if (res.ok) {
-        const data = (await res.json()) ?? []
-        if (authority === AUTHORITY_VALUE.OWNER) {
-          this.ownedProjects.find((project) => project.id === this.currentProjectId).meetings = data
-        } else {
-          this.membershipProjects.find((project) => project.id === this.currentProjectId).meetings =
-            data
-        }
-        this.saveDataToLocal()
-      }
-    },
     setCurrentUser(user) {
       this.currentUser = user
     },
@@ -184,7 +171,7 @@ const useUserStore = defineStore('user-store', {
       })
       if (res.ok) {
         this.ownedProjects = this.ownedProjects.filter((project) => project.id !== projectId)
-        
+
         this.saveDataToLocal()
       }
     },
@@ -276,8 +263,8 @@ const useUserStore = defineStore('user-store', {
     },
     meeting() {
       const allProjects = this.ownedProjects.concat(this.membershipProjects)
-      const project = allProjects.find((project) => project.id === this.currentProjectId)
-      return project.meetings.find((meeting) => meeting.id === this.currentMeetingId)
+      const allMeetings = allProjects.map((project) => project.meetings).flat()
+      return allMeetings.find((meeting) => meeting.id === this.currentMeetingId)
     }
   }
 })
