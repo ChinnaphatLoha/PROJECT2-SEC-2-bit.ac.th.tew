@@ -11,34 +11,32 @@ import { formatDateTime } from '@/common/utils/moment'
 defineEmits(['closeDeleteDialog', 'deleteProject'])
 
 const router = useRouter()
-const useStore = useUserStore()
+const store = useUserStore()
 
 const projectId = useRoute().params.id
-useStore.onProject(projectId)
-const AUTHORITY = useStore.authority
+store.onProject(projectId)
+const AUTHORITY = store.authority
 const isOwner = AUTHORITY === 'OWNER'
-const project = isOwner ? useStore.ownedProject : useStore.membershipProject
+const project = isOwner ? store.ownedProject : store.membershipProject
 
 const items = ref([])
 const openedDeleteDialog = ref(false)
 
 const deleteProject = () => {
-  useStore.removeOwnedProject(projectId)
+  store.removeOwnedProject(projectId)
   router.push({ name: 'home' })
 }
 
 watch(
-  () => [useStore.ownedProject?.meetings, useStore.membershipProject?.meetings],
+  () => [store.ownedProject?.meetings, store.membershipProject?.meetings],
   (newMeetings) => {
     items.value = newMeetings.flatMap((meeting) => meeting || [])
   },
   { immediate: true }
 )
 
-useStore.initializeMeetings(AUTHORITY)
-
 const goToProjectEdit = () => {
-  router.push({ name: 'project-edit', params: { id: useStore.$state.currentProjectId } })
+  router.push({ name: 'project-edit', params: { id: store.$state.currentProjectId } })
 }
 </script>
 
@@ -84,7 +82,7 @@ const goToProjectEdit = () => {
     </div>
     <RouterLink
       v-if="isOwner"
-      :to="{ name: 'meeting-create', params: { id: useStore.$state.currentProjectId } }"
+      :to="{ name: 'meeting-create', params: { id: store.$state.currentProjectId } }"
       class="w-fit"
     >
       <div class="m-8 card-retro border-dashed flex flex-col gap-4 items-center justify-center">
