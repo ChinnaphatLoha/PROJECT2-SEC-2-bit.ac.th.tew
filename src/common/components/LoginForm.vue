@@ -8,10 +8,14 @@ import getFormUtils from '../utils/form-utils'
 import { USER_ATTRIBUTE } from '../constants/user-attributes'
 import { useUserStore } from '@/stores/store'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { ERROR_MSG } from '../constants/messages.js'
 
 const userFormUtils = getFormUtils()
 const userStore = useUserStore()
 const router = useRouter()
+const isAuthenticatedFailed = ref(false)
+const errorMsg = ref('')
 
 const authenticationUser = async () => {
   const user = userFormUtils.getObject()
@@ -24,8 +28,15 @@ const authenticationUser = async () => {
     userStore.initializeStore({ id, username }, projects)
     router.push({ name: 'home', params: { id: data.pid } })
   } else {
-    alert('Data is null!')
+    showErrors(true)
   }
+}
+const showErrors = (isErroroccurred) => {
+  errorMsg.value = ERROR_MSG.INVALID_AUTH
+  isAuthenticatedFailed.value = isErroroccurred
+  setTimeout(() => {
+    isAuthenticatedFailed.value = !isErroroccurred
+  }, 5000)
 }
 </script>
 
@@ -33,6 +44,9 @@ const authenticationUser = async () => {
   <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
     <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Login</h1>
     <form @submit.prevent="authenticationUser">
+      <div v-show="isAuthenticatedFailed" class="mb-4">
+        <p class="text-red-900 text-xs italic bg-red-300 rounded-md p-2">{{ errorMsg }}</p>
+      </div>
       <TextForm
         class="mb-4"
         @update:textValue="userFormUtils.setTextValue(USER_ATTRIBUTE.username, $event)"
