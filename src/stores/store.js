@@ -197,19 +197,20 @@ const useUserStore = defineStore('user-store', {
       }
     },
     async updateMeetingInfo(meetingId, meetingData) {
+      const data = {
+        topic: meetingData.topic,
+        start_date: meetingData.startDate,
+        end_date: meetingData.endDate,
+        description: meetingData.description
+      }
       const res = await Provider.request(PROJECT_ENDPOINTS.meeting_mutate(meetingId), {
         method: 'PATCH',
-        body: JSON.stringify({
-          topic: meetingData.topic,
-          start_date: meetingData.startDate,
-          end_date: meetingData.endDate,
-          description: meetingData.description
-        })
+        body: JSON.stringify(data)
       })
       if (res.ok) {
         const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
         const meeting = project.meetings.find((meeting) => meeting.id === meetingId)
-        Object.assign(meeting, meetingData)
+        Object.assign(meeting, data)
         this.saveDataToLocal()
         return await res.json()
       }
