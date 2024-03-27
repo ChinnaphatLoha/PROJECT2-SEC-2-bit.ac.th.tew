@@ -24,6 +24,7 @@ console.log(meeting);
 <template>
   <BaseLayout>
     <div class="container mx-auto py-8">
+      <div class="text-4xl font-bold mb-4">{{ meeting.items.topic }}</div>
       <div class="flex justify-center gap-8">
         <RetroColumn v-for="{feedbackRecords, end_date, id} in meeting" :key="id" :endDate="end_date"
           :feedbackRecords="feedbackRecords" />
