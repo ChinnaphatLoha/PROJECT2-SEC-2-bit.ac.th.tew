@@ -8,7 +8,6 @@ import MeetingFormView from '@/views/MeetingFormView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import RetroFeedBackView from '@/views/RetroFeedBackView.vue'
 import { useUserStore } from '@/stores/store'
-import { resolveDirective } from 'vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
