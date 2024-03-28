@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <button type="submit" class="w-full flex justify-center p-4 border border-transparent rounded-md shadow-sm text-sm font-medium button-retro-primary ">
+    <button type="submit" class="w-full mt-3 button-retro-primary ">
       {{ buttonText }}
     </button>
 </template>
