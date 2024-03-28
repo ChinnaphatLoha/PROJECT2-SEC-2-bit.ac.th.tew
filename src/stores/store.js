@@ -237,7 +237,9 @@ const useUserStore = defineStore('user-store', {
         })
       })
       if (res.ok) {
-        const project = this.ownedProjects.find((project) => project.id === this.currentProjectId)
+        const project = this.ownedProjects
+          .concat(this.membershipProjects)
+          .find((project) => project.id === this.currentProjectId)
         const meeting = project.meetings.find((meeting) => meeting.id === feedbackData.meetingId)
         meeting.feedbackRecords[feedbackData.title].push({
           username: this.currentUser.username,
