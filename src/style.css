@@ -10,6 +10,9 @@
   a {
     display: inline-block;
   }
+  hr {
+    @apply border-tan-hide-400 dark:border-tan-hide-600;
+  }
   .bg-retro-primary {
     @apply bg-tan-hide-50 dark:bg-tan-hide-800;
   }
@@ -75,7 +78,15 @@
   }
 
   .card-retro {
-    @apply border-2 border-tan-hide-400 bg-tan-hide-200 rounded-xl p-6 w-72 h-48 flex-none;
-    @apply hover:cursor-pointer;
+    @apply border-2 rounded-xl p-6 w-72 h-48 flex-none;
+    @apply border-tan-hide-400 bg-tan-hide-200 hover:bg-tan-hide-300;
+    @apply hover:cursor-pointer hover:shadow-lg;
+    @apply transition-all duration-200;
+  }
+
+  .button-action-meeting {
+    @apply transition-all duration-200;
+    @apply p-2.5 rounded-full shadow-sm hover:shadow-md;
+    @apply bg-tan-hide-500 hover:bg-tan-hide-300 active:bg-tan-hide-300;
   }
 }

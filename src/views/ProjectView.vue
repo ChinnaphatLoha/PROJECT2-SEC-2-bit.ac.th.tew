@@ -4,6 +4,9 @@ import ListWrap from '@/common/components/ListWrap.vue'
 import CardRetro from '@/common/components/CardRetro.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
 import PlusIcon from '@/common/components/icons/PlusIcon.vue'
+import TrashIcon from '@/common/components/icons/TrashIcon.vue'
+import PenIcon from '@/common/components/icons/PenIcon.vue'
+import InfoIcon from '@/common/components/icons/InfoIcon.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import { formatDateTime } from '@/common/utils/moment'
@@ -47,54 +50,38 @@ const goToProjectEdit = () => {
         <div class="flex items-center breadcrumbs tracking-wide">
           <ul>
             <li>
-              <RouterLink :to="{ name: 'home' }"
-                ><h2 class="text-2xl font-semibold">Home</h2></RouterLink
-              >
+              <RouterLink :to="{ name: 'home' }">
+                <h2 class="create-title">Home</h2>
+              </RouterLink>
             </li>
             <li>
               <div class="flex items-center gap-4 w-[65%]">
-                <h1 class="text-2xl">({{ project.id }}) {{ project.name }}</h1>
-                <button v-if="isOwner" @click="goToProjectEdit" class="btn btn-square btn-custom">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                <h1 class="create-title">[{{ project.id }}] {{ project.name }}</h1>
+                <button 
+                  @click="goToProjectEdit" 
+                  v-if="isOwner" 
+                  class="button-action-meeting"
+                >
+                  <PenIcon size="w-5" color="#feebd6"/>
                 </button>
                 <button
                   @click="openedDeleteDialog = true"
                   v-if="isOwner"
-                  class="btn btn-square btn-custom"
+                  class="button-action-meeting"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <TrashIcon size="w-5" color="#feebd6"/>
                 </button>
               </div>
             </li>
           </ul>
         </div>
-        <p class="text-lg my-8 ml-4">{{ project.description }}</p>
+        <div class="flex justify-center">
+          <InfoIcon size="w-10" color="#411209" />
+          <p class="text-lg font-semibold my-8 ml-6 leading-8">
+            {{ project.description }}
+          </p>
+        </div>
+        <hr class=" divide-tan-hide-900">
       </div>
       <RouterLink
         v-if="isOwner"
@@ -102,7 +89,7 @@ const goToProjectEdit = () => {
         class="w-fit"
       >
         <div class="card-retro border-dashed flex flex-col gap-4 items-center justify-center">
-          <PlusIcon :size="'w-12'" />
+          <PlusIcon size="w-12" color="#411209" />
           <p class="create-title">Create Meeting</p>
         </div>
       </RouterLink>
