@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch, computed } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
@@ -37,22 +37,81 @@ const goToMeetingEdit = () => {
 }
 
 const meeting = reactive({ items: useStore.meeting })
+const isMeetingEnd = ref(false)
+const endMeetingTime = new Date(meeting.items.end_date).getTime()
 const start_datetime = computed(() =>
   formatDateTime(new Date(meeting.items.start_date), '[date, time]')
 )
 const end_datetime = computed(() =>
   formatDateTime(new Date(meeting.items.end_date), '[date, time]')
 )
-watch(
-  () => useStore.$state.ownedProjects,
-  (newValue) => {
-    meeting.items = newValue
-      .flatMap((project) => project.meetings)
-      .flat()
-      .find((m) => m.id === meetingId)
-    console.log(meeting.items)
+
+const displayMeetingData = computed(() => {
+  return meeting
+})
+
+const checkMeetingEndAndEditStatus = async (end_datetime) => {
+  const currentDateTime = new Date().getTime()
+  console.log(currentDateTime)
+  console.log(end_datetime)
+  if (currentDateTime > end_datetime) {
+    isMeetingEnd.value = true
+    console.log('Meeting is end')
+  } else {
+    isMeetingEnd.value = false
+    console.log('Meeting is not end')
   }
-)
+}
+
+const pollingData = (fetchDataCallback, intervalTime = 5000) => {
+  let i = 0
+  checkMeetingEndAndEditStatus(endMeetingTime)
+  let polling = setInterval(async () => {
+    if (isMeetingEnd.value) {
+      // clear interval loop
+      await new Promise((resolve) => {
+        clearInterval(polling)
+        resolve()
+      })
+    } else {
+      console.log(i)
+      await fetchDataCallback()
+    }
+    i++
+  }, intervalTime)
+}
+
+const fetchMeetingData = async () => {
+  await useStore.getFeedbacksByMeetingId(meetingId, showErrorMsg)
+  meeting.items = useStore.meeting
+}
+
+const showErrorMsg = (msg) => {
+  console.log(msg)
+}
+
+onMounted(() => {
+  if (!isMeetingEnd.value) {
+    pollingData(fetchMeetingData, 5000)
+  } else {
+    console.log('Meeting is end. STOP POLLING')
+  }
+})
+
+onUnmounted(() => {
+  isMeetingEnd.value = true
+})
+
+// watch(
+//   () => useStore.$state.ownedProjects,
+//   (newValue) => {
+//     meeting.items = newValue
+//       .flatMap((project) => project.meetings)
+//       .flat()
+//       .find((m) => m.id === meetingId)
+//     console.log(meeting.items)
+//   }
+// )
 </script>
 
 <template>
@@ -138,8 +197,8 @@ watch(
       <p class="text-lg ml-4">{{ meeting.items.description }}</p>
       <div class="flex gap-8 justify-center items-start my-16">
         <RetroColumn
-          v-for="{ feedbackRecords, end_date, id } in meeting"
-          :key="id"
+          v-for="{ feedbackRecords, end_date, index } in displayMeetingData"
+          :key="new Date().getTime() + index"
           :endDate="end_date"
           :feedbackRecords="feedbackRecords"
         />

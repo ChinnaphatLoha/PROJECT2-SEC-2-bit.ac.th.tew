@@ -71,6 +71,12 @@ class ProjectCompositionController {
     return new Response(JSON.stringify(await this._meetingService.deleteMeeting(mid)), { status: 200 })
   }
 
+  async getFeedbacksByMeetingId({ mid }) {
+    const data = await this._feedbackService.getFeedbacksByMeetingId(mid)
+    if (!data) return new Response(null, { status: 404, statusText: 'No feedbacks found' })
+    return new Response(JSON.stringify(data), { status: 200 })
+  }
+
   async createFeedback(feedback) {
     const validatedFeedback = await this._feedbackValidator.validate(feedback)
     const data = await this._feedbackService.createFeedback(validatedFeedback)
@@ -134,6 +140,8 @@ class ProjectCompositionEndpointsCaller {
         }
       case `${this.endpoint}/meetings/feedbacks`:
         switch (method) {
+          case 'GET':
+            return controller.getFeedbacksByMeetingId(body)
           case 'POST':
             return controller.createFeedback(body)
           default:

@@ -226,6 +226,27 @@ const useUserStore = defineStore('user-store', {
       }
     },
 
+    async getFeedbacksByMeetingId(meetingId, callbackError) {
+      const res = await Provider.request(PROJECT_ENDPOINTS.feedback, {
+        method: 'GET',
+        body: JSON.stringify({ mid: meetingId })
+      })
+      if (res.ok) {
+        const meetingData = await res.json()
+        const project = this.ownedProjects
+          .concat(this.membershipProjects)
+          .find((project) => project.id === meetingData.projectId)
+        const meeting = project.meetings.find((meeting) => meeting.id === meetingData.id)
+        Object.assign(meeting, meetingData)
+        console.log('data on local')
+        console.log(this.ownedProjects)
+        console.log(this.membershipProjects)
+        this.saveDataToLocal()
+      } else {
+        callbackError('Failed to get feedbacks')
+      }
+    },
+
     async createNewFeedback(feedbackData) {
       const res = await Provider.request(PROJECT_ENDPOINTS.feedback, {
         method: 'POST',
