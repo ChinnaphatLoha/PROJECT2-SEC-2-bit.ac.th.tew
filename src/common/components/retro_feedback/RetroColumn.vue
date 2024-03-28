@@ -35,7 +35,7 @@ const isDisabled = currentDate > endDate;
     :key="title">
     <h2 class="text-xl font-bold px-4 py-2" :class="setStyleTitle(title)">{{ title }}</h2>
     <div class="px-4 py-2">
-      <AddFeedBackBtn :disabled="isDisabled" :feedbackRecords="feedbackRecords" :title="title" />
+      <AddFeedBackBtn :disabled="isDisabled" :title="title" />
     </div>
     <div class="flex flex-col gap-3 p-4">
       <FeedBackCard v-for="{ content, username, index } in reversedFeedbacks(feedbacks)" :key="index">

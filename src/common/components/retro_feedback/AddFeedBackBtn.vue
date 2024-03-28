@@ -7,10 +7,6 @@ import { useUserStore } from '@/stores/store'
 
 const useStore = useUserStore()
 const props = defineProps({
-  feedbackRecords: {
-    type: Object,
-    default: () => {}
-  },
   title: {
     type: String,
     required: true
@@ -22,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const { feedbackRecords, title, disabled } = props
+const { title, disabled } = props
 const isOpenModal = ref(false)
 
 const openModal = () => {
