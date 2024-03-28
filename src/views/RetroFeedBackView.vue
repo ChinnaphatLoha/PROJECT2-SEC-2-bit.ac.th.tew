@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
@@ -54,7 +54,7 @@ const checkMeetingEndAndEditStatus = async (end_datetime) => {
   const currentDateTime = new Date().getTime()
   console.log(currentDateTime)
   console.log(end_datetime)
-  if (currentDateTime > end_datetime && op) {
+  if (currentDateTime > end_datetime) {
     isMeetingEnd.value = true
     console.log('Meeting is end')
   } else {
@@ -63,7 +63,7 @@ const checkMeetingEndAndEditStatus = async (end_datetime) => {
   }
 }
 
-const pollingData = (fetchDataCallback, intervalTime = 5000, endMeetingTime) => {
+const pollingData = (fetchDataCallback, intervalTime = 5000) => {
   let i = 0
   checkMeetingEndAndEditStatus(endMeetingTime)
   let polling = setInterval(async () => {
@@ -84,7 +84,6 @@ const pollingData = (fetchDataCallback, intervalTime = 5000, endMeetingTime) => 
 const fetchMeetingData = async () => {
   await useStore.getFeedbacksByMeetingId(meetingId, showErrorMsg)
   meeting.items = useStore.meeting
-  console.log('------- PATCH --------')
 }
 
 const showErrorMsg = (msg) => {
@@ -92,16 +91,14 @@ const showErrorMsg = (msg) => {
 }
 
 onMounted(() => {
-  console.log('START POLLING')
   if (!isMeetingEnd.value) {
-    pollingData(fetchMeetingData, 5000, endMeetingTime)
+    pollingData(fetchMeetingData, 5000)
   } else {
     console.log('Meeting is end. STOP POLLING')
   }
 })
 
 onUnmounted(() => {
-  console.log('STOP POLLING')
   isMeetingEnd.value = true
 })
 
@@ -115,14 +112,6 @@ onUnmounted(() => {
 //     console.log(meeting.items)
 //   }
 // )
-watch(
-  meeting,
-  (newValue) => {
-    console.log('Meeting data changed')
-    console.log(newValue)
-  },
-  { deep: true }
-)
 </script>
 
 <template>
