@@ -1,11 +1,9 @@
 <script setup>
-import { ref, onBeforeUnmount, onMounted, reactive, watch } from 'vue'
+import { ref, onBeforeUnmount, reactive, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
 import { useUserStore } from '@/stores/store'
-import pollingData from '@/common/utils/polling-fetch-data'
-import { PROJECT_ENDPOINTS } from '@/common/constants/uri-endpoints'
 import { formatDateTime } from '@/common/utils/moment'
 
 defineEmits(['closeDeleteDialog', 'delete'])
@@ -26,8 +24,6 @@ const deleteMeeting = () => {
   router.push({ name: 'project-view', params: { pid: projectId } })
 }
 
-// const ENDPOINT = PROJECT_ENDPOINTS.project_mutate(meetingId)
-
 const getMeetingDuration = (start, end) => {
   const startDate = new Date(start)
   const endDate = new Date(end)
@@ -36,39 +32,18 @@ const getMeetingDuration = (start, end) => {
   return minutes
 }
 
-// onMounted(() => {
-//   const data = { id: meetingId }
-//   pollingData(fetchMeetingData, true, ENDPOINT, data)
-// })
-
-// const fetchMeetingData = async (data) => {
-//   try {
-//     await useStore.onMeeting(data.id)
-//   } catch (error) {
-//     console.log('Error fetching meeting data:', error)
-//   }
-// }
-
 const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
 }
 
-let meeting = reactive({ items: useStore.meeting })
-const [date, start_time] = formatDateTime(new Date(meeting.items.start_date), '[date, time]')
-// eslint-disable-next-line no-unused-vars
-const [_, end_time] = formatDateTime(new Date(meeting.items.end_date), '[date, time]')
-watch(
-  () => useStore.meeting,
-  (newValue) => {
-    meeting = newValue
-  }
-)
+let meeting = reactive({ items: useStore.meeting });
+const [date, start_time] = formatDateTime(new Date(meeting.items.start_date), '[date, time]');
 
-// onBeforeUnmount(() => {
-//   useStore.onMeeting(null)
-//   const signal = false
-//   pollingData(fetchMeetingData, signal, ENDPOINT, null)
-// })
+const [_, end_time] = formatDateTime(new Date(meeting.items.end_date), '[date, time]');
+
+onBeforeUnmount(() => {
+  useStore.onMeeting(null)
+})
 </script>
 
 <template>

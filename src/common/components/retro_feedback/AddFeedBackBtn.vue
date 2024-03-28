@@ -3,7 +3,6 @@ import { ref, reactive } from 'vue'
 import FormFeedBack from './FormFeedBack.vue'
 import PlusIcon from '../icons/PlusIcon.vue'
 import ErrorToast from '../ErrorToast.vue'
-import feedbackManagement from '@/common/utils/feedback-management'
 import { useUserStore } from '@/stores/store'
 
 const useStore = useUserStore()
@@ -38,8 +37,6 @@ const closeModal = () => {
 }
 
 const updateFeedbackRecords = (newContent) => {
-  const { action } = feedbackManagement(feedbackRecords)
-  // action.addFeedback(title, newContent, useStore.username)
   useStore.createNewFeedback({
     meetingId: useStore.$state.currentMeetingId,
     title,
