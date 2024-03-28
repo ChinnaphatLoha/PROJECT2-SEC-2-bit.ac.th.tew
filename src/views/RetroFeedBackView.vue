@@ -62,11 +62,13 @@ watch(
         <div class="flex items-center breadcrumbs tracking-wide">
           <ul>
             <li>
-              <RouterLink :to="{ name: 'project-view', params: { id: projectId } }"
-                ><h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">
-                  Project
-                </h2></RouterLink
+              <RouterLink 
+                :to="{ name: 'project-view', params: { id: projectId } }"
               >
+                <h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">
+                  Project
+                </h2>
+              </RouterLink>
             </li>
             <li>
               <div class="flex items-center gap-4 w-[65%]">

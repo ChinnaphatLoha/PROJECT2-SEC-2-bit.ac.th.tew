@@ -105,9 +105,11 @@ const updateMeeting = async () => {
     <div class="breadcrumbs mb-6">
       <ul>
         <li>
-          <RouterLink :to="{ name: 'project-view', params: { pid: store.ownedProject?.id } }"
-            ><h2 class="text-xl">{{ store.ownedProject?.name }}</h2></RouterLink
+          <RouterLink 
+            :to="{ name: 'project-view', params: { pid: store.ownedProject?.id } }"
           >
+            <h2 class="text-xl">{{ store.ownedProject?.name }}</h2>
+          </RouterLink>
         </li>
         <li><h2 class="text-lg">Meeting Creation Form</h2></li>
       </ul>
