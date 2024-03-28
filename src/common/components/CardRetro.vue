@@ -22,7 +22,7 @@ defineProps({
   <RouterLink :to="{ name: route_name, params: { pid, mid } }">
     <div class="card-retro relative flex flex-col gap-16" :id="mid">
       <h1 class="text-2xl font-bold"><slot name="title"></slot></h1>
-      <p class="text-slate-300 text-right absolute right-6 bottom-6">
+      <p class="text-tan-hide-600 font-semibold text-right absolute right-6 bottom-6">
         <slot name="tag"></slot>
       </p>
     </div>

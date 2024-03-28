@@ -21,12 +21,12 @@ watch(
 
 <template>
   <BaseLayout>
-    <div class="m-8">
+    <div class="ml-10 mb-6 mt-10">
       <RouterLink :to="{ name: 'project-create' }">
-        <button class="btn">Create or join Project</button>
+        <button class="button-retro-primary">Create or join Project</button>
       </RouterLink>
     </div>
-    <div class="m-4 mt-8">
+    <div class="m-6">
       <CollapseBar>
         <template #title>
           <h1>My Project</h1>
@@ -52,7 +52,7 @@ watch(
         </template>
       </CollapseBar>
     </div>
-    <div class="m-4 mt-8">
+    <div class="m-6">
       <CollapseBar>
         <template #title>
           <h1>Share with Me</h1>

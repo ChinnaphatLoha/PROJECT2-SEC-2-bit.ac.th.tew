@@ -45,6 +45,7 @@
 
   .button-retro-primary {
     @apply text-base font-medium;
+    @apply transition-all duration-200;
     @apply p-4 border border-transparent rounded-md shadow-sm;
     @apply text-white bg-tan-hide-500 hover:bg-tan-hide-600 active:bg-tan-hide-700;
     @apply focus:button-primary-focus;
@@ -74,7 +75,7 @@
   }
 
   .card-retro {
-    @apply border-2 border-black bg-slate-50 rounded-xl p-6 w-72 h-48 flex-none;
+    @apply border-2 border-tan-hide-400 bg-tan-hide-200 rounded-xl p-6 w-72 h-48 flex-none;
     @apply hover:cursor-pointer;
   }
 }
