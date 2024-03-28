@@ -41,8 +41,9 @@ const showErrors = (isErroroccurred) => {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
-    <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Login</h1>
+  <div class="bg-form-primary shadow-md rounded-lg px-8 py-6 w-96">
+    <h1 class="sub-heading-title text-center mb-4">Welcome to Bit Retro</h1>
+    <h1 class="auth-title">Sign-in</h1>
     <form @submit.prevent="authenticationUser">
       <div v-show="isAuthenticatedFailed" class="mb-4">
         <p class="text-red-900 text-xs italic bg-red-300 rounded-md p-2">{{ errorMsg }}</p>
@@ -63,7 +64,7 @@ const showErrors = (isErroroccurred) => {
       >
         <template #text-header>Password</template>
       </PasswordForm>
-      <SubmitBtn buttonText="Sign-in / Login" />
+      <SubmitBtn buttonText="Sign-in" />
     </form>
     <div class="mt-4">
       <p>

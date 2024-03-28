@@ -5,19 +5,59 @@
 @layer components {
   * {
     user-select: none;
+    @apply text-tan-hide-950 dark:text-tan-hide-50;
   }
   a {
     display: inline-block;
   }
-  body {
-    @apply bg-tan-hide-50
+  .bg-retro-primary {
+    @apply bg-tan-hide-50 dark:bg-tan-hide-800;
   }
+  .bg-form-primary {
+    @apply bg-white dark:bg-tan-hide-900;
+  }
+  html, body, #app > div {
+    @apply bg-retro-primary;
+  }
+  html, body {
+    @apply h-screen
+  }
+
+  .input-style-primary {
+    @apply border bg-tan-hide-100 border-tan-hide-600;
+    @apply placeholder:text-tan-hide-400;
+    @apply focus:input-primary-focus;
+    @apply input-primary-handle-inputting;
+  }
+  .input-primary-focus {
+    @apply outline-none ring-1 ring-offset-2 ring-tan-hide-700 border-tan-hide-700;
+  }
+  .input-primary-handle-inputting {
+    @apply valid:bg-tan-hide-100;
+    @apply autofill:bg-tan-hide-100;
+    @apply focus-within:bg-tan-hide-100;
+  }
+
+  .button-retro-primary {
+    @apply text-white bg-tan-hide-500 hover:bg-tan-hide-600 active:bg-tan-hide-700;
+    @apply focus:button-primary-focus;
+  }
+  .button-primary-focus {
+    @apply outline-none ring-2 ring-offset-2 ring-tan-hide-700
+  }
+
   .card-retro {
     @apply border-2 border-black bg-slate-50 rounded-xl p-6 w-72 h-48 flex-none;
     @apply hover:cursor-pointer;
   }
+  .auth-title {
+    @apply text-4xl font-bold text-center mb-4 w-fit mx-auto;
+  }
   .heading-title {
     @apply text-3xl font-bold;
+  }
+  .sub-heading-title {
+    @apply text-xl font-bold;
   }
   .create-title {
     @apply text-2xl font-bold;
