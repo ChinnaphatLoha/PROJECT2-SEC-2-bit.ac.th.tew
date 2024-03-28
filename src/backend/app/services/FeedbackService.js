@@ -22,8 +22,7 @@ class FeedbackService {
     if (!meeting) return new Response(null, { status: 404, statusText: `Meeting id: ${meetingId} not found` })
     const feedbacks = await this.meetingService._getRelevantFeedbacks(meetingId)
     const [meetingDTO] = await getMeetingsDTO([meeting], feedbacks)
-    const {id, projectId, feedbackRecords} = meetingDTO
-    return {mid: id, pid: projectId, feedbackRecords}
+    return meetingDTO
   }
 
   async createFeedback(feedback) {
