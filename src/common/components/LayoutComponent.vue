@@ -22,7 +22,7 @@ const getIncomingMeeting = computed(() => {
 })
 
 const indicator = computed(() =>
-  getIncomingMeeting.value ? 'border-0 bg-orange-500 hover:bg-orange-700' : 'btn-disabled'
+  getIncomingMeeting.value ? 'border-0 button-retro-primary' : 'btn-disabled'
 )
 
 watch(
@@ -33,7 +33,7 @@ watch(
       .map((project) => project.meetings)
       .flat()
   },
-  { deep: true, immediate: true}
+  { deep: true, immediate: true }
 )
 
 setInterval(() => {
@@ -55,25 +55,25 @@ function moveToIncomingMeeting() {
 </script>
 
 <template>
-  <div class="w-full font-semibold bg-[#F8B379]">
-    <header class="text-[#411209] text-lg py-4 px-6 flex justify-between">
-      <div class="flex items-center justify-between w-[20%] pl-10">
-        <RouterLink :to="{ name: 'home' }">
-          <BarSolid />
-        </RouterLink>
-        <button :class="indicator" class="btn" @click="moveToIncomingMeeting">
-          <span :class="[indicator !== 'btn-disabled' ? 'text-white' : 'text-[#411209]']"
-            >Incoming Meeting</span
-          >
-        </button>
-      </div>
-      <div class="flex items-center justify-between w-[35%]">
-        <h1 class="text-2xl tracking-wider truncate">Hello, {{ store.username }}</h1>
-        <button class="btn px-8 border-0 bg-[#F1691E] hover:bg-orange-700" @click="signout">
-          <span class="text-[#FEF6EE] text-lg">Sign out</span>
-        </button>
-      </div>
-    </header>
-  </div>
+  <header
+    class="w-full font-semibold bg-tan-hide-300 py-4 px-10 flex justify-between"
+  >
+    <div class="element-in-navbar">
+      <RouterLink :to="{ name: 'home' }">
+        <BarSolid />
+      </RouterLink>
+      <button :class="indicator" class="btn" @click="moveToIncomingMeeting">
+        <span 
+          :class="[indicator !== 'btn-disabled' ? 'text-white' : 'text-tan-hide-950']"
+        >
+          Incoming Meeting
+        </span>
+      </button>
+    </div>
+    <div class="element-in-navbar">
+      <h1 class="text-2xl tracking-wider truncate">Hello, {{ store.username }}</h1>
+      <button class="button-retro-primary" @click="signout">Sign out</button>
+    </div>
+  </header>
   <slot></slot>
 </template>
