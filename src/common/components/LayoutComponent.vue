@@ -26,14 +26,14 @@ const indicator = computed(() =>
 )
 
 watch(
-  () => [store.$state.ownedProjects, store.$state.membershipProjects, now.value],
+  () => [store.$state.ownedProjects, store.$state.membershipProjects],
   () => {
     allMeetings.value = store.$state.ownedProjects
       .concat(store.$state.membershipProjects)
       .map((project) => project.meetings)
       .flat()
   },
-  { deep: true }
+  { deep: true, immediate: true}
 )
 
 setInterval(() => {
