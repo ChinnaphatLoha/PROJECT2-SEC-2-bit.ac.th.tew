@@ -176,7 +176,7 @@ onUnmounted(() => {
           >
             {{
               start_datetime[0] !== end_datetime[0]
-                ? `${start_datetime[0]} - ${end_datetime[0]}`
+                ? `${start_datetime[0].slice(0, 2)} - ${end_datetime[0].slice(0, 2)} ${start_datetime[0].slice(2)}`
                 : `${start_datetime[0]}`
             }}
           </div>

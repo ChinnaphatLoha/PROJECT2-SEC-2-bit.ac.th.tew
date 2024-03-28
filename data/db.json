@@ -32,7 +32,7 @@
       "name": "PROJECT2-SEC-2-bit.ac.th.tew",
       "retrospective_type": "Good-Bad-Try",
       "passkey": "aGCRS5iwAgUjU9fIdMbjK5neVACQl9xJCfShNBnz71rgebae",
-      "description": "How To Die In 5 Weeks",
+      "description": "This project involves building the user interface and functionalities for a retrospective application using Vue.js.",
       "users": [
         {
           "userId": "e891",
@@ -58,10 +58,10 @@
     },
     {
       "id": "3beb",
-      "name": "Test Project 1",
+      "name": "Project: Task Management App (Backend)",
       "retrospective_type": "KLAM",
       "passkey": "oV4xWkQaBns+y+mzl8jcr3GyB3fJXysY7sAj46X+LvBwJx8=",
-      "description": "",
+      "description": "This project involves developing the backend for a task management application. The application will allow users to create, assign, track, and manage tasks.\n",
       "users": [
         {
           "userId": "ab4b",
@@ -90,27 +90,19 @@
   "meetings": [
     {
       "id": "5e3a",
-      "topic": "Sprint 1 Review: Backend initial setup",
-      "start_date": "2024-03-22T05:38",
-      "end_date": "2024-03-22T05:53",
-      "description": "Discuss about how to use the backend",
+      "topic": "Sprint 1: Core Functionality & Foundations",
+      "start_date": "2024-03-28T16:00",
+      "end_date": "2024-03-28T17:00",
+      "description": "This sprint focuses on establishing the core functionalities and overall structure of the application.",
       "projectId": "c03a"
     },
     {
       "id": "f850",
       "projectId": "3beb",
-      "topic": "Test Meeting 1 (updated)",
-      "start_date": "2024-03-27T18:27",
-      "end_date": "2024-03-27T18:42",
-      "description": ""
-    },
-    {
-      "id": "519c",
-      "projectId": "7f27",
-      "topic": "TEST02",
-      "start_date": "2024-03-28T22:17",
-      "end_date": "2024-03-28T22:34",
-      "description": ""
+      "topic": "Backend Development - Sprint 1",
+      "start_date": "2024-04-01T23:50",
+      "end_date": "2024-04-02T00:05",
+      "description": "This meeting is dedicated to reflecting on the backend development process during the first sprint. We'll discuss what went well, what challenges we faced, and how we can improve our efficiency and collaboration for future sprints."
     }
   ],
   "feedbacks": [

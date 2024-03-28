@@ -65,6 +65,7 @@ const showErrorToast = (message) => {
   </button>
   <FormFeedBack
     v-show="isOpenModal"
+    :title="props.title"
     @addNewFeedback="updateFeedbackRecords"
     @closeModal="closeModal"
   />
