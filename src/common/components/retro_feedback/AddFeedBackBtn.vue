@@ -3,15 +3,10 @@ import { ref, reactive } from 'vue'
 import FormFeedBack from './FormFeedBack.vue'
 import PlusIcon from '../icons/PlusIcon.vue'
 import ErrorToast from '../ErrorToast.vue'
-import feedbackManagement from '@/common/utils/feedback-management'
 import { useUserStore } from '@/stores/store'
 
 const useStore = useUserStore()
 const props = defineProps({
-  feedbackRecords: {
-    type: Object,
-    default: () => {}
-  },
   title: {
     type: String,
     required: true
@@ -23,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const { feedbackRecords, title, disabled } = props
+const { title, disabled } = props
 const isOpenModal = ref(false)
 
 const openModal = () => {
@@ -38,8 +33,6 @@ const closeModal = () => {
 }
 
 const updateFeedbackRecords = (newContent) => {
-  const { action } = feedbackManagement(feedbackRecords)
-  // action.addFeedback(title, newContent, useStore.username)
   useStore.createNewFeedback({
     meetingId: useStore.$state.currentMeetingId,
     title,
