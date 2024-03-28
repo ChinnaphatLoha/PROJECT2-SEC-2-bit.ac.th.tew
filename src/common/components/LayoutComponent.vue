@@ -7,33 +7,38 @@ import BarSolid from './icons/BarSolid.vue'
 const router = useRouter()
 const store = useUserStore()
 
-const allMeetings = ref(
-  store.$state.ownedProjects
-    .concat(store.$state.membershipProjects)
-    .map((project) => project.meetings)
-    .flat()
-)
-const now = new Date(new Date().getTime() - 15 * 60000)
-const incomingMeeting = ref(
-  allMeetings.value
-    .filter((meeting) => new Date(meeting?.start_date) > now)
-    .sort((a, b) => new Date(a?.start_date) - new Date(b?.start_date))[0]
-)
+const allMeetings = ref([])
 
-const indicator = computed(() => {
-  if (!incomingMeeting.value) return 'btn-disabled'
-  return 'border-0 bg-orange-500 hover:bg-orange-700'
+const now = ref(new Date())
+
+const getIncomingMeeting = computed(() => {
+  return allMeetings.value
+    .filter(
+      (meeting) =>
+        new Date(meeting?.start_date).getTime() > now.value.getTime() ||
+        new Date(meeting?.end_date).getTime() > now.value.getTime()
+    )
+    .sort((a, b) => new Date(a?.start_date) - new Date(b?.start_date))[0]
 })
 
-watch(
-  () => [store.$state.ownedProjects, store.$state.membershipProjects],
-  (newValue) => {
-    allMeetings.value = newValue.map((project) => project.meetings).flat()
-    incomingMeeting.value = allMeetings.value
-      .filter((meeting) => new Date(meeting?.start_date) > now)
-      .sort((a, b) => new Date(a?.start_date) - new Date(b?.start_date))[0]
-  }
+const indicator = computed(() =>
+  getIncomingMeeting.value ? 'border-0 bg-orange-500 hover:bg-orange-700' : 'btn-disabled'
 )
+
+watch(
+  () => [store.$state.ownedProjects, store.$state.membershipProjects, now.value],
+  () => {
+    allMeetings.value = store.$state.ownedProjects
+      .concat(store.$state.membershipProjects)
+      .map((project) => project.meetings)
+      .flat()
+  },
+  { deep: true }
+)
+
+setInterval(() => {
+  now.value = new Date()
+}, 1000)
 
 function signout() {
   store.logout()
@@ -41,10 +46,10 @@ function signout() {
 }
 
 function moveToIncomingMeeting() {
-  if (!incomingMeeting.value) return
+  if (!getIncomingMeeting.value) return
   router.push({
     name: 'meeting-feedback',
-    params: { pid: incomingMeeting.value.projectId, mid: incomingMeeting.value.id }
+    params: { pid: getIncomingMeeting.value.projectId, mid: getIncomingMeeting.value.id }
   })
 }
 </script>
@@ -72,5 +77,3 @@ function moveToIncomingMeeting() {
   </div>
   <slot></slot>
 </template>
-
-<style scoped></style>

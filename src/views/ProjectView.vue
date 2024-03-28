@@ -36,7 +36,7 @@ watch(
 )
 
 const goToProjectEdit = () => {
-  router.push({ name: 'project-edit', params: { id: store.$state.currentProjectId } })
+  router.push({ name: 'project-edit', params: { pid: store.$state.currentProjectId } })
 }
 </script>
 
@@ -98,7 +98,7 @@ const goToProjectEdit = () => {
       </div>
       <RouterLink
         v-if="isOwner"
-        :to="{ name: 'meeting-create', params: { id: store.$state.currentProjectId } }"
+        :to="{ name: 'meeting-create', params: { pid: store.$state.currentProjectId } }"
         class="w-fit"
       >
         <div class="card-retro border-dashed flex flex-col gap-4 items-center justify-center">

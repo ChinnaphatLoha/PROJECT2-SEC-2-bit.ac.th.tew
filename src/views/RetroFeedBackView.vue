@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeUnmount, reactive, watch } from 'vue'
+import { ref, reactive, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
@@ -36,14 +36,23 @@ const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
 }
 
-let meeting = reactive({ items: useStore.meeting });
-const [date, start_time] = formatDateTime(new Date(meeting.items.start_date), '[date, time]');
-
-const [_, end_time] = formatDateTime(new Date(meeting.items.end_date), '[date, time]');
-
-onBeforeUnmount(() => {
-  useStore.onMeeting(null)
-})
+const meeting = reactive({ items: useStore.meeting })
+const start_datetime = computed(() =>
+  formatDateTime(new Date(meeting.items.start_date), '[date, time]')
+)
+const end_datetime = computed(() =>
+  formatDateTime(new Date(meeting.items.end_date), '[date, time]')
+)
+watch(
+  () => useStore.$state.ownedProjects,
+  (newValue) => {
+    meeting.items = newValue
+      .flatMap((project) => project.meetings)
+      .flat()
+      .find((m) => m.id === meetingId)
+    console.log(meeting.items)
+  }
+)
 </script>
 
 <template>
@@ -54,7 +63,9 @@ onBeforeUnmount(() => {
           <ul>
             <li>
               <RouterLink :to="{ name: 'project-view', params: { id: projectId } }"
-                ><h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">Project</h2></RouterLink
+                ><h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">
+                  Project
+                </h2></RouterLink
               >
             </li>
             <li>
@@ -104,13 +115,17 @@ onBeforeUnmount(() => {
           <div
             class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
           >
-            {{ date }}
+            {{
+              start_datetime[0] !== end_datetime[0]
+                ? `${start_datetime[0]} - ${end_datetime[0]}`
+                : `${start_datetime[0]}`
+            }}
           </div>
           <div class="divider divider-horizontal text-2xl">:</div>
           <div
             class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
           >
-            {{ start_time }} - {{ end_time }}
+            {{ start_datetime[1] }} - {{ end_datetime[1] }}
           </div>
           <div class="divider divider-horizontal text-2xl">:</div>
           <div
@@ -121,7 +136,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <p class="text-lg ml-4">{{ meeting.items.description }}</p>
-      <div class="flex gap-8 items-start my-8">
+      <div class="flex gap-8 justify-center items-start my-16">
         <RetroColumn
           v-for="{ feedbackRecords, end_date, id } in meeting"
           :key="id"
