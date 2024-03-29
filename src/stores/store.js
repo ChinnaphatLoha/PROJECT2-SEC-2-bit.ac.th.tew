@@ -226,7 +226,7 @@ const useUserStore = defineStore('user-store', {
       }
     },
 
-    async getFeedbacksByMeetingId(meetingId, callbackError) {
+    async getFeedbacksByMeetingId(meetingId) {
       const res = await Provider.request(PROJECT_ENDPOINTS.feedback, {
         method: 'GET',
         body: JSON.stringify({ mid: meetingId })
@@ -238,12 +238,7 @@ const useUserStore = defineStore('user-store', {
           .find((project) => project.id === meetingData.projectId)
         const meeting = project.meetings.find((meeting) => meeting.id === meetingData.id)
         Object.assign(meeting, meetingData)
-        console.log('data on local')
-        console.log(this.ownedProjects)
-        console.log(this.membershipProjects)
         this.saveDataToLocal()
-      } else {
-        callbackError('Failed to get feedbacks')
       }
     },
 

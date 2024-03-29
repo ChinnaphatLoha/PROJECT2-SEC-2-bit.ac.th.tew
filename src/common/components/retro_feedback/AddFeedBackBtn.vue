@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { reactive, inject } from 'vue'
 import FormFeedBack from './FormFeedBack.vue'
 import PlusIcon from '../icons/PlusIcon.vue'
 import ErrorToast from '../ErrorToast.vue'
@@ -19,17 +19,16 @@ const props = defineProps({
 })
 
 const { title, disabled } = props
-const isOpenModal = ref(false)
-
+const isOpenModal = inject(`opened${title}FeedbackForm`)
 const openModal = () => {
   if (!disabled) {
-    isOpenModal.value = true
+    isOpenModal.status = true
   } else {
-    showErrorToast('This Meeting is Time out!!!')
+    showErrorToast('You can only add feedback during the meeting time.')
   }
 }
 const closeModal = () => {
-  isOpenModal.value = false
+  isOpenModal.status = false
 }
 
 const updateFeedbackRecords = (newContent) => {
@@ -61,10 +60,10 @@ const showErrorToast = (message) => {
     @click="openModal"
   >
     <PlusIcon />
-    <h2 class="text-lg font-semibold mb-4">Add New Card</h2>
+    <h2 class="text-lg font-semibold mb-4">Add New Feedback</h2>
   </button>
   <FormFeedBack
-    v-show="isOpenModal"
+    v-show="isOpenModal.status"
     :title="props.title"
     @addNewFeedback="updateFeedbackRecords"
     @closeModal="closeModal"

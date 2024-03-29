@@ -1,14 +1,15 @@
 <script setup>
-import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
 import { useUserStore } from '@/stores/store'
-import { formatDateTime } from '@/common/utils/moment'
+import { formatDateTime, isBetweenTimes } from '@/common/utils/moment'
+
+const clock = ref(new Date().getSeconds())
 
 defineEmits(['closeDeleteDialog', 'delete'])
 const openedDeleteDialog = ref(false)
-
 const useStore = useUserStore()
 const router = useRouter()
 const projectId = useRoute().params.pid
@@ -36,82 +37,29 @@ const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
 }
 
-const meeting = reactive({ items: useStore.meeting })
-const isMeetingEnd = ref(false)
-const endMeetingTime = new Date(meeting.items.end_date).getTime()
+const meeting = reactive({ info: useStore.meeting })
+const titles = Object.keys(meeting.info.feedbackRecords)
+const openedFeedbackForm = reactive({})
+titles.forEach((title) => {
+  openedFeedbackForm[title] = { status: false }
+  provide(`opened${title}FeedbackForm`, openedFeedbackForm[title])
+})
+
 const start_datetime = computed(() =>
-  formatDateTime(new Date(meeting.items.start_date), '[date, time]')
+  formatDateTime(new Date(meeting.info.start_date), '[date, time]')
 )
-const end_datetime = computed(() =>
-  formatDateTime(new Date(meeting.items.end_date), '[date, time]')
-)
+const end_datetime = computed(() => formatDateTime(new Date(meeting.info.end_date), '[date, time]'))
 
-const displayMeetingData = computed(() => {
-  return meeting
-})
+const getMeeting = computed(() => (clock.value ? useStore.meeting : meeting.info))
 
-const checkMeetingEndAndEditStatus = async (end_datetime) => {
-  const currentDateTime = new Date().getTime()
-  console.log(currentDateTime)
-  console.log(end_datetime)
-  if (currentDateTime > end_datetime) {
-    isMeetingEnd.value = true
-    console.log('Meeting is end')
-  } else {
-    isMeetingEnd.value = false
-    console.log('Meeting is not end')
+const polling = setInterval(() => {
+  if (!isBetweenTimes(meeting.info.start_date, meeting.info.end_date)) {
+    clearInterval(polling)
+  } else if (Object.values(openedFeedbackForm).every((open) => !open.status)) {
+    clock.value = new Date().getSeconds()
+    useStore.getFeedbacksByMeetingId(meetingId)
   }
-}
-
-const pollingData = (fetchDataCallback, intervalTime = 5000) => {
-  let i = 0
-  checkMeetingEndAndEditStatus(endMeetingTime)
-  let polling = setInterval(async () => {
-    if (isMeetingEnd.value) {
-      // clear interval loop
-      await new Promise((resolve) => {
-        clearInterval(polling)
-        resolve()
-      })
-    } else {
-      console.log(i)
-      await fetchDataCallback()
-    }
-    i++
-  }, intervalTime)
-}
-
-const fetchMeetingData = async () => {
-  await useStore.getFeedbacksByMeetingId(meetingId, showErrorMsg)
-  meeting.items = useStore.meeting
-}
-
-const showErrorMsg = (msg) => {
-  console.log(msg)
-}
-
-onMounted(() => {
-  if (!isMeetingEnd.value) {
-    pollingData(fetchMeetingData, 5000)
-  } else {
-    console.log('Meeting is end. STOP POLLING')
-  }
-})
-
-onUnmounted(() => {
-  isMeetingEnd.value = true
-})
-
-// watch(
-//   () => useStore.$state.ownedProjects,
-//   (newValue) => {
-//     meeting.items = newValue
-//       .flatMap((project) => project.meetings)
-//       .flat()
-//       .find((m) => m.id === meetingId)
-//     console.log(meeting.items)
-//   }
-// )
+}, 3000)
 </script>
 
 <template>
@@ -129,7 +77,7 @@ onUnmounted(() => {
             </li>
             <li>
               <div class="flex items-center gap-4 w-[65%]">
-                <h1 class="text-2xl">{{ meeting.items.topic }}</h1>
+                <h1 class="text-2xl">{{ getMeeting.topic }}</h1>
                 <button v-if="isOwner" @click="goToMeetingEdit" class="btn btn-square btn-custom">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -190,17 +138,16 @@ onUnmounted(() => {
           <div
             class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
           >
-            {{ getMeetingDuration(meeting.items.start_date, meeting.items.end_date) }} min
+            {{ getMeetingDuration(getMeeting.start_date, getMeeting.end_date) }} min
           </div>
         </div>
       </div>
-      <p class="text-lg ml-4">{{ meeting.items.description }}</p>
+      <p class="text-lg ml-4">{{ getMeeting.description }}</p>
       <div class="flex gap-8 justify-center items-start my-16">
         <RetroColumn
-          v-for="{ feedbackRecords, end_date, index } in displayMeetingData"
-          :key="new Date().getTime() + index"
-          :endDate="end_date"
-          :feedbackRecords="feedbackRecords"
+          :key="clock"
+          :period="[getMeeting.start_date, getMeeting.end_date]"
+          :feedbackRecords="getMeeting.feedbackRecords"
         />
       </div>
     </div>
