@@ -34,3 +34,10 @@ export const formatDateTime = (date, option) => {
     ]
   return `${day} ${monthName} ${year} ${hour.toString().padStart(2, '0')}.${minutes} ${meridian}`
 }
+
+export const isBetweenTimes = (startTime, endTime) => {
+  const currentDateTime = new Date().getTime()
+  const startDateTime = new Date(startTime).getTime()
+  const endDateTime = new Date(endTime).getTime()
+  return currentDateTime >= startDateTime && currentDateTime <= endDateTime
+}

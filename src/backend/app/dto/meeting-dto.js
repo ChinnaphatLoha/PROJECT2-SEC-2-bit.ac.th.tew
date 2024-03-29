@@ -27,6 +27,17 @@ const removeNullItemInFeedback = (feedback) => {
   return feedbackRecords
 }
 
+const sortObjectByOrder = (data, sortOrder) => {
+  const keys = Object.keys(data)
+    .filter((key) => !sortOrder.includes(key))
+    .concat(sortOrder)
+
+  return keys.reduce((acc, key) => {
+    acc[key] = data[key]
+    return acc
+  }, {})
+}
+
 const getGroupTemplate = (retrospective_type) => {
   const groups = GroupByRetrospectiveTypes[retrospective_type]
   return groups.map((group) => ({ group }))
@@ -53,8 +64,9 @@ export const getMeetingsDTO = async (meetings = [], feedbacks = []) => {
       }),
       ({ group }) => group
     )
-    const feedbackRecords = removeNullItemInFeedback(
-      removeGroupPropertyFromFeedback(uncleanedFeedbackRecords)
+    const feedbackRecords = sortObjectByOrder(
+      removeNullItemInFeedback(removeGroupPropertyFromFeedback(uncleanedFeedbackRecords)),
+      GroupByRetrospectiveTypes[retrospective_type]
     )
     return {
       id: meeting.id,
