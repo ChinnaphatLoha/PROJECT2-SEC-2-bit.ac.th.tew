@@ -7,6 +7,7 @@ import ProjectFormView from '@/views/ProjectFormView.vue'
 import MeetingFormView from '@/views/MeetingFormView.vue'
 import ProjectView from '@/views/ProjectView.vue'
 import RetroFeedBackView from '@/views/RetroFeedBackView.vue'
+import RandomMeme from '@/common/components/RandomMeme.vue'
 import { useUserStore } from '@/stores/store'
 
 const router = createRouter({
@@ -65,6 +66,11 @@ const router = createRouter({
           path: 'project/:pid/meeting/:mid',
           name: 'meeting-feedback',
           component: RetroFeedBackView
+        },
+        {
+          path: '/randommeme',
+          name: 'random-meme',
+          component: RandomMeme
         }
       ]
     }
