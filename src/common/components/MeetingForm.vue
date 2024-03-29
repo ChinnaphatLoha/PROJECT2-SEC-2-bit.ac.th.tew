@@ -11,8 +11,11 @@ const projectId = useRoute().params.pid
 const meetingId = useRoute().params.mid
 store.onProject(projectId)
 store.onMeeting(meetingId)
-if (!store.ownedProject) {
+
+if (!store.ownedProject && store.membershipProject) {
   router.push({ name: 'project-view', params: { pid: projectId } })
+} else if (!store.ownedProject && !store.membershipProject || !store.meeting) {
+  router.push({ name: 'not-found' })
 }
 const meeting = store.meeting
 const now = ref(getShortISOStringInUserTimezone(new Date()))
