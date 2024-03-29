@@ -19,6 +19,7 @@ useStore.onMeeting(meetingId)
 const AUTHORITY = useStore.authority
 const isOwner = AUTHORITY === 'OWNER'
 const project = isOwner ? useStore.ownedProject : useStore.membershipProject
+const meeting = reactive({ info: useStore.meeting })
 
 const deleteMeeting = () => {
   useStore.removeMeeting(projectId, meetingId)
@@ -37,8 +38,7 @@ const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
 }
 
-const meeting = reactive({ info: useStore.meeting })
-const titles = Object.keys(meeting.info.feedbackRecords)
+const titles = Object.keys(meeting.info?.feedbackRecords || {}  )
 const openedFeedbackForm = reactive({})
 titles.forEach((title) => {
   openedFeedbackForm[title] = { status: false }
@@ -46,25 +46,29 @@ titles.forEach((title) => {
 })
 
 const start_datetime = computed(() =>
-  formatDateTime(new Date(meeting.info.start_date), '[date, time]')
+  formatDateTime(new Date(meeting.info?.start_date), '[date, time]')
 )
-const end_datetime = computed(() => formatDateTime(new Date(meeting.info.end_date), '[date, time]'))
+const end_datetime = computed(() =>
+  formatDateTime(new Date(meeting.info?.end_date), '[date, time]')
+)
 
 const getMeeting = computed(() => (clock.value ? useStore.meeting : meeting.info))
 
-const polling = setInterval(() => {
-  if (!isBetweenTimes(meeting.info.start_date, meeting.info.end_date)) {
+const polling = setInterval(async () => {
+  if (!isBetweenTimes(meeting.info?.start_date, meeting.info?.end_date)) {
     clearInterval(polling)
   } else if (Object.values(openedFeedbackForm).every((open) => !open.status)) {
     clock.value = new Date().getSeconds()
-    useStore.getFeedbacksByMeetingId(meetingId)
+    await useStore.getFeedbacksByMeetingId(meetingId)
   }
 }, 3000)
+
+if (!meeting.info) router.push({ name: 'not-found' })
 </script>
 
 <template>
   <BaseLayout>
-    <div class="container m-8 py-8">
+    <div v-if="meeting.info" class="container m-8 py-8">
       <div class="flex justify-between items-center w-full">
         <div class="flex items-center breadcrumbs tracking-wide">
           <ul>

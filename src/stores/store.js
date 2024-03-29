@@ -273,20 +273,25 @@ const useUserStore = defineStore('user-store', {
       return this.currentUser.username
     },
     ownedProject() {
-      return this.ownedProjects.find((project) => project.id === this.currentProjectId)
+      const owned = this.ownedProjects.find((project) => project.id === this.currentProjectId)
+      return owned
     },
     membershipProject() {
-      return this.membershipProjects.find((project) => project.id === this.currentProjectId)
+      const membership = this.membershipProjects.find(
+        (project) => project.id === this.currentProjectId
+      )
+      return membership
     },
     authority() {
       const allProjects = this.ownedProjects.concat(this.membershipProjects)
       const project = allProjects.find((project) => project.id === this.currentProjectId)
-      return project.authority
+      return project?.authority
     },
     meeting() {
       const allProjects = this.ownedProjects.concat(this.membershipProjects)
       const allMeetings = allProjects.map((project) => project.meetings).flat()
-      return allMeetings.find((meeting) => meeting.id === this.currentMeetingId)
+      const foundMeeting = allMeetings.find((meeting) => meeting.id === this.currentMeetingId)
+      return foundMeeting
     }
   }
 })
