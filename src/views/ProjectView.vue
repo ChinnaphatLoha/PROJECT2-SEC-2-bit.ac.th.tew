@@ -7,6 +7,7 @@ import PlusIcon from '@/common/components/icons/PlusIcon.vue'
 import TrashIcon from '@/common/components/icons/TrashIcon.vue'
 import PenIcon from '@/common/components/icons/PenIcon.vue'
 import InfoIcon from '@/common/components/icons/InfoIcon.vue'
+import AngleDownArrow from '@/common/components/icons/AngleDownArrow.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
 import { formatDateTime } from '@/common/utils/moment'
@@ -46,43 +47,34 @@ const goToProjectEdit = () => {
 
 <template>
   <BaseLayout>
-    <div class="ml-10">
+    <div class="mx-10">
       <div class="my-8">
-        <div class="flex items-center breadcrumbs tracking-wide">
-          <ul>
-            <li>
-              <RouterLink :to="{ name: 'home' }">
-                <h2 class="create-title">Home</h2>
-              </RouterLink>
-            </li>
-            <li>
-              <div class="flex items-center gap-4 w-[65%]">
-                <h1 class="create-title">[{{ project.id }}] {{ project.name }}</h1>
-                <button 
-                  @click="goToProjectEdit" 
-                  v-if="isOwner" 
-                  class="button-action-meeting"
-                >
-                  <PenIcon size="w-5" color="#feebd6"/>
-                </button>
-                <button
-                  @click="openedDeleteDialog = true"
-                  v-if="isOwner"
-                  class="button-action-meeting"
-                >
-                  <TrashIcon size="w-5" color="#feebd6"/>
-                </button>
-              </div>
-            </li>
-          </ul>
+        <div class="nav-for-warp-page">
+          <div>
+            <RouterLink :to="{ name: 'home' }">
+              <h2 class="heading-warp-page">Home</h2>
+            </RouterLink>
+          </div>
+          <div class="flex gap-3">
+            <AngleDownArrow size="w-3" class="-rotate-90" />
+            <h1 class="create-title">[{{ project.id }}] {{ project.name }}</h1>
+          </div>
+          <div class="flex gap-4">
+            <button @click="goToProjectEdit" v-if="isOwner" class="button-action-meeting">
+              <PenIcon size="w-5" color="#feebd6" />
+            </button>
+            <button @click="openedDeleteDialog = true" v-if="isOwner" class="button-action-meeting">
+              <TrashIcon size="w-5" color="#feebd6" />
+            </button>
+          </div>
         </div>
         <div class="flex items-center">
           <InfoIcon size="w-10" color="#411209" />
-          <p class="text-lg font-semibold my-8 ml-6 leading-8">
+          <p class="desc-box py-8">
             {{ project.description }}
           </p>
         </div>
-        <hr class=" divide-tan-hide-900">
+        <hr class="divide-tan-hide-900" />
       </div>
       <RouterLink
         v-if="isOwner"

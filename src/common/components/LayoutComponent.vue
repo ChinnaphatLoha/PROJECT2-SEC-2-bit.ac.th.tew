@@ -22,7 +22,7 @@ const getIncomingMeeting = computed(() => {
 })
 
 const indicator = computed(() =>
-  getIncomingMeeting.value ? 'border-0 button-retro-primary' : 'btn-disabled'
+  getIncomingMeeting.value ? 'button-retro-primary' : 'btn btn-disabled'
 )
 
 watch(
@@ -62,7 +62,7 @@ function moveToIncomingMeeting() {
       <RouterLink :to="{ name: 'home' }">
         <BarSolid />
       </RouterLink>
-      <button :class="indicator [indicator !== 'btn-disabled' ? 'text-white' : 'text-tan-hide-950']" class="btn" @click="moveToIncomingMeeting">
+      <button :class="indicator" @click="moveToIncomingMeeting">
         Incoming Meeting
       </button>
     </div>

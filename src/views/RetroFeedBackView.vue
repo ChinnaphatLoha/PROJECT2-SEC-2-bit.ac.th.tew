@@ -82,7 +82,7 @@ if (!meeting.info) router.push({ name: 'not-found' })
           </div>
           <div class="flex gap-3">
             <AngleDownArrow size="w-3" class="-rotate-90" />
-            <h1 class="text-2xl">{{ getMeeting.topic }}</h1>
+            <h1 class="create-title">{{ getMeeting.topic }}</h1>
           </div>
           <div class="flex gap-4">
             <button v-if="isOwner" @click="goToMeetingEdit" class="button-action-meeting">
@@ -96,7 +96,7 @@ if (!meeting.info) router.push({ name: 'not-found' })
         <div class="col-span-3">
           <div class="flex items-center">
             <InfoIcon size="w-10" color="#411209" />
-            <p class="text-lg font-semibold ml-6 leading-8">
+            <p class="desc-box">
               {{ getMeeting.description }}
             </p>
           </div>
@@ -112,20 +112,20 @@ if (!meeting.info) router.push({ name: 'not-found' })
           </div>
           <div class="flex items-start justify-end gap-3">
             <span class="font-semibold">{{ start_datetime[1] }}</span>
-            <span>to</span>
+            <span>-</span>
             <span class="font-semibold">{{ end_datetime[1] }}</span>
           </div>
         </div>
         <div class="col-start-5 row-start-1 timing-box gap-6 items-center">
           <div class="text-center">
             <div class="heading-time-box">Duration</div>
-            <div class="text-3xl font-extrabold">
+            <div class="text-3xl font-extrabold underline">
               {{ getMeetingDuration(getMeeting.start_date, getMeeting.end_date) }} min
             </div>
           </div>
         </div>
       </div>
-      <hr class="divide-tan-hide-900 mt-10" />
+      <hr class="divide-tan-hide-900 mt-6" />
       <div class="flex gap-8 justify-center items-start my-16">
         <RetroColumn
           :key="clock"

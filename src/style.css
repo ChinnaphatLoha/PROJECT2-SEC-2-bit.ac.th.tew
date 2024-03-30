@@ -100,6 +100,10 @@
   .timing-box {
     @apply row-span-2 flex flex-col justify-center p-4; 
     @apply border-2 border-tan-hide-400 rounded-xl;
+    @apply bg-tan-hide-100
+  }
+  .desc-box {
+    @apply text-lg font-semibold mx-6 leading-8;
   }
 
   .nav-for-warp-page {
