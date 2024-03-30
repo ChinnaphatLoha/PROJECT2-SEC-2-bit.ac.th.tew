@@ -6,13 +6,17 @@ import { getShortISOStringInUserTimezone } from '@/common/utils/moment'
 import ErrorToast from './ErrorToast.vue'
 
 const router = useRouter()
+const route = useRoute()
 const store = useUserStore()
-const projectId = useRoute().params.pid
-const meetingId = useRoute().params.mid
+const projectId = route.params.pid
+const meetingId = route.params.mid
 store.onProject(projectId)
 store.onMeeting(meetingId)
-if (!store.ownedProject) {
+
+if (!store.ownedProject && store.membershipProject) {
   router.push({ name: 'project-view', params: { pid: projectId } })
+} else if (!store.ownedProject && !store.membershipProject || (!store.meeting && route.name === 'meeting-edit')) {
+  router.push({ name: 'not-found' })
 }
 const meeting = store.meeting
 const now = ref(getShortISOStringInUserTimezone(new Date()))

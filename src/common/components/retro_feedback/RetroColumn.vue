@@ -3,21 +3,20 @@ import { reactive } from 'vue';
 import AddFeedBackBtn from './AddFeedBackBtn.vue';
 import FeedBackCard from './FeedBackCard.vue';
 import TITLE_TYPE from '@/common/constants/style-config';
+import { isBetweenTimes } from '@/common/utils/moment';
 
 const props = defineProps({
   feedbackRecords: {
     type: Object,
     default: () => { }
   },
-  endDate: {
-    type: String,
-    required: true
+  period: {
+    type: Array,
   }
 });
 
-const { feedbackRecords, endDate } = props;
+const { feedbackRecords, period } = props;
 const feedbackRecordsArr = reactive(Object.entries(feedbackRecords));
-const currentDate = new Date().toISOString();
 const setStyleTitle = (title) => {
   const style = TITLE_TYPE[title];
   return style
@@ -27,7 +26,7 @@ const reversedFeedbacks = (feedbacks) => {
   return feedbacks.slice().reverse();
 }
 
-const isDisabled = currentDate > endDate;
+const isDisabled = !isBetweenTimes(period[0], period[1]);
 </script>
 
 <template>
@@ -38,7 +37,7 @@ const isDisabled = currentDate > endDate;
       <AddFeedBackBtn :disabled="isDisabled" :title="title" />
     </div>
     <div class="flex flex-col gap-3 p-4">
-      <FeedBackCard v-for="{ content, username, index } in reversedFeedbacks(feedbacks)" :key="index">
+      <FeedBackCard v-for="({ content, username }, index) in reversedFeedbacks(feedbacks)" :key="`${title}-${index}`">
         <template #content>
           <div class="break-words max-w-96">{{ content }}</div>
         </template>

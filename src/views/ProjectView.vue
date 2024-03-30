@@ -21,6 +21,7 @@ store.onProject(projectId)
 const AUTHORITY = store.authority
 const isOwner = AUTHORITY === 'OWNER'
 const project = isOwner ? store.ownedProject : store.membershipProject
+if (!project) router.push({ name: 'not-found' })
 
 const items = ref([])
 const openedDeleteDialog = ref(false)
