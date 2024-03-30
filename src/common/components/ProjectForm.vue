@@ -12,7 +12,7 @@ const userStore = useUserStore()
 const projectId = route.params.pid
 userStore.onProject(projectId)
 const project = userStore.ownedProject
-if (!project && route.name === 'project-edit') router.push({ name: 'not-found' })
+if (!project && route.name !== 'project-edit') router.push({ name: 'not-found' })
 
 const form = reactive({
   onCreateProject: true,
