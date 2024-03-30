@@ -5,6 +5,10 @@ import RetroColumn from '@/common/components/retro_feedback/RetroColumn.vue'
 import DeleteDialog from '@/common/components/DeleteDialog.vue'
 import { useUserStore } from '@/stores/store'
 import { formatDateTime, isBetweenTimes } from '@/common/utils/moment'
+import PenIcon from '@/common/components/icons/PenIcon.vue'
+import TrashIcon from '@/common/components/icons/TrashIcon.vue'
+import InfoIcon from '@/common/components/icons/InfoIcon.vue'
+import AngleDownArrow from '@/common/components/icons/AngleDownArrow.vue'
 
 const clock = ref(new Date().getSeconds())
 
@@ -38,7 +42,7 @@ const goToMeetingEdit = () => {
   router.push({ name: 'meeting-edit', params: { pid: projectId, mid: meetingId } })
 }
 
-const titles = Object.keys(meeting.info?.feedbackRecords || {}  )
+const titles = Object.keys(meeting.info?.feedbackRecords || {})
 const openedFeedbackForm = reactive({})
 titles.forEach((title) => {
   openedFeedbackForm[title] = { status: false }
@@ -68,87 +72,60 @@ if (!meeting.info) router.push({ name: 'not-found' })
 
 <template>
   <BaseLayout>
-    <div v-if="meeting.info" class="container m-8 py-8">
-      <div class="flex justify-between items-center w-full">
-        <div class="flex items-center breadcrumbs tracking-wide">
-          <ul>
-            <li>
-              <RouterLink 
-                :to="{ name: 'project-view', params: { id: projectId } }"
-              >
-                <h2 :title="`${project.id} - ${project.name}`" class="text-2xl font-semibold">
-                  Project
-                </h2>
-              </RouterLink>
-            </li>
-            <li>
-              <div class="flex items-center gap-4 w-[65%]">
-                <h1 class="text-2xl">{{ getMeeting.topic }}</h1>
-                <button v-if="isOwner" @click="goToMeetingEdit" class="btn btn-square btn-custom">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-                <button
-                  @click="openedDeleteDialog = true"
-                  v-if="isOwner"
-                  class="btn btn-square btn-custom"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </li>
-          </ul>
+    <div v-if="meeting.info" class="m-10">
+      <div class="grid grid-rows-2 grid-cols-5 gap-4">
+        <div class="col-span-3 nav-for-warp-page">
+          <div>
+            <RouterLink :to="{ name: 'project-view', params: { id: projectId } }">
+              <h2 :title="`${project.id} - ${project.name}`" class="heading-warp-page">Project</h2>
+            </RouterLink>
+          </div>
+          <div class="flex gap-3">
+            <AngleDownArrow size="w-3" class="-rotate-90" />
+            <h1 class="text-2xl">{{ getMeeting.topic }}</h1>
+          </div>
+          <div class="flex gap-4">
+            <button v-if="isOwner" @click="goToMeetingEdit" class="button-action-meeting">
+              <PenIcon size="w-5" color="#feebd6" />
+            </button>
+            <button @click="openedDeleteDialog = true" v-if="isOwner" class="button-action-meeting">
+              <TrashIcon size="w-5" color="#feebd6" />
+            </button>
+          </div>
         </div>
-        <div class="flex w-[45%] my-8">
-          <div
-            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
-          >
+        <div class="col-span-3">
+          <div class="flex items-center">
+            <InfoIcon size="w-10" color="#411209" />
+            <p class="text-lg font-semibold ml-6 leading-8">
+              {{ getMeeting.description }}
+            </p>
+          </div>
+        </div>
+        <div class="col-start-4 row-start-1 timing-box items-center">
+          <div class="heading-time-box">Meeting Time</div>
+          <div>
             {{
               start_datetime[0] !== end_datetime[0]
                 ? `${start_datetime[0].slice(0, 2)} - ${end_datetime[0].slice(0, 2)} ${start_datetime[0].slice(2)}`
                 : `${start_datetime[0]}`
             }}
           </div>
-          <div class="divider divider-horizontal text-2xl">:</div>
-          <div
-            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
-          >
-            {{ start_datetime[1] }} - {{ end_datetime[1] }}
+          <div class="flex items-start justify-end gap-3">
+            <span class="font-semibold">{{ start_datetime[1] }}</span>
+            <span>to</span>
+            <span class="font-semibold">{{ end_datetime[1] }}</span>
           </div>
-          <div class="divider divider-horizontal text-2xl">:</div>
-          <div
-            class="grid flex-grow bg-base-300 rounded-box place-items-center text-sm font-semibold tracking-wide px-4"
-          >
-            {{ getMeetingDuration(getMeeting.start_date, getMeeting.end_date) }} min
+        </div>
+        <div class="col-start-5 row-start-1 timing-box gap-6 items-center">
+          <div class="text-center">
+            <div class="heading-time-box">Duration</div>
+            <div class="text-3xl font-extrabold">
+              {{ getMeetingDuration(getMeeting.start_date, getMeeting.end_date) }} min
+            </div>
           </div>
         </div>
       </div>
-      <p class="text-lg ml-4">{{ getMeeting.description }}</p>
+      <hr class="divide-tan-hide-900 mt-10" />
       <div class="flex gap-8 justify-center items-start my-16">
         <RetroColumn
           :key="clock"
@@ -172,5 +149,3 @@ if (!meeting.info) router.push({ name: 'not-found' })
     />
   </div>
 </template>
-
-<style scoped></style>

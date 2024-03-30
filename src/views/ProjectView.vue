@@ -46,7 +46,7 @@ const goToProjectEdit = () => {
 
 <template>
   <BaseLayout>
-    <div class="m-16">
+    <div class="ml-10">
       <div class="my-8">
         <div class="flex items-center breadcrumbs tracking-wide">
           <ul>
@@ -76,7 +76,7 @@ const goToProjectEdit = () => {
             </li>
           </ul>
         </div>
-        <div class="flex justify-center">
+        <div class="flex items-center">
           <InfoIcon size="w-10" color="#411209" />
           <p class="text-lg font-semibold my-8 ml-6 leading-8">
             {{ project.description }}
@@ -90,7 +90,7 @@ const goToProjectEdit = () => {
         class="w-fit"
       >
         <div class="card-retro border-dashed flex flex-col gap-4 items-center justify-center">
-          <PlusIcon size="w-12" color="#411209" />
+          <PlusIcon size="w-12" />
           <p class="create-title">Create Meeting</p>
         </div>
       </RouterLink>
@@ -130,11 +130,3 @@ const goToProjectEdit = () => {
     />
   </div>
 </template>
-
-<style scoped>
-.btn-custom {
-  min-height: 2.75rem !important;
-  height: 2.75rem !important;
-  aspect-ratio: 1/1;
-}
-</style>

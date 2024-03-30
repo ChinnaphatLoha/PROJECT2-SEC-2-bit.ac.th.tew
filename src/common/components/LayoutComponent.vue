@@ -62,12 +62,8 @@ function moveToIncomingMeeting() {
       <RouterLink :to="{ name: 'home' }">
         <BarSolid />
       </RouterLink>
-      <button :class="indicator" class="btn" @click="moveToIncomingMeeting">
-        <span 
-          :class="[indicator !== 'btn-disabled' ? 'text-white' : 'text-tan-hide-950']"
-        >
-          Incoming Meeting
-        </span>
+      <button :class="indicator [indicator !== 'btn-disabled' ? 'text-white' : 'text-tan-hide-950']" class="btn" @click="moveToIncomingMeeting">
+        Incoming Meeting
       </button>
     </div>
     <div class="element-in-navbar">
