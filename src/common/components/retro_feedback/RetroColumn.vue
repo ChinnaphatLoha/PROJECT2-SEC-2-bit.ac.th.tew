@@ -33,7 +33,7 @@ const isDisabled = !isBetweenTimes(period[0], period[1]);
   <div class="bg-white rounded-lg overflow-hidden shadow-lg w-72" v-for="[title, feedbacks] in feedbackRecordsArr"
     :key="title">
     <h2 class="text-xl font-bold px-4 py-2" :class="setStyleTitle(title)">{{ title }}</h2>
-    <div class="px-4 py-2">
+    <div class="mt-4 px-4 py-2">
       <AddFeedBackBtn :disabled="isDisabled" :title="title" />
     </div>
     <div class="flex flex-col gap-3 p-4">

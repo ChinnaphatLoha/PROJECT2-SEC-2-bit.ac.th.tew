@@ -109,4 +109,15 @@
   .nav-for-warp-page {
     @apply flex items-center flex-wrap gap-3 tracking-wide;
   }
+
+  .add-feedback-card {
+    @apply flex flex-col justify-center items-center gap-3 px-4 py-8 rounded-lg w-full shadow-md;
+    @apply bg-tan-hide-500 border-2 border-transparent;
+    @apply transition-all duration-150;
+    @apply hover:bg-tan-hide-400 active:bg-tan-hide-300;
+  }
+  .feedback-card {
+    @apply flex flex-col justify-center p-4 rounded-lg shadow-md;
+    @apply bg-tan-hide-100;
+  }
 }
