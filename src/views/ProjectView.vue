@@ -59,7 +59,7 @@ const goToProjectEdit = () => {
             <AngleDownArrow size="w-3" class="-rotate-90" />
             <h1 class="create-title">[{{ project.id }}] {{ project.name }}</h1>
           </div>
-          <div class="flex gap-4">
+          <div class="ml-2 flex gap-4">
             <button @click="goToProjectEdit" v-if="isOwner" class="button-action-meeting">
               <PenIcon size="w-5" color="#feebd6" />
             </button>

@@ -84,7 +84,7 @@ if (!meeting.info) router.push({ name: 'not-found' })
             <AngleDownArrow size="w-3" class="-rotate-90" />
             <h1 class="create-title">{{ getMeeting.topic }}</h1>
           </div>
-          <div class="flex gap-4">
+          <div class="ml-2 flex gap-4">
             <button v-if="isOwner" @click="goToMeetingEdit" class="button-action-meeting">
               <PenIcon size="w-5" color="#feebd6" />
             </button>
@@ -119,7 +119,7 @@ if (!meeting.info) router.push({ name: 'not-found' })
         <div class="col-start-5 row-start-1 timing-box gap-6 items-center">
           <div class="text-center">
             <div class="heading-time-box">Duration</div>
-            <div class="text-3xl font-extrabold underline">
+            <div class="text-3xl font-extrabold">
               {{ getMeetingDuration(getMeeting.start_date, getMeeting.end_date) }} min
             </div>
           </div>
