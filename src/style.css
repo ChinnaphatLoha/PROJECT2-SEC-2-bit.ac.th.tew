@@ -69,10 +69,11 @@
     @apply text-3xl font-bold;
   }
   .sub-heading-title {
-    @apply text-xl font-bold;
+    @apply text-2xl font-bold;
   }
   .create-title {
     @apply text-2xl font-bold;
+    @apply text-tan-hide-50 dark:text-tan-hide-900;
   }
   .heading-time-box {
     @apply text-lg font-semibold mb-2;
@@ -112,6 +113,13 @@
 
   .nav-for-warp-page {
     @apply flex items-center flex-wrap gap-3 tracking-wide;
+  }
+
+  .add-meeting-card {
+    @apply border-2 rounded-xl p-6 w-72 h-48 flex-none;
+    @apply border-transparent bg-tan-hide-500 hover:bg-tan-hide-300;
+    @apply flex flex-col justify-center items-center gap-4;
+    @apply transition-all duration-150;
   }
 
   .add-feedback-card {

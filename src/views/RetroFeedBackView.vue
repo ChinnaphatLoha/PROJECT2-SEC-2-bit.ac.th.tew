@@ -82,7 +82,7 @@ if (!meeting.info) router.push({ name: 'not-found' })
           </div>
           <div class="flex gap-3">
             <AngleDownArrow size="w-3" class="-rotate-90" />
-            <h1 class="create-title">{{ getMeeting.topic }}</h1>
+            <h1 class="sub-heading-title">{{ getMeeting.topic }}</h1>
           </div>
           <div class="ml-2 flex gap-4">
             <button v-if="isOwner" @click="goToMeetingEdit" class="button-action-meeting">

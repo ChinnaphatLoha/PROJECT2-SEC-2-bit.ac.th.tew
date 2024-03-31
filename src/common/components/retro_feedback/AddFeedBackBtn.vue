@@ -60,7 +60,7 @@ const showErrorToast = (message) => {
     @click="openModal"
   >
     <PlusIcon color="#fef6ee" />
-    <h2 class="text-lg font-semibold text-tan-hide-50">Add New Feedback</h2>
+    <h2 class="create-title text-lg">Add New Feedback</h2>
   </button>
   <FormFeedBack
     v-show="isOpenModal.status"

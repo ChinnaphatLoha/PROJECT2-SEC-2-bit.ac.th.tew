@@ -57,7 +57,7 @@ const goToProjectEdit = () => {
           </div>
           <div class="flex gap-3">
             <AngleDownArrow size="w-3" class="-rotate-90" />
-            <h1 class="create-title">[{{ project.id }}] {{ project.name }}</h1>
+            <h1 class="sub-heading-title">[{{ project.id }}] {{ project.name }}</h1>
           </div>
           <div class="ml-2 flex gap-4">
             <button @click="goToProjectEdit" v-if="isOwner" class="button-action-meeting">
@@ -81,8 +81,8 @@ const goToProjectEdit = () => {
         :to="{ name: 'meeting-create', params: { pid: store.$state.currentProjectId } }"
         class="w-fit"
       >
-        <div class="card-retro border-dashed flex flex-col gap-4 items-center justify-center">
-          <PlusIcon size="w-12" />
+        <div class="add-meeting-card">
+          <PlusIcon size="w-12" color="#fef6ee"/>
           <p class="create-title">Create Meeting</p>
         </div>
       </RouterLink>
