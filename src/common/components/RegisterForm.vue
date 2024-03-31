@@ -32,8 +32,9 @@ const showErrors = (msg) => {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-900 shadow-md rounded-lg px-8 py-6 max-w-md">
-    <h1 class="text-2xl font-bold text-center mb-4 dark:text-gray-200">Register</h1>
+  <div class="bg-form-primary shadow-md rounded-lg px-8 py-6 w-96">
+    <h1 class="sub-heading-title text-center mb-4">Welcome to Bit Retro</h1>
+    <h1 class="auth-title">Sign-up</h1>
     <form class="md-4" @submit.prevent="registerNewUser">
       <div v-show="isAuthenticatedFailed" class="mb-4">
         <p class="text-red-900 text-xs italic bg-red-300 rounded-md p-2">{{ errorMsg }}</p>
@@ -54,7 +55,7 @@ const showErrors = (msg) => {
       >
         <template #text-header>Password</template>
       </PasswordForm>
-      <SubmitBtn buttonText="Sign-up / Register" />
+      <SubmitBtn buttonText="Sign-up" />
     </form>
     <div class="mt-4">
       <p>

@@ -5,24 +5,135 @@
 @layer components {
   * {
     user-select: none;
+    @apply text-tan-hide-950 dark:text-tan-hide-50;
+    @apply font-mono;
   }
   a {
     display: inline-block;
   }
-  body {
-    @apply bg-tan-hide-50
+  hr {
+    @apply border-tan-hide-400 dark:border-tan-hide-600;
   }
-  .card-retro {
-    @apply border-2 border-black bg-slate-50 rounded-xl p-6 w-72 h-48 flex-none;
-    @apply hover:cursor-pointer;
+  .bg-retro-primary {
+    @apply bg-tan-hide-50 dark:bg-tan-hide-800;
+  }
+  .bg-form-primary {
+    @apply bg-white dark:bg-tan-hide-900;
+  }
+
+  html,
+  body,
+  #app>div {
+    @apply bg-retro-primary;
+  }
+
+  html,
+  body {
+    @apply h-screen
+  }
+
+  .input-style-primary {
+    @apply border bg-tan-hide-100 border-tan-hide-600;
+    @apply placeholder:text-tan-hide-400;
+    @apply focus:input-primary-focus;
+    @apply input-primary-handle-inputting;
+  }
+  .input-primary-focus {
+    @apply outline-none ring-1 ring-offset-2 ring-tan-hide-700 border-tan-hide-700;
+  }
+  .input-primary-handle-inputting {
+    @apply valid:bg-tan-hide-100;
+    @apply autofill:bg-tan-hide-100;
+    @apply focus-within:bg-tan-hide-100;
+  }
+  .textarea-style-primary {
+    @apply input-style-primary;
+    @apply mt-2 p-2 block w-full rounded-md shadow-sm;
+  }
+
+  .button-retro-primary {
+    @apply text-base font-bold;
+    @apply transition-all duration-200;
+    @apply p-4 border border-transparent rounded-md shadow-sm;
+    @apply text-white bg-tan-hide-500 hover:bg-tan-hide-600 active:bg-tan-hide-700;
+    @apply focus:button-primary-focus;
+  }
+  .button-primary-focus {
+    @apply outline-none ring-2 ring-offset-2 ring-tan-hide-700
+  }
+  .button-secondary {
+    @apply button-retro-primary;
+    @apply text-tan-hide-900 bg-tan-hide-200 hover:bg-tan-hide-400 active:bg-tan-hide-500;
+  }
+
+  .auth-title {
+    @apply text-4xl font-bold text-center mb-4 w-fit mx-auto;
   }
   .heading-title {
     @apply text-3xl font-bold;
   }
+  .sub-heading-title {
+    @apply text-2xl font-bold;
+  }
   .create-title {
     @apply text-2xl font-bold;
+    @apply text-tan-hide-50 dark:text-tan-hide-900;
+  }
+  .heading-time-box {
+    @apply text-lg font-semibold mb-2;
+  }
+  .heading-warp-page {
+    @apply text-2xl font-semibold hover:underline;
   }
   .auth-underline-text {
     @apply font-bold underline;
+  }
+
+  .element-in-navbar {
+    @apply flex items-center justify-between gap-12;
+  }
+
+  .card-retro {
+    @apply border-2 rounded-xl p-6 w-72 h-48 flex-none;
+    @apply border-tan-hide-400 bg-tan-hide-200 hover:bg-tan-hide-300;
+    @apply hover:cursor-pointer hover:shadow-lg;
+    @apply transition-all duration-200;
+  }
+
+  .button-action-meeting {
+    @apply transition-all duration-200;
+    @apply p-2.5 rounded-full shadow-sm hover:shadow-md;
+    @apply bg-tan-hide-500 hover:bg-tan-hide-300 active:bg-tan-hide-300;
+  }
+
+  .timing-box {
+    @apply row-span-2 flex flex-col justify-center p-4; 
+    @apply border-2 border-tan-hide-400 rounded-xl;
+    @apply bg-tan-hide-100
+  }
+  .desc-box {
+    @apply text-lg font-semibold mx-6 leading-8;
+  }
+
+  .nav-for-warp-page {
+    @apply flex items-center flex-wrap gap-3 tracking-wide;
+  }
+
+  .add-meeting-card {
+    @apply border-2 rounded-xl p-6 w-72 h-48 flex-none;
+    @apply border-transparent bg-tan-hide-500 hover:bg-tan-hide-300;
+    @apply flex flex-col justify-center items-center gap-4;
+    @apply transition-all duration-150;
+  }
+
+  .add-feedback-card {
+    @apply flex flex-col justify-center items-center gap-3 px-4 py-8 rounded-lg w-full shadow-md;
+    @apply bg-tan-hide-500 border-2 border-transparent;
+    @apply transition-all duration-150;
+    @apply hover:bg-tan-hide-400 active:bg-tan-hide-300;
+  }
+  .feedback-card {
+    @apply flex flex-col justify-center p-4 rounded-lg shadow-md;
+    @apply bg-tan-hide-100;
   }
 }

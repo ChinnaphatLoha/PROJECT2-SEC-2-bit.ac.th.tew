@@ -7,4 +7,15 @@ const TITLE_TYPE = {
     Less: 'bg-red-700 text-slate-100 text-center',
     More: 'bg-blue-700 text-slate-100 text-center',
 }
-export default TITLE_TYPE;
+
+const TITLE_BG = {
+  Good: 'bg-green-100',
+  Bad: 'bg-red-100',
+  Try: 'bg-blue-100',
+  Add: 'bg-green-100',
+  Keep: 'bg-yellow-100',
+  Less: 'bg-red-100',
+  More: 'bg-blue-100'
+}
+
+export {TITLE_TYPE, TITLE_BG}

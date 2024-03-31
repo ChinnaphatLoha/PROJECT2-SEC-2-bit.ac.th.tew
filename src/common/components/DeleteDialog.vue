@@ -12,8 +12,8 @@ defineProps({
 </script>
 
 <template>
-  <div class="w-[32%] flex flex-col m-auto p-4 border rounded-lg bg-slate-50">
-    <div class="flex justify-between items-center border-b mb-4">
+  <div class="w-[32%] flex flex-col m-auto p-4 border rounded-lg bg-tan-hide-50">
+    <div class="flex justify-between items-center border-b border-tan-hide-500 mb-4">
       <h1 class="font-semibold">Delete {{ item_name }}</h1>
       <button @click="$emit('closeDeleteDialog')" class="btn btn-ghost btn-square btn-custom">
         <svg
@@ -33,7 +33,7 @@ defineProps({
       </button>
     </div>
 
-    <button @click="$emit('delete')" class="btn">I want to delete this {{ item_type }}</button>
+    <button @click="$emit('delete')" class="button-retro-primary">I want to delete this {{ item_type }}</button>
   </div>
 </template>
 

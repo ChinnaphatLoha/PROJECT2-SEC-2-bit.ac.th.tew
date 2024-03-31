@@ -91,8 +91,8 @@
     {
       "id": "5e3a",
       "topic": "Sprint 1: Core Functionality & Foundations",
-      "start_date": "2024-03-28T16:00",
-      "end_date": "2024-03-28T17:00",
+      "start_date": "2024-03-31T15:38",
+      "end_date": "2024-03-31T16:38",
       "description": "This sprint focuses on establishing the core functionalities and overall structure of the application.",
       "projectId": "c03a"
     },
@@ -133,6 +133,13 @@
       "meetingId": "519c",
       "group": "Good",
       "text": "Come on"
+    },
+    {
+      "id": "40ea",
+      "userId": "e891",
+      "meetingId": "5e3a",
+      "group": "Bad",
+      "text": "I wanna died"
     }
   ],
   "votes": [

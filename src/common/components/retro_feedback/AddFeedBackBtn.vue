@@ -56,11 +56,11 @@ const showErrorToast = (message) => {
 
 <template>
   <button
-    class="flex flex-col justify-center items-center p-4 bg-white rounded-lg border-2 border-dashed w-full shadow-md"
+    class="add-feedback-card"
     @click="openModal"
   >
-    <PlusIcon />
-    <h2 class="text-lg font-semibold mb-4">Add New Feedback</h2>
+    <PlusIcon color="#fef6ee" />
+    <h2 class="create-title text-lg">Add New Feedback</h2>
   </button>
   <FormFeedBack
     v-show="isOpenModal.status"

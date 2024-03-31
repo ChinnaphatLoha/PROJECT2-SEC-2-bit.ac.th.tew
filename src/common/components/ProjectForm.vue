@@ -20,7 +20,7 @@ const form = reactive({
 })
 const projectCreationForm = {
   projectName: project?.name || '',
-  retrospectiveType: '',  
+  retrospectiveType: '',
   passkey: '',
   description: project?.description || ''
 }
@@ -88,14 +88,14 @@ const updateProject = async () => {
     <div v-if="!projectId" class="flex gap-16">
       <h2
         class="text-base font-semibold leading-7 cursor-pointer"
-        :class="form.onCreateProject ? 'text-indigo-600' : ''"
+        :class="form.onCreateProject ? 'text-tan-hide-600 auth-underline-text' : ''"
         @click="toggleForm('create')"
       >
         Create Project
       </h2>
       <h2
         class="text-base font-semibold leading-7 cursor-pointer"
-        :class="form.onJoinProject ? 'text-indigo-600' : ''"
+        :class="form.onJoinProject ? 'text-tan-hide-600 auth-underline-text' : ''"
         @click="toggleForm('join')"
       >
         Join Project
@@ -116,27 +116,26 @@ const updateProject = async () => {
               name="project-name"
               id="project-name"
               placeholder="What's the project name?"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
 
         <div v-if="!projectId" class="sm:col-span-2">
-          <label for="retrospective-type" class="block text-sm font-medium leading-6"
-            >Retrospective type</label
-          >
-          <div class="mt-2">
+          <label class="form-control w-full max-w-xs">
+            <div class="label p-0">
+              <span class="label-text">Retrospective type</span>
+            </div>
             <select
               v-model="projectCreationForm.retrospectiveType"
               required
-              id="retrospective-type"
-              name="retrospective-type"
-              class="block w-full rounded-md border py-1.5 sm:max-w-xs sm:text-sm sm:leading-6"
+              id="retrospective-type" 
+              class="select select-bordered m-0 mt-3 min-h-9 py-1 h-min input-style-primary"
             >
               <option>Good-Bad-Try</option>
               <option>KLAM</option>
             </select>
-          </div>
+          </label>
         </div>
 
         <div v-if="!projectId" class="sm:col-span-2">
@@ -153,7 +152,7 @@ const updateProject = async () => {
               id="passkey"
               name="passkey"
               placeholder="Passkey to join the project"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -169,7 +168,7 @@ const updateProject = async () => {
               name="description"
               rows="3"
               placeholder="Describe the project or information about the project"
-              class="resize-none block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="resize-none input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -177,19 +176,10 @@ const updateProject = async () => {
 
       <!-- Buttons -->
       <div class="mt-16 flex items-center gap-x-6">
-        <button
-          type="submit"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
+        <button type="submit" class="button-retro-primary">
           {{ projectId ? 'Update Project' : 'Create Project' }}
         </button>
-        <button
-          @click="goBackToPreviousPage"
-          type="button"
-          class="text-sm font-semibold leading-6 text-white"
-        >
-          Cancel
-        </button>
+        <button @click="goBackToPreviousPage" type="button" class="button-secondary">Cancel</button>
       </div>
     </form>
 
@@ -206,7 +196,7 @@ const updateProject = async () => {
               name="project-id"
               id="project-id"
               placeholder="Ask the owner for the project ID"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -225,7 +215,7 @@ const updateProject = async () => {
               id="join-passkey"
               name="join-passkey"
               placeholder="Passkey to join the project"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -233,19 +223,8 @@ const updateProject = async () => {
 
       <!-- Buttons -->
       <div class="mt-16 flex items-center gap-x-6">
-        <button
-          type="submit"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Join Project
-        </button>
-        <button
-          @click="goBackToPreviousPage"
-          type="reset"
-          class="text-sm font-semibold leading-6 text-white"
-        >
-          Cancel
-        </button>
+        <button type="submit" class="button-retro-primary">Join Project</button>
+        <button @click="goBackToPreviousPage" type="reset" class="button-secondary">Cancel</button>
       </div>
     </form>
     <ErrorToast v-if="errorToast.show" :message="errorToast.message" />
