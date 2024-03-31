@@ -118,7 +118,7 @@ const updateMeeting = async () => {
         <li><h2 class="text-lg">Meeting Creation Form</h2></li>
       </ul>
     </div>
-    <h1 class="text-base font-semibold leading-7">Create Meeting</h1>
+    <h1 class="heading-title">Create Meeting</h1>
 
     <!-- Create Meeting -->
     <form @submit.prevent="createNewMeeting">
@@ -136,7 +136,7 @@ const updateMeeting = async () => {
               name="meeting-topic"
               id="meeting-topic"
               placeholder="What is the meeting about?"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -154,7 +154,7 @@ const updateMeeting = async () => {
               type="datetime-local"
               id="start-date"
               name="start-date"
-              class="block w-full rounded-md border py-1.5 sm:max-w-xs sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:max-w-xs sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -170,7 +170,7 @@ const updateMeeting = async () => {
               type="datetime-local"
               id="end-date"
               name="end-date"
-              class="block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -186,7 +186,7 @@ const updateMeeting = async () => {
               name="description"
               rows="3"
               placeholder="Describe the project or information about the project"
-              class="resize-none block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
+              class="input-style-primary resize-none block w-full rounded-md border py-1.5 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -196,7 +196,7 @@ const updateMeeting = async () => {
       <div class="mt-16 flex items-center gap-x-6">
         <button
           type="submit"
-          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="button-retro-primary"
         >
           {{ meeting ? 'Update Meeting' : 'Create Meeting' }}
         </button>
@@ -204,7 +204,7 @@ const updateMeeting = async () => {
         <button
           @click="goBackToPreviousPage"
           type="button"
-          class="text-sm font-semibold leading-6 text-white"
+          class="button-secondary"
         >
           Cancel
         </button>

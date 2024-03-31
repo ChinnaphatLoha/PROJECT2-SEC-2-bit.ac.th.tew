@@ -52,7 +52,7 @@
   }
 
   .button-retro-primary {
-    @apply text-base font-medium;
+    @apply text-base font-bold;
     @apply transition-all duration-200;
     @apply p-4 border border-transparent rounded-md shadow-sm;
     @apply text-white bg-tan-hide-500 hover:bg-tan-hide-600 active:bg-tan-hide-700;
@@ -60,6 +60,10 @@
   }
   .button-primary-focus {
     @apply outline-none ring-2 ring-offset-2 ring-tan-hide-700
+  }
+  .button-secondary {
+    @apply button-retro-primary;
+    @apply text-tan-hide-900 bg-tan-hide-200 hover:bg-tan-hide-400 active:bg-tan-hide-500;
   }
 
   .auth-title {

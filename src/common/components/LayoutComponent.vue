@@ -22,7 +22,7 @@ const getIncomingMeeting = computed(() => {
 })
 
 const indicator = computed(() =>
-  getIncomingMeeting.value ? 'button-retro-primary' : 'btn btn-disabled'
+  getIncomingMeeting.value ? 'button-retro-primary font-medium' : 'btn btn-disabled'
 )
 
 watch(
