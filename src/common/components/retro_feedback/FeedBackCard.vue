@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <div class="feedback-card">
     <div id="content" class="text-lg text-gray-700 mb-2 overflow-hidden">
@@ -11,7 +8,3 @@
     </div>
   </div>
 </template>
-
-
-
-<style scoped></style>
