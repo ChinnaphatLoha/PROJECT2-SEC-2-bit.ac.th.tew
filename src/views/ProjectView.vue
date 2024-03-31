@@ -47,7 +47,7 @@ const goToProjectEdit = () => {
 
 <template>
   <BaseLayout>
-    <div class="mx-10">
+    <div class="w-4/5 mx-auto">
       <div class="my-8">
         <div class="nav-for-warp-page">
           <div>
