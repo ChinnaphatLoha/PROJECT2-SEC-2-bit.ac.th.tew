@@ -46,6 +46,10 @@
     @apply autofill:bg-tan-hide-100;
     @apply focus-within:bg-tan-hide-100;
   }
+  .textarea-style-primary {
+    @apply input-style-primary;
+    @apply mt-2 p-2 block w-full rounded-md shadow-sm;
+  }
 
   .button-retro-primary {
     @apply text-base font-medium;
