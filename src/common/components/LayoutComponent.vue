@@ -2,7 +2,6 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/store'
-import BarSolid from './icons/BarSolid.vue'
 
 const router = useRouter()
 const store = useUserStore()
@@ -59,8 +58,9 @@ function moveToIncomingMeeting() {
     class="w-full font-semibold bg-tan-hide-300 py-4 px-10 flex justify-between"
   >
     <div class="element-in-navbar">
-      <RouterLink :to="{ name: 'home' }">
-        <BarSolid />
+      <RouterLink :to="{ name: 'home' }" class="flex gap-4 items-center">
+        <img src="/bit-retro-logo.png" class="h-20" alt="">
+        <h1 class="heading-title">Bit Retro</h1>
       </RouterLink>
       <button :class="indicator" @click="moveToIncomingMeeting">
         Incoming Meeting
