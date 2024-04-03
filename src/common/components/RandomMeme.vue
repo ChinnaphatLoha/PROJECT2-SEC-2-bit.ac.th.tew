@@ -24,7 +24,6 @@ onMounted(() => {
 
 <template>
   <div>
-    <button @click="getRandomMeme">Display meme</button>
     <img :src="memeUrl" alt="NOT FOUND MEME." />
   </div>
 </template>
