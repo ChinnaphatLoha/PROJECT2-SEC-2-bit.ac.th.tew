@@ -118,7 +118,7 @@ const updateMeeting = async () => {
         <li><h2 class="text-lg">Meeting Creation Form</h2></li>
       </ul>
     </div>
-    <h1 class="heading-title">Create Meeting</h1>
+    <h1 class="heading-title">{{ meeting ? 'Update Meeting' : 'Create Meeting' }}</h1>
 
     <!-- Create Meeting -->
     <form @submit.prevent="createNewMeeting">
