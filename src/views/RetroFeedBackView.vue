@@ -67,12 +67,12 @@ const polling = setInterval(async () => {
   }
 }, 3000)
 
-if (!meeting.info) router.push({ name: 'not-found' })
+if (!meeting.info || !project) router.push({ name: 'not-found' })
 </script>
 
 <template>
   <BaseLayout>
-    <div v-if="meeting.info" class="m-10">
+    <div v-if="meeting.info && project" class="m-10">
       <div class="grid grid-rows-2 grid-cols-5 gap-4">
         <div class="col-span-3 nav-for-warp-page">
           <div>
