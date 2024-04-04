@@ -16,16 +16,32 @@
 
 ## หน้าที่ความรับผิดชอบ
 
-### 65130500066 นายภูวเมศฐ์ ปัญจเฉลิมรัตน์
+### 65130500066 นายภูวเมศฐ์ ปัญจเฉลิมรัตน์ (20%)
+- UX/UI Design
+- Style CSS and DaisyUI
+- Home Page
+- ListWrap & CollapseBar & CardRetro components
 
-### 65130500083 นายสรวิชญ์ เครือคำ
+### 65130500083 นายสรวิชญ์ เครือคำ (20%)
+- Sign-in/Sign-up Page
+- Polling Fetch
+- Pinia Store
 
-### 65130500093 นายกิตติพัฒน์ บัวลอยลม
+### 65130500093 นายกิตติพัฒน์ บัวลอยลม (20%)
+- Meeting Page
+- Design Component Meeting Page
+- Implement Design to Meeting Page 
 
-### 65130500100 นายชินภัทร โลหแสงสุวรรณ
+### 65130500100 นายชินภัทร โลหแสงสุวรรณ (20%)
+- Data Design
+- Backend
+- Form Components
+- Modify All Components
 
-### 65130500106 นายธีรธร เที่ยงธรรม
-
+### 65130500106 นายธีรธร เที่ยงธรรม (20%)
+- Navbar Component
+- Button Handler In Nabbar
+- Base Layout Components
 ---
 
 ## รายการฟีเจอร์ความสามารถของแอปพลิเคชัน
