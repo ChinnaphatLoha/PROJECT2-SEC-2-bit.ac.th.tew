@@ -45,6 +45,24 @@
 ---
 
 ## รายการฟีเจอร์ความสามารถของแอปพลิเคชัน
+Retrospective application
+ - Login/Register ต้องมีบัญชีก่อนเริ่มต้นใช้งาน Application
+ - Home Page หน้าแสดงโปรเจ็กต์ทั้งหมด
+    - List of Project Page
+		 - My Project โปรเจ็กต์ที่เป็นเจ้าของ (สร้างเอง)
+		 - Share with Me โปรเจ็กต์ที่เข้าร่วม
+	 - Add New Project สร้างโปรเจ็กต์ใหม่
+	 - Join Project ใช้ Project ID และ Passkey สำหรับเข้าร่วมโปรเจ็กต์
+- List of Meeting Page หน้าแสดง Meeting ทั้งหมดของโปรเจ็กต์
+   - List of Meetings แสดง Meetings ทั้งหมดที่มีภายในโปรเจ็กต์นั้นๆ
+   - Edit Project แก้ไขช้อมูลของโปรเจ็กต์
+   - Delete Project ลบโปรเจ็กต์
+   - Add New Meeting สร้าง Meeting ใหม่
+ - Meeting Page หน้าแสดงข้อมูล Feedback ทั้งหมดและข้อมูลของ Meeting ครั้งนั้น
+   - Retrospective type
+      - Good, Bad, Try
+      - KALM – Keep, Add, More, Less
+    - Add New Feedback สร้าง Feedback ใหม่
 
 ---
 
@@ -126,8 +144,10 @@
 ### Meeting Timeout
 - เมื่อ Meeting ยังไม่ถึงเวลาหรือหมดเวลาจะไม่สามารถเพิ่ม Feedback ใหม่
 
-## คลิปสาธิต features ของแอปพลิเคชัน
+---
 
+## คลิปสาธิต features ของแอปพลิเคชัน
+[video-Link](https://drive.google.com/file/d/1eQD6WRRUWFViQAVm7Xa9wQrnWTG1f7t_/view?usp=sharing)
 ---
 
 ## แหล่งข้อมูลอ้างอิง
